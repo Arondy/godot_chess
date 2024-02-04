@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxt3lofgoh3h2"]
+
+[ext_resource type="PackedScene" uid="uid://c8kp47cxnj1i0" path="res://scenes/figureTemplate.tscn" id="1_6oyxx"]
+[ext_resource type="Script" path="res://scenes/scripts/figures/rook.gd" id="2_3o4cc"]
+
+[node name="Rook" instance=ExtResource("1_6oyxx")]
+script = ExtResource("2_3o4cc")

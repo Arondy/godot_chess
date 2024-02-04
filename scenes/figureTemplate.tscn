@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8kp47cxnj1i0"]
+
+[ext_resource type="Script" path="res://scenes/scripts/figures/figureTemplate.gd" id="1_8qykf"]
+[ext_resource type="Script" path="res://scenes/scripts/figures/figureCollision.gd" id="1_t11cy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gh2hj"]
+size = Vector2(0, 0)
+
+[node name="Figure" type="Node2D"]
+script = ExtResource("1_8qykf")
+
+[node name="Image" type="Sprite2D" parent="."]
+
+[node name="Figure_Area2D" type="Area2D" parent="."]
+
+[node name="Figure_CollisionShape2D" type="CollisionShape2D" parent="Figure_Area2D"]
+shape = SubResource("RectangleShape2D_gh2hj")
+script = ExtResource("1_t11cy")
+
+[connection signal="input_event" from="Figure_Area2D" to="." method="_on_figure_area_2d_input_event"]
