@@ -29,7 +29,7 @@ func get_possible_moves():
 	pass
 
 func _on_figure_area_2d_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton and Input.is_action_just_pressed("select"):
+	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
 		var gameCell = $"/root/Game/Board".get_node(cell)
 		gameCell.self_modulate = Color8(70, 130, 60, 204)
 		$"/root/Game/Figures".currentCellPicked = gameCell
