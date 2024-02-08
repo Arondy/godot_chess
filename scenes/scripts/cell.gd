@@ -21,4 +21,9 @@ func _on_gui_input(event):
 				src.figure.position = global_position
 				src.figure.cell = name
 				figure = src.figure
+				src.figure = null
+				figure.hasCooldown = true
+				figure.get_node("Selection_cooldown").start()
+			$"/root/Game/Figures".currentCellPicked = null
 			src.self_modulate = Color.WHITE
+			
