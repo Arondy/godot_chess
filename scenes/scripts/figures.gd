@@ -51,6 +51,7 @@ func create_figure_by_letter(letter):
 		"king":
 			figureScene = kingScene.instantiate()
 			
+	figureScene.fname = figure[0]
 	figureScene.color = figure[1]
 	set_figure_image(figureScene)
 	return figureScene
@@ -66,6 +67,6 @@ func load_position(dict):
 					var cell_name = str(char(65 + col)) + str(8 - row)
 					var boardCell = $"/root/Game/Board".get_node(cell_name)
 					figureScene.position = boardCell.global_position
-					figureScene.cell = cell_name
+					figureScene.cell = boardCell
 					add_child(figureScene)
 					boardCell.figure = figureScene

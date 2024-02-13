@@ -11,7 +11,7 @@ func create_chessboard():
 		for col in range(8):
 			var cell_y = get_window().size.y / 8
 			var cell = cellScene.instantiate()
-			cell.name = str(char(65 + col)) + str(8 - row)
+			cell.name = char(65 + col) + str(8 - row)
 			cell.size = Vector2(cell_y, cell_y)
 			cell.position = Vector2(col, row) * cell.size
 			if (row + col) % 2 == 0:
