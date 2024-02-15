@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqidkuhumu2sd"]
+
+[ext_resource type="Script" path="res://scenes/hints/common_move_hint.gd" id="1_4mt7d"]
+[ext_resource type="Texture2D" uid="uid://csh07omfdo5jc" path="res://textures/circle.png" id="1_n2s4j"]
+
+[node name="Common move hint" type="Sprite2D"]
+texture = ExtResource("1_n2s4j")
+script = ExtResource("1_4mt7d")

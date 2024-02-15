@@ -36,6 +36,10 @@ func _on_figure_area_2d_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
 		cell.self_modulate = Color8(70, 130, 60, 204)
 		$"/root/Game/Figures".currentCellPicked = cell
+		
+		var hintCells = get_possible_moves()
+		for cellName in hintCells:
+			$"/root/Game/Board".get_node(cellName).position
 
 func _on_selection_cooldown_timeout():
 	hasCooldown = false

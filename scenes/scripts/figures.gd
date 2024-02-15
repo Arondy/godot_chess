@@ -12,7 +12,6 @@ func _ready():
 	load_position($"/root/Game".saveDict)
 
 func set_figure_image(figureScene):
-	var cell_y = get_window().size.y / 8
 	var texturePath = "res://textures/figures/%s_%s.png" % [figureScene.name.to_lower(), figureScene.color]
 	var image = figureScene.get_node("Image")
 	image.texture = load(texturePath)
