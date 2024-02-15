@@ -23,8 +23,6 @@ func _on_gui_input(event):
 		if src:
 			if (not figure) or (figure && src.figure.color != figure.color):
 				# move_check
-				if src.figure.fname in ["pawn", "knight"]:
-					var array = src.figure.get_possible_moves()
 				
 				src.figure.position = global_position
 				src.figure.cell = self

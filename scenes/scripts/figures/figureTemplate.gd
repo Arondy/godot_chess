@@ -2,6 +2,8 @@ extends Node2D
 
 class_name Figure
 
+var hintScene: PackedScene = preload("res://scenes/hints/common_move_hint.tscn")
+
 @export var fname: String
 @export var color: String
 @export var cell: Cell
@@ -38,8 +40,11 @@ func _on_figure_area_2d_input_event(viewport, event, shape_idx):
 		$"/root/Game/Figures".currentCellPicked = cell
 		
 		var hintCells = get_possible_moves()
+		print(hintCells)
 		for cellName in hintCells:
-			$"/root/Game/Board".get_node(cellName).position
+			var hint = hintScene.instantiate()
+			hint.position = $"/root/Game/Board".get_node(cellName).global_position
+			$"/root/Game/Hints".add_child(hint)
 
 func _on_selection_cooldown_timeout():
 	hasCooldown = false
