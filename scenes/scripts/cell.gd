@@ -32,3 +32,6 @@ func _on_gui_input(event):
 				figure.get_node("Selection_cooldown").start()
 			$"/root/Game/Figures".currentCellPicked = null
 			src.self_modulate = Color.WHITE
+			var hints = $"/root/Game/Hints"
+			for child in hints.get_children():
+				hints.remove_child(child)

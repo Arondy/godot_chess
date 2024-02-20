@@ -9,13 +9,29 @@ var hintScene: PackedScene = preload("res://scenes/hints/common_move_hint.tscn")
 @export var cell: Cell
 @export var hasCooldown: bool = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func get_line_moves(direction: Array, pMoves: Array):
+	var line
+	var column
+	var cname = cell.name
+	var dL = direction[1]
+	var dC = direction[0]
+	
+	for i in range(1, 8):
+		line = cname.unicode_at(1) - "0".unicode_at(0) + i * dL
+		column = cname.unicode_at(0) - "@".unicode_at(0) + i * dC
+		
+		if line >= 1 and column >= 1 and line <= 8 and column <= 8:
+			var move = char(column + "@".unicode_at(0)) + str(line)
+			var bcell = $"/root/Game/Board".get_node(move)
+			if bcell.has_figure():
+				if bcell.has_friendly_figure(color):
+					break
+				else:
+					pMoves.append(move)
+					break
+			pMoves.append(move)
+		else:
+			break	
 
 func onCheck_move_checkup():
 	pass
@@ -40,10 +56,14 @@ func _on_figure_area_2d_input_event(viewport, event, shape_idx):
 		$"/root/Game/Figures".currentCellPicked = cell
 		
 		var hintCells = get_possible_moves()
-		print(hintCells)
+		if not hintCells:
+			return
+			
 		for cellName in hintCells:
 			var hint = hintScene.instantiate()
-			hint.position = $"/root/Game/Board".get_node(cellName).global_position
+			var cellEl = $"/root/Game/Board".get_node(cellName)
+			hint.position = cellEl.global_position + Vector2(cellEl.size) / 2
+			hint.scale = cellEl.size / float(hint.texture.get_height()) / 4
 			$"/root/Game/Hints".add_child(hint)
 
 func _on_selection_cooldown_timeout():

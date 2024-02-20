@@ -28,6 +28,6 @@ func _unhandled_input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
-	if event is InputEventMouseButton and Input.is_action_just_pressed("select"):
+	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
 		if $Figures.currentCellPicked:
 			$Figures.currentCellPicked.self_modulate = Color.WHITE
