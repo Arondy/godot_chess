@@ -9,7 +9,7 @@ var hintScene: PackedScene = preload("res://scenes/hints/common_move_hint.tscn")
 @export var cell: Cell
 @export var hasCooldown: bool = false
 
-func get_line_moves(direction: Array, pMoves: Array):
+func get_line_moves(direction: Array, pMoves: Array, forKing: bool):
 	var line
 	var column
 	var cname = cell.name
@@ -24,7 +24,7 @@ func get_line_moves(direction: Array, pMoves: Array):
 			var move = char(column + "@".unicode_at(0)) + str(line)
 			var bcell = $"/root/Game/Board".get_node(move)
 			if bcell.has_figure():
-				if bcell.has_friendly_figure(color):
+				if bcell.has_friendly_figure(color) and not forKing:
 					break
 				else:
 					pMoves.append(move)
@@ -42,11 +42,11 @@ func onAttackLine_move_checkup():
 func whoseTurn_move_checkup():
 	pass
 	
-func check_move(dest):
-	pass
+func check_move(dest: String, forKing: bool) -> bool:
+	return false
 	
-func get_possible_moves():
-	pass
+func get_possible_moves(forKing: bool) -> Array:
+	return []
 
 func _on_figure_area_2d_input_event(viewport, event, shape_idx):
 	if hasCooldown:
@@ -55,7 +55,7 @@ func _on_figure_area_2d_input_event(viewport, event, shape_idx):
 		cell.self_modulate = Color8(70, 130, 60, 204)
 		$"/root/Game/Figures".currentCellPicked = cell
 		
-		var hintCells = get_possible_moves()
+		var hintCells = get_possible_moves(false)
 		if not hintCells:
 			return
 			

@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var savePath = "res://basic_game_start.json"
+@export var savePath = "res://saves/check.json"
 var saveDict: Dictionary = load_json_file(savePath)
 @export var turn: String = saveDict["turn"]
 
@@ -23,6 +23,12 @@ func load_json_file(path: String):
 			print("Wrong format in \"%s\"!" % path)
 	else:
 		print("File \"%s\" doesn't exist!" % path)
+
+func flip_turn():
+	if turn == "white":
+		turn = "black"
+	else:
+		turn == "white"
 
 func _unhandled_input(event):
 	if event is InputEventKey:

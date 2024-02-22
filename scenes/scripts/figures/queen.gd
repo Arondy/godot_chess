@@ -1,6 +1,6 @@
 extends Figure
 
-func get_possible_moves() -> Array:
+func get_possible_moves(forKing: bool) -> Array:
 	var res = []
 	var bishopDirections = [
 		[-1, -1],
@@ -16,9 +16,9 @@ func get_possible_moves() -> Array:
 	]
 	
 	for direction in bishopDirections:
-		get_line_moves(direction, res)
+		get_line_moves(direction, res, forKing)
 	
 	for direction in rookDirections:
-		get_line_moves(direction, res)
+		get_line_moves(direction, res, forKing)
 	
 	return res

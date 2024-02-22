@@ -21,15 +21,15 @@ func _on_gui_input(event):
 	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
 		var src = $"/root/Game/Figures".currentCellPicked
 		if src:
-			if (not figure) or (figure && src.figure.color != figure.color):
+			if (not figure) or (figure and src.figure.color != figure.color):
 				# move_check
-				
-				src.figure.position = global_position
-				src.figure.cell = self
-				figure = src.figure
-				src.figure = null
-				figure.hasCooldown = true
-				figure.get_node("Selection_cooldown").start()
+				if src.figure.check_move(name, false):
+					src.figure.position = global_position
+					src.figure.cell = self
+					figure = src.figure
+					src.figure = null
+					figure.hasCooldown = true
+					figure.get_node("Selection_cooldown").start()
 			$"/root/Game/Figures".currentCellPicked = null
 			src.self_modulate = Color.WHITE
 			var hints = $"/root/Game/Hints"

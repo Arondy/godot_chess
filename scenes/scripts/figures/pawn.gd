@@ -1,6 +1,6 @@
 extends Figure
 
-func check_move(dest: String) -> bool:
+func check_move(dest: String, forKing: bool) -> bool:
 	var cellName: String = cell.name
 	var srcCh1 = cellName.unicode_at(0)
 	var srcCh2 = cellName.unicode_at(1)
@@ -24,29 +24,34 @@ func check_move(dest: String) -> bool:
 	# Первый ход (на две клетки вперёд)
 	dCellName1 = char(srcCh1) + char(srcCh2 + srchDy1)
 	dCellName2 = char(srcCh1) + char(srcCh2 + srchDy2)
-	if dy == srchDy2 and dx == 0 and not $"/root/Game/Board".get_node(dCellName1).has_figure() and not $"/root/Game/Board".get_node(dCellName2).has_figure():
+	if (dy == srchDy2 and dx == 0
+			and not $"/root/Game/Board".get_node(dCellName1).has_figure()
+			and not $"/root/Game/Board".get_node(dCellName2).has_figure()
+			and not forKing):
 		if cellName[1] == "2" and color == "white":
 			return true
 		elif cellName[1] == "7" and color == "black":
 			return true
 	
 	# Обычный ход вперёд
-	if dy == srchDy1 and dx == 0 and not $"/root/Game/Board".get_node(dCellName1).has_figure():
+	if (dy == srchDy1 and dx == 0
+			and not $"/root/Game/Board".get_node(dCellName1).has_figure()
+			and not forKing):
 		return true
 	
 	# Съедение
 	if dy == srchDy1 and abs(dx) == 1:
 		dCellName1 = char(srcCh1 + dx) + char(srcCh2 + srchDy1)
 		
-		if $"/root/Game/Board".get_node(dCellName1).has_enemy_figure(color):
+		if ($"/root/Game/Board".get_node(dCellName1).has_enemy_figure(color)
+				or forKing):
 			return true
 	
 	# En passant
 	
 	return false
 	
-	
-func get_possible_moves() -> Array:
+func get_possible_moves(forKing: bool) -> Array:
 	var res = []
 	var pMoves = []
 	var baseStr = cell.name
@@ -70,7 +75,7 @@ func get_possible_moves() -> Array:
 	]
 
 	for cellName in pMoves:
-		if check_move(cellName):
+		if check_move(cellName, forKing):
 			res.append(cellName)
 
 	return res

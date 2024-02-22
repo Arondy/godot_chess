@@ -7,6 +7,8 @@ var rookScene: PackedScene = preload("res://scenes/figures/rook.tscn")
 var queenScene: PackedScene = preload("res://scenes/figures/queen.tscn")
 var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 @export var currentCellPicked: ColorRect
+@export var kingsPosition: Dictionary
+@export var checkThreats: Array[Figure]
 
 func _ready():
 	load_position($"/root/Game".saveDict)
@@ -67,5 +69,14 @@ func load_position(dict):
 					var boardCell = $"/root/Game/Board".get_node(cell_name)
 					figureScene.position = boardCell.global_position
 					figureScene.cell = boardCell
+					if figureScene.fname == "king":
+						kingsPosition[figureScene.color] = boardCell
 					add_child(figureScene)
 					boardCell.figure = figureScene
+
+func examine_check():
+	var kingPos = kingsPosition[$"/root/Game".turn]
+	for figure in $"/root/Game/Figures".get_children():
+		if (figure.color != $"/root/Game".turn and figure.fname != "king" 
+				and kingPos in figure.get_possible_moves(false)):
+			checkThreats.append(figure)

@@ -1,7 +1,6 @@
 extends Figure
 
-# Ненужно
-func check_move(dest: String) -> bool:
+func check_move(dest: String, forKing: bool) -> bool:
 	var cellName: String = cell.name
 	var srcCh1 = cellName.unicode_at(0)
 	var srcCh2 = cellName.unicode_at(1)
@@ -29,7 +28,7 @@ func check_move(dest: String) -> bool:
 		
 	return false
 
-func get_possible_moves() -> Array:
+func get_possible_moves(forKing: bool) -> Array:
 	var res = []
 	var directions = [
 		[-1, -1],
@@ -39,6 +38,6 @@ func get_possible_moves() -> Array:
 	]
 	
 	for direction in directions:
-		get_line_moves(direction, res)
+		get_line_moves(direction, res, forKing)
 	
 	return res
