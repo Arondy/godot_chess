@@ -23,6 +23,8 @@ func _on_gui_input(event):
 		if src:
 			if (not figure) or (figure and src.figure.color != figure.color):
 				# move_check
+				print(src.figure.fname)
+				# заменить check move на in array
 				if src.figure.check_move(name, false):
 					src.figure.position = global_position
 					src.figure.cell = self
