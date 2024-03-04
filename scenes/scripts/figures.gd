@@ -7,6 +7,7 @@ var rookScene: PackedScene = preload("res://scenes/figures/rook.tscn")
 var queenScene: PackedScene = preload("res://scenes/figures/queen.tscn")
 var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 @export var currentCellPicked: ColorRect
+@export var possibleMoves: Array
 @export var kingsPosition: Dictionary
 @export var checkThreats: Array[Figure]
 

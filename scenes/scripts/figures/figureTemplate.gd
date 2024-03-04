@@ -54,12 +54,13 @@ func _on_figure_area_2d_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
 		cell.self_modulate = Color8(70, 130, 60, 204)
 		$"/root/Game/Figures".currentCellPicked = cell
+		$"/root/Game/Figures".possibleMoves = get_possible_moves(false)
 		
-		var hintCells = get_possible_moves(false)
-		if not hintCells:
+		var possibleMoves = $"/root/Game/Figures".possibleMoves
+		if not possibleMoves:
 			return
 			
-		for cellName in hintCells:
+		for cellName in possibleMoves:
 			var hint = hintScene.instantiate()
 			var cellEl = $"/root/Game/Board".get_node(cellName)
 			hint.position = cellEl.global_position + Vector2(cellEl.size) / 2

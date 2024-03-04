@@ -22,18 +22,18 @@ func _on_gui_input(event):
 		var src = $"/root/Game/Figures".currentCellPicked
 		if src:
 			if (not figure) or (figure and src.figure.color != figure.color):
-				# move_check
-				print(src.figure.fname)
-				# заменить check move на in array
-				if src.figure.check_move(name, false):
+				if name in $"/root/Game/Figures".possibleMoves:
 					src.figure.position = global_position
 					src.figure.cell = self
 					figure = src.figure
 					src.figure = null
 					figure.hasCooldown = true
 					figure.get_node("Selection_cooldown").start()
+					
 			$"/root/Game/Figures".currentCellPicked = null
+			$"/root/Game/Figures".possibleMoves.clear()
 			src.self_modulate = Color.WHITE
+			
 			var hints = $"/root/Game/Hints"
 			for child in hints.get_children():
 				hints.remove_child(child)
