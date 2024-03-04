@@ -38,17 +38,14 @@ func _on_player_connected(id):
 func _on_player_disconnected(id):
 	print("Player %d disconnected" % id)
 	GameManager.players.erase(id)
-	#var players = get_tree().get_nodes_in_group("Player")
-	#for i in players:
-		#if i.name == str(id):
-			#i.queue_free()
 	player_disconnected.emit(id)
 
 func _on_connected_to_server_ok():
 	var unId = multiplayer.get_unique_id()
 	print("from %d: Connection to server established!" % unId)
+	#не работает?
 	addPlayerData.rpc_id(1, {"name": $Nickname.text}, unId)
-	player_connected.emit(unId, GameManager.players[unId])
+	player_connected.emit(unId, {"name": $Nickname.text})
 
 func _on_connected_fail_server_ok():
 	print("Connection to server failed!")
@@ -62,8 +59,8 @@ func _on_server_disconnected():
 
 @rpc("any_peer", "reliable")
 func addPlayerData(data, id):
-	if !GameManager.players.has(id):
+	if not GameManager.players.has(id):
 		GameManager.players[id] = data
 	if multiplayer.is_server():
-		for player in GameManager.players:
-			addPlayerData.rpc(GameManager.players[player], player)
+		for playerId in GameManager.players:
+			addPlayerData.rpc(GameManager.players[playerId], playerId)
