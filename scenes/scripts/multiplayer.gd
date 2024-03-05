@@ -7,7 +7,7 @@ signal server_disconnected
 var lobbyScene: PackedScene = preload("res://scenes/lobby.tscn")
 var peer = ENetMultiplayerPeer.new()
 @export var address: String = "localhost"
-@export var port: int = 135
+@export var port: int = 8080
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
@@ -57,10 +57,10 @@ func _on_server_disconnected():
 	GameManager.players.clear()
 	server_disconnected.emit()
 
-@rpc("any_peer", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func addPlayerData(data, id):
 	if not GameManager.players.has(id):
 		GameManager.players[id] = data
 	if multiplayer.is_server():
 		for playerId in GameManager.players:
-			addPlayerData.rpc(GameManager.players[playerId], playerId)
+				addPlayerData.rpc(GameManager.players[playerId], playerId)
