@@ -6,7 +6,7 @@ signal server_disconnected
 
 var lobbyScene: PackedScene = preload("res://scenes/lobby.tscn")
 var peer = ENetMultiplayerPeer.new()
-@export var address: String = "localhost"
+@export var address: String = "127.0.0.1"
 @export var port: int = 8080
 
 func _ready():
@@ -43,7 +43,7 @@ func _on_player_disconnected(id):
 func _on_connected_to_server_ok():
 	var unId = multiplayer.get_unique_id()
 	print("from %d: Connection to server established!" % unId)
-	#не работает?
+	#не работает.
 	addPlayerData.rpc_id(1, {"name": $Nickname.text}, unId)
 	player_connected.emit(unId, {"name": $Nickname.text})
 
@@ -57,10 +57,10 @@ func _on_server_disconnected():
 	GameManager.players.clear()
 	server_disconnected.emit()
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("any_peer", "reliable")
 func addPlayerData(data, id):
 	if not GameManager.players.has(id):
 		GameManager.players[id] = data
 	if multiplayer.is_server():
 		for playerId in GameManager.players:
-				addPlayerData.rpc(GameManager.players[playerId], playerId)
+			addPlayerData.rpc(GameManager.players[playerId], playerId)
