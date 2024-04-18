@@ -47,18 +47,6 @@ func _on_connected_to_server_ok():
 	var unId = multiplayer.get_unique_id()
 	var playerName = $Nickname.text
 	print("from %d: Connection to server established!" % unId)
-<<<<<<< HEAD
-	#не работает.
-	addPlayerData.rpc_id(1, {"name": $Nickname.text}, unId)
-	player_connected.emit(unId, {"name": $Nickname.text})
-=======
-	addPlayerData.rpc({"name": playerName}, unId)
-	player_connected.emit(unId, {"name": playerName})
-	
-	var scene = lobbyScene.instantiate()
-	$"/root".add_child(scene)
-	hide()
->>>>>>> 1f90bef1e2810e985d07c655aaccbcf7133eddc1
 
 func _on_connected_to_server_fail():
 	print("Connection to server failed!")
