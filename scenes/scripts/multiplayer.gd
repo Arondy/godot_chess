@@ -13,7 +13,7 @@ func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server_ok)
-	multiplayer.connection_failed.connect(_on_connected_fail_server_ok)
+	multiplayer.connection_failed.connect(_on_connected_to_server_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	
 func _on_host_button_pressed():
@@ -24,7 +24,9 @@ func _on_host_button_pressed():
 		
 	multiplayer.multiplayer_peer = peer
 	addPlayerData({"name": $Nickname.text}, multiplayer.get_unique_id())
-	get_tree().change_scene_to_packed(lobbyScene)
+	var scene = lobbyScene.instantiate()
+	$"/root".add_child(scene)
+	hide()
 	print("Host is waiting for players")
 
 func _on_join_button_pressed():
@@ -32,8 +34,9 @@ func _on_join_button_pressed():
 	multiplayer.multiplayer_peer = peer
 	
 func _on_player_connected(id):
-	var unId = multiplayer.get_unique_id()
-	print("from %d: Player %d connected" % [unId, id])
+	pass
+	#var unId = multiplayer.get_unique_id()
+	#print("from %d: Player %d connected" % [unId, id])
 
 func _on_player_disconnected(id):
 	print("Player %d disconnected" % id)
@@ -42,12 +45,22 @@ func _on_player_disconnected(id):
 
 func _on_connected_to_server_ok():
 	var unId = multiplayer.get_unique_id()
+	var playerName = $Nickname.text
 	print("from %d: Connection to server established!" % unId)
+<<<<<<< HEAD
 	#не работает.
 	addPlayerData.rpc_id(1, {"name": $Nickname.text}, unId)
 	player_connected.emit(unId, {"name": $Nickname.text})
+=======
+	addPlayerData.rpc({"name": playerName}, unId)
+	player_connected.emit(unId, {"name": playerName})
+	
+	var scene = lobbyScene.instantiate()
+	$"/root".add_child(scene)
+	hide()
+>>>>>>> 1f90bef1e2810e985d07c655aaccbcf7133eddc1
 
-func _on_connected_fail_server_ok():
+func _on_connected_to_server_fail():
 	print("Connection to server failed!")
 	multiplayer.multiplayer_peer = null
 

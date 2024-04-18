@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bd2tnv5oyxlic"]
+[gd_scene load_steps=5 format=3 uid="uid://bd2tnv5oyxlic"]
 
 [ext_resource type="Script" path="res://scenes/scripts/lobby.gd" id="1_1uxj3"]
-[ext_resource type="Script" path="res://scenes/scripts/launch_game.gd" id="2_e7kwa"]
+[ext_resource type="Script" path="res://scenes/scripts/launch_game_button.gd" id="2_n1jqs"]
+[ext_resource type="Script" path="res://scenes/scripts/PlayersList.gd" id="3_hq4cg"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k0bbd"]
+properties/0/path = NodePath(".:text")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="Lobby" type="Node2D"]
 script = ExtResource("1_1uxj3")
@@ -11,7 +17,7 @@ offset_right = 100.0
 offset_bottom = 50.0
 text = "Start game
 "
-script = ExtResource("2_e7kwa")
+script = ExtResource("2_n1jqs")
 
 [node name="PlayersList" type="TextEdit" parent="."]
 offset_left = 204.0
@@ -19,5 +25,10 @@ offset_top = 2.0
 offset_right = 341.0
 offset_bottom = 135.0
 placeholder_text = "Players in lobby:"
+script = ExtResource("3_hq4cg")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../PlayersList")
+replication_config = SubResource("SceneReplicationConfig_k0bbd")
 
 [connection signal="pressed" from="Launch game" to="." method="_on_launch_game_pressed"]
