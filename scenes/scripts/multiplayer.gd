@@ -32,6 +32,9 @@ func _on_host_button_pressed():
 func _on_join_button_pressed():
 	peer.create_client(address, port)
 	multiplayer.multiplayer_peer = peer
+	var scene = lobbyScene.instantiate()
+	$"/root".add_child(scene)
+	hide()
 	
 func _on_player_connected(id):
 	pass
