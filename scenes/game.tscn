@@ -12,4 +12,8 @@ script = ExtResource("1_xhuk7")
 [node name="Figures" type="Node2D" parent="."]
 script = ExtResource("3_xnppu")
 
+[node name="white" type="Node2D" parent="Figures"]
+
+[node name="black" type="Node2D" parent="Figures"]
+
 [node name="Hints" type="Node2D" parent="."]

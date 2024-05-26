@@ -27,7 +27,7 @@ offset_bottom = 135.0
 placeholder_text = "Players in lobby:"
 script = ExtResource("3_hq4cg")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="PlayersListMSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("../PlayersList")
 replication_config = SubResource("SceneReplicationConfig_k0bbd")
 

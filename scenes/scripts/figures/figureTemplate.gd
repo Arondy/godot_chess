@@ -33,6 +33,7 @@ func get_line_moves(direction: Array, pMoves: Array, forKing: bool):
 		else:
 			break	
 
+#TODO: onCheck_move_checkup
 func onCheck_move_checkup():
 	pass
 	
@@ -42,16 +43,20 @@ func onAttackLine_move_checkup():
 func whoseTurn_move_checkup():
 	pass
 	
+@warning_ignore("unused_parameter")
 func check_move(dest: String, forKing: bool) -> bool:
 	return false
 	
+@warning_ignore("unused_parameter")
 func get_possible_moves(forKing: bool) -> Array:
 	return []
 
-func _on_figure_area_2d_input_event(viewport, event, shape_idx):
+func _on_figure_area_2d_input_event(_viewport, event, _shape_idx):
 	if hasCooldown:
 		return
-	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
+	if (event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse")
+			and get_multiplayer_authority() == multiplayer.get_unique_id()
+			and $"/root/Game".turn == color):
 		cell.self_modulate = Color8(70, 130, 60, 204)
 		$"/root/Game/Figures".currentCellPicked = cell
 		$"/root/Game/Figures".possibleMoves = get_possible_moves(false)
@@ -60,6 +65,7 @@ func _on_figure_area_2d_input_event(viewport, event, shape_idx):
 		if not possibleMoves:
 			return
 			
+		#TODO: добавить eat_hint
 		for cellName in possibleMoves:
 			var hint = hintScene.instantiate()
 			var cellEl = $"/root/Game/Board".get_node(cellName)

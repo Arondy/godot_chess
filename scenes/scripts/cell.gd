@@ -28,6 +28,10 @@ func _on_gui_input(event):
 					figure = src.figure
 					src.figure = null
 					figure.hasCooldown = true
+					if multiplayer.is_server():
+						flip_turn()
+					else:
+						rpc_id(1, "flip_turn")
 					figure.get_node("Selection_cooldown").start()
 					
 			$"/root/Game/Figures".currentCellPicked = null
@@ -37,3 +41,12 @@ func _on_gui_input(event):
 			var hints = $"/root/Game/Hints"
 			for child in hints.get_children():
 				hints.remove_child(child)
+
+@rpc("any_peer", "reliable")
+func flip_turn():
+	if $"/root/Game".turn == "white":
+		$"/root/Game".turn = "black"
+	else:
+		$"/root/Game".turn = "white"
+	if multiplayer.is_server():
+		flip_turn.rpc()

@@ -7,3 +7,9 @@ func _on_launch_game_pressed():
 	print(multiplayer.get_peers())
 	if not multiplayer.get_peers().size():
 		return
+	rpc("start_game")
+
+@rpc("authority", "call_local")
+func start_game():
+	hide()
+	get_tree().change_scene_to_packed(gameScene)

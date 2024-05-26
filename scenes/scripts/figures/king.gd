@@ -2,11 +2,16 @@ extends Figure
 
 func create_attacked_mask() -> Array:
 	var res = []
-	for figure in $"/root/Game/Figures".get_children():
-		if figure.color != color:
-			for move in figure.get_possible_moves(true):
-				if move not in res:
-					res.append(move)
+	var figures
+	if (color == "white"):
+		figures = $"/root/Game/Figures/black".get_children()
+	elif (color == "black"):
+		figures = $"/root/Game/Figures/white".get_children()
+		
+	for figure in figures:
+		for move in figure.get_possible_moves(true):
+			if move not in res:
+				res.append(move)
 	return res
 
 func king_check_move(dest: String, attackedMask: Array) -> bool:

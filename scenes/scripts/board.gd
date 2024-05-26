@@ -2,10 +2,12 @@ extends Node2D
 
 var cellScene = preload("res://scenes/cell.tscn")
 
+@warning_ignore("integer_division")
 func _ready():
 	position = Vector2((get_window().size.x - get_window().size.y) / 2, 0)
 	create_chessboard()
-	
+
+@warning_ignore("integer_division")
 func create_chessboard():
 	for row in range(8):
 		for col in range(8):

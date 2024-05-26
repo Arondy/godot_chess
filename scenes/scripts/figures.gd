@@ -12,7 +12,7 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 @export var checkThreats: Array[Figure]
 
 func _ready():
-	load_position($"/root/Game".saveDict)
+	load_position($"..".saveDict)
 
 func set_figure_image(figureScene):
 	var texturePath = "res://textures/figures/%s_%s.png" % [figureScene.name.to_lower(), figureScene.color]
@@ -67,17 +67,24 @@ func load_position(dict):
 				if c != '/':
 					var figureScene = create_figure_by_letter(c)
 					var cell_name = str(char(65 + col)) + str(8 - row)
-					var boardCell = $"/root/Game/Board".get_node(cell_name)
+					var boardCell = $"../Board".get_node(cell_name)
 					figureScene.position = boardCell.global_position
 					figureScene.cell = boardCell
 					if figureScene.fname == "king":
 						kingsPosition[figureScene.color] = boardCell
-					add_child(figureScene)
+					get_node(figureScene.color).add_child(figureScene)
 					boardCell.figure = figureScene
+		if (multiplayer.is_server()):
+			rpc("setup_player_team", "white", multiplayer.get_unique_id())
+			rpc("setup_player_team", "black", multiplayer.get_peers()[0])
+
+@rpc("authority", "call_local")
+func setup_player_team(team, peer):
+	get_node(team).set_multiplayer_authority(peer)
 
 func examine_check():
-	var kingPos = kingsPosition[$"/root/Game".turn]
-	for figure in $"/root/Game/Figures".get_children():
-		if (figure.color != $"/root/Game".turn and figure.fname != "king" 
+	var kingPos = kingsPosition[$"..".turn]
+	for figure in $"../Figures".get_children():
+		if (figure.color != $"..".turn and figure.fname != "king" 
 				and kingPos in figure.get_possible_moves(false)):
 			checkThreats.append(figure)

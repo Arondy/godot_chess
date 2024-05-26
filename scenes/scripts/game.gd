@@ -4,14 +4,6 @@ extends Node2D
 var saveDict: Dictionary = load_json_file(savePath)
 @export var turn: String = saveDict["turn"]
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func load_json_file(path: String):
 	if FileAccess.file_exists(path):
 		var file = FileAccess.open(path, FileAccess.READ)
@@ -23,12 +15,6 @@ func load_json_file(path: String):
 			print("Wrong format in \"%s\"!" % path)
 	else:
 		print("File \"%s\" doesn't exist!" % path)
-
-func flip_turn():
-	if turn == "white":
-		turn = "black"
-	else:
-		turn == "white"
 
 func _unhandled_input(event):
 	if event is InputEventKey:
