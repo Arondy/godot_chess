@@ -28,4 +28,12 @@ func _unhandled_input(event):
 			get_tree().quit()
 	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
 		if $Figures.currentCellPicked:
-			$Figures.currentCellPicked.self_modulate = Color.WHITE
+			clear_hints()
+
+func clear_hints():
+	$Figures.currentCellPicked.self_modulate = Color.WHITE
+	#$Figures.currentCellPicked = null
+	$Figures.possibleMoves.clear()
+	
+	for child in $Hints.get_children():
+		child.free()

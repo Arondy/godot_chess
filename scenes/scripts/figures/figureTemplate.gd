@@ -31,7 +31,7 @@ func get_line_moves(direction: Array, pMoves: Array, forKing: bool):
 					if (forKing and figure.fname == "king" and figure.color != color):
 						var nextLine = line + dL
 						var nextCol = column + dC
-						if (nextLine >= 0 and nextLine < 8 and nextCol >= 0 and nextCol < 8):
+						if (nextLine >= 1 and nextLine <= 8 and nextCol >= 1 and nextCol <= 8):
 							pMoves.append(Tools.int2Let(nextCol) + str(nextLine))
 					break
 			pMoves.append(move)
@@ -74,9 +74,15 @@ func get_possible_moves(forKing: bool) -> Array:
 func _on_figure_selection(_viewport, event, _shape_idx):
 	if hasCooldown:
 		return
-	if (event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse")
+	elif (event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse")
 			and get_multiplayer_authority() == multiplayer.get_unique_id()
 			and Tools.game.turn == color):
+		
+		if Tools.figures.currentCellPicked == cell:
+			Tools.game.clear_hints()
+			Tools.figures.currentCellPicked = null
+			return
+			
 		var figures = Tools.figures
 		cell.self_modulate = Color8(70, 130, 60, 204)
 		figures.currentCellPicked = cell

@@ -1,6 +1,6 @@
 extends Figure
 
-func check_move(dest: String, forKing: bool) -> bool:
+func check_move(dest: String, _forKing: bool) -> bool:
 	var cellName: String = cell.name
 	var srcCh1 = cellName.unicode_at(0)
 	var srcCh2 = cellName.unicode_at(1)

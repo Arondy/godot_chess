@@ -48,9 +48,9 @@ func get_castle_moves() -> Array:
 
 func get_possible_moves(forKing: bool) -> Array:
 	var res = []
-	var cellName: String = cell.name
-	var srcCh1 = cellName.unicode_at(0)
-	var srcCh2 = cellName.unicode_at(1)
+	var cName: String = cell.name
+	var srcCh1 = cName.unicode_at(0)
+	var srcCh2 = cName.unicode_at(1)
 	var mask = []
 	
 	if not forKing:

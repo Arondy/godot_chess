@@ -1,5 +1,5 @@
 {
-  "field": "rnbqkbnrpppppppp////////////////////////////n///PPPP///PRNBQKBNR",
+  "field": "rnbq/bnrpppppppp///////////////k///////////////RPPPPP/PP/P//K//R",
   "names": ["Player_1", "Player_2"],
   "elo": [700, 1400],
   "clock": [200, 600, 5],

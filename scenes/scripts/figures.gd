@@ -15,10 +15,12 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 @export var threatMoves: Array[String]
 @export var firstFigsOnLine: Dictionary
 
-#TODO: переворот борды и фигур для black игрока
+#LaterTODO: переворот борды и фигур для black игрока
 func _ready():
 	Tools.figures = self
 	load_position($"..".saveDict)
+	$"/root/Game".myColor = "white" if multiplayer.is_server() else "black"
+	
 	if $"/root/Game".myColor == $"/root/Game".turn:
 		examine_check()
 
@@ -104,8 +106,6 @@ func load_position(dict):
 
 @rpc("authority", "call_local", "reliable")
 func setup_player_team(team, peer):
-	if multiplayer.get_unique_id() == peer:
-		$"/root/Game".myColor = team
 	get_node(team).set_multiplayer_authority(peer)
 
 @rpc("any_peer", "reliable")
