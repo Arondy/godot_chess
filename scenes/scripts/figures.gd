@@ -15,6 +15,7 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 @export var threatMoves: Array[String]
 @export var firstFigsOnLine: Dictionary
 
+#TODO: переворот борды и фигур для black игрока
 func _ready():
 	Tools.figures = self
 	load_position($"..".saveDict)

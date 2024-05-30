@@ -25,34 +25,41 @@ func _on_making_move(event):
 		if src:
 			if (not figure) or src.figure.color != figure.color:
 				if name in figures.possibleMoves:
+					
+					# Common move
 					src.figure.position = global_position
 					change_figure_position.rpc(src.name, name)
 					figure.hasCooldown = true
 					figure.get_node("Selection_cooldown").start()
-					flip_turn.rpc()
-					figures.examine_check.rpc()
-					clear_attack_info()
 					
-			figures.currentCellPicked = null
-			figures.possibleMoves.clear()
-			src.self_modulate = Color.WHITE
-			
-			var hints = $"/root/Game/Hints"
-			for child in hints.get_children():
-				hints.remove_child(child)
+					#TODO: castle
+					
+					end_move(figures)
+					
+			clear_hints(figures, src)
 
 @rpc("any_peer", "reliable", "call_local")
 func flip_turn():
 	var game = Tools.game
 	game.turn = "black" if (game.turn == "white") else "white"
 
-func clear_attack_info():
-	var figures = Tools.figures
+func end_move(figures: Object):
+	flip_turn.rpc()
+	figures.examine_check.rpc()
 	figures.checkThreats.clear()
 	figures.threatMoves.clear()
 	figures.firstFigsOnLine.clear()
 	figures.attackedMask.clear()
 
+func clear_hints(figures: Object, src: Cell):
+	figures.currentCellPicked = null
+	figures.possibleMoves.clear()
+	src.self_modulate = Color.WHITE
+	
+	var hints = $"/root/Game/Hints"
+	for child in hints.get_children():
+		hints.remove_child(child)
+	
 @rpc("any_peer", "reliable", "call_local")
 func change_figure_position(srcName: String, newCellName: String):
 	var board = Tools.board

@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var savePath = "res://saves/test.json"
+@export var savePath = "res://saves/castle.json"
 var saveDict: Dictionary = load_json_file(savePath)
 @export var turn: String = saveDict["turn"]
 @export var myColor: String
