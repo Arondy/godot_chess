@@ -19,7 +19,7 @@ func check_move(dest: String, forKing: bool) -> bool:
 	
 	for i in range(srcCh2 + deltaL, dest.unicode_at(1), deltaL):
 		var el = char(j) + char(i)
-		if $"/root/Game/Board".get_node(el).has_figure():
+		if Tools.board.get_node(el).has_figure():
 			return false
 		j += deltaC
 	
@@ -39,5 +39,9 @@ func get_possible_moves(forKing: bool) -> Array:
 	
 	for direction in directions:
 		get_line_moves(direction, res, forKing)
+	
+	if not forKing:
+		res = get_moves_on_check(res)
+		res = get_moves_on_attack_line(res)
 	
 	return res

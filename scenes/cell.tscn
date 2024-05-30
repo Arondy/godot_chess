@@ -8,4 +8,4 @@ offset_bottom = 40.0
 mouse_filter = 1
 script = ExtResource("1_lqyon")
 
-[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="gui_input" from="." to="." method="_on_making_move"]

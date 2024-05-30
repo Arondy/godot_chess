@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameManager="*res://scenes/scripts/game_manager.gd"
+Tools="*res://scenes/scripts/tools.gd"
 
 [display]
 
@@ -30,6 +31,10 @@ window/vsync/vsync_mode=0
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 

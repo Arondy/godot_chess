@@ -24,9 +24,10 @@ func check_move(dest: String, forKing: bool) -> bool:
 	# Первый ход (на две клетки вперёд)
 	dCellName1 = char(srcCh1) + char(srcCh2 + srchDy1)
 	dCellName2 = char(srcCh1) + char(srcCh2 + srchDy2)
+	var board = $"/root/Game/Board"
 	if (dy == srchDy2 and dx == 0
-			and not $"/root/Game/Board".get_node(dCellName1).has_figure()
-			and not $"/root/Game/Board".get_node(dCellName2).has_figure()
+			and not board.get_node(dCellName1).has_figure()
+			and not board.get_node(dCellName2).has_figure()
 			and not forKing):
 		if cellName[1] == "2" and color == "white":
 			return true
@@ -35,7 +36,7 @@ func check_move(dest: String, forKing: bool) -> bool:
 	
 	# Обычный ход вперёд
 	if (dy == srchDy1 and dx == 0
-			and not $"/root/Game/Board".get_node(dCellName1).has_figure()
+			and not board.get_node(dCellName1).has_figure()
 			and not forKing):
 		return true
 	
@@ -43,7 +44,7 @@ func check_move(dest: String, forKing: bool) -> bool:
 	if dy == srchDy1 and abs(dx) == 1:
 		dCellName1 = char(srcCh1 + dx) + char(srcCh2 + srchDy1)
 		
-		if ($"/root/Game/Board".get_node(dCellName1).has_enemy_figure(color)
+		if (board.get_node(dCellName1).has_enemy_figure(color)
 				or forKing):
 			return true
 	
@@ -77,5 +78,9 @@ func get_possible_moves(forKing: bool) -> Array:
 	for cellName in pMoves:
 		if check_move(cellName, forKing):
 			res.append(cellName)
-
+	
+	if not forKing:
+		res = get_moves_on_check(res)
+		res = get_moves_on_attack_line(res)
+	
 	return res

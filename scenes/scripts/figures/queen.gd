@@ -21,4 +21,8 @@ func get_possible_moves(forKing: bool) -> Array:
 	for direction in rookDirections:
 		get_line_moves(direction, res, forKing)
 	
+	if not forKing:
+		res = get_moves_on_check(res)
+		res = get_moves_on_attack_line(res)
+	
 	return res

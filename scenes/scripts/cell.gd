@@ -17,36 +17,60 @@ func has_enemy_figure(figureColor: String) -> bool:
 func has_figure() -> bool:
 	return figure != null
 
-func _on_gui_input(event):
+func _on_making_move(event):
 	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
-		var src = $"/root/Game/Figures".currentCellPicked
+		var figures = Tools.figures
+		var src = figures.currentCellPicked
+		
 		if src:
-			if (not figure) or (figure and src.figure.color != figure.color):
-				if name in $"/root/Game/Figures".possibleMoves:
+			if (not figure) or src.figure.color != figure.color:
+				if name in figures.possibleMoves:
 					src.figure.position = global_position
-					src.figure.cell = self
-					figure = src.figure
-					src.figure = null
+					change_figure_position.rpc(src.name, name)
 					figure.hasCooldown = true
-					if multiplayer.is_server():
-						flip_turn()
-					else:
-						rpc_id(1, "flip_turn")
 					figure.get_node("Selection_cooldown").start()
+					flip_turn.rpc()
+					figures.examine_check.rpc()
+					clear_attack_info()
 					
-			$"/root/Game/Figures".currentCellPicked = null
-			$"/root/Game/Figures".possibleMoves.clear()
+			figures.currentCellPicked = null
+			figures.possibleMoves.clear()
 			src.self_modulate = Color.WHITE
 			
 			var hints = $"/root/Game/Hints"
 			for child in hints.get_children():
 				hints.remove_child(child)
 
-@rpc("any_peer", "reliable")
+@rpc("any_peer", "reliable", "call_local")
 func flip_turn():
-	if $"/root/Game".turn == "white":
-		$"/root/Game".turn = "black"
-	else:
-		$"/root/Game".turn = "white"
-	if multiplayer.is_server():
-		flip_turn.rpc()
+	var game = Tools.game
+	game.turn = "black" if (game.turn == "white") else "white"
+
+func clear_attack_info():
+	var figures = Tools.figures
+	figures.checkThreats.clear()
+	figures.threatMoves.clear()
+	figures.firstFigsOnLine.clear()
+	figures.attackedMask.clear()
+
+@rpc("any_peer", "reliable", "call_local")
+func change_figure_position(srcName: String, newCellName: String):
+	var board = Tools.board
+	var src = board.get_node(srcName)
+	var newCell = board.get_node(newCellName)
+	src.figure.cell = board.get_node(newCellName)
+	
+	if newCell.figure:
+		newCell.figure.free()
+		
+	newCell.figure = src.figure
+	src.figure = null
+	
+	var fig = newCell.figure
+	
+	if fig.fname in ["king", "rook"]:
+		if not fig.hasMoved:
+			fig.hasMoved = true
+			
+		if fig.fname == "king":
+			Tools.figures.kingsPosition[fig.color] = newCell

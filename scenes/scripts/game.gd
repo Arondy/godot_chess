@@ -1,8 +1,14 @@
 extends Node2D
 
-@export var savePath = "res://saves/check.json"
+@export var savePath = "res://saves/test.json"
 var saveDict: Dictionary = load_json_file(savePath)
 @export var turn: String = saveDict["turn"]
+@export var myColor: String
+@export var debug: int
+
+func _ready():
+	Tools.game = self
+	debug = multiplayer.get_unique_id()
 
 func load_json_file(path: String):
 	if FileAccess.file_exists(path):

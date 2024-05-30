@@ -40,4 +40,8 @@ func get_possible_moves(forKing: bool) -> Array:
 		if check_move(cellName, forKing):
 			res.append(cellName)
 	
+	if not forKing:
+		res = get_moves_on_check(res)
+		res = get_moves_on_attack_line(res)
+	
 	return res

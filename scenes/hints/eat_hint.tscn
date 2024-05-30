@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0vapnuintmgb"]
+
+[ext_resource type="Texture2D" uid="uid://c2ujrbycqv826" path="res://textures/border.png" id="1_wii6x"]
+
+[node name="Eat hint" type="Sprite2D"]
+texture = ExtResource("1_wii6x")

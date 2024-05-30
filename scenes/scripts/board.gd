@@ -4,6 +4,7 @@ var cellScene = preload("res://scenes/cell.tscn")
 
 @warning_ignore("integer_division")
 func _ready():
+	Tools.board = self
 	position = Vector2((get_window().size.x - get_window().size.y) / 2, 0)
 	create_chessboard()
 
@@ -13,7 +14,7 @@ func create_chessboard():
 		for col in range(8):
 			var cell_y = get_window().size.y / 8
 			var cell = cellScene.instantiate()
-			cell.name = char(65 + col) + str(8 - row)
+			cell.name = Tools.int2Let(col + 1) + str(8 - row)
 			cell.size = Vector2(cell_y, cell_y)
 			cell.position = Vector2(col, row) * cell.size
 			if (row + col) % 2 == 0:

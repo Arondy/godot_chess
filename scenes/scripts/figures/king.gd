@@ -1,18 +1,6 @@
 extends Figure
 
-func create_attacked_mask() -> Array:
-	var res = []
-	var figures
-	if (color == "white"):
-		figures = $"/root/Game/Figures/black".get_children()
-	elif (color == "black"):
-		figures = $"/root/Game/Figures/white".get_children()
-		
-	for figure in figures:
-		for move in figure.get_possible_moves(true):
-			if move not in res:
-				res.append(move)
-	return res
+var hasMoved = false
 
 func king_check_move(dest: String, attackedMask: Array) -> bool:
 	var cellName: String = cell.name
@@ -25,7 +13,7 @@ func king_check_move(dest: String, attackedMask: Array) -> bool:
 		return false
 	
 	if (abs(dx) > 1 || abs(dy) > 1 || cellName == dest
-			or $"/root/Game/Board".get_node(dest).has_friendly_figure(color)):
+			or Tools.board.get_node(dest).has_friendly_figure(color)):
 		return false
 	
 	return dest not in attackedMask
@@ -38,7 +26,7 @@ func get_possible_moves(forKing: bool) -> Array:
 	var mask = []
 	
 	if not forKing:
-		mask = create_attacked_mask()
+		mask = Tools.figures.attackedMask
 	
 	for i in range(-1, 2):
 		for j in range(-1, 2):
