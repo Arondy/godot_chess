@@ -19,10 +19,11 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 func _ready():
 	Tools.figures = self
 	load_position($"..".saveDict)
-	$"/root/Game".myColor = "white" if multiplayer.is_server() else "black"
+	$"..".myColor = "white" if multiplayer.is_server() else "black"
 	
-	if $"/root/Game".myColor == $"/root/Game".turn:
+	if $"..".myColor == $"..".turn:
 		examine_check()
+		$"..".get_state()
 
 func set_figure_image(figureScene):
 	var texturePath = "res://textures/figures/%s_%s.png" % [figureScene.name.to_lower(), figureScene.color]
@@ -113,6 +114,7 @@ func examine_check():
 	fill_attacked_info()
 	
 	if checkThreats:
+		play_check_sound.rpc()
 		get_allowed_moves_during_check()
 		
 	get_first_figures_on_attack_lines()
@@ -199,3 +201,7 @@ func get_first_figures_on_attack_lines():
 					break
 				i += dC
 				j += dL
+
+@rpc("any_peer", "call_local", "reliable")
+func play_check_sound():
+	$Check.play()

@@ -48,16 +48,14 @@ func check_move(dest: String, forKing: bool) -> bool:
 				or forKing):
 			return true
 	
-	# En passant
+	#LaterTODO: En passant
 	
 	return false
 	
 func get_possible_moves(forKing: bool) -> Array:
 	var res = []
-	var pMoves = []
-	var baseStr = cell.name
-	var char1 = baseStr.unicode_at(0)
-	var char2 = baseStr.unicode_at(1)
+	var char1 = cell.name.unicode_at(0)
+	var char2 = cell.name.unicode_at(1)
 	var dy1
 	var dy2
 	
@@ -68,7 +66,7 @@ func get_possible_moves(forKing: bool) -> Array:
 		dy1 = -1
 		dy2 = -2
 		
-	pMoves = [
+	var pMoves = [
 		char(char1) + char(char2 + dy1),
 		char(char1) + char(char2 + dy2),
 		char(char1 + 1) + char(char2 + dy1),

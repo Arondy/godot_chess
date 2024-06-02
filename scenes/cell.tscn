@@ -1,11 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://0t2ssaou7v21"]
+[gd_scene load_steps=5 format=3 uid="uid://0t2ssaou7v21"]
 
 [ext_resource type="Script" path="res://scenes/scripts/cell.gd" id="1_lqyon"]
+[ext_resource type="AudioStream" uid="uid://h3hatru7hpxj" path="res://audio/common_move.mp3" id="2_mv6nm"]
+[ext_resource type="AudioStream" uid="uid://du0eb278i64kr" path="res://audio/eat.mp3" id="3_pavio"]
+[ext_resource type="AudioStream" uid="uid://kyudjdandave" path="res://audio/castle.mp3" id="4_ovhkw"]
 
 [node name="Cell" type="ColorRect"]
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 1
 script = ExtResource("1_lqyon")
+
+[node name="Common move" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_mv6nm")
+
+[node name="Eat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_pavio")
+
+[node name="Castle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ovhkw")
 
 [connection signal="gui_input" from="." to="." method="_on_making_move"]

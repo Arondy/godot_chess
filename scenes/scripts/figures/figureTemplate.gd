@@ -80,7 +80,6 @@ func _on_figure_selection(_viewport, event, _shape_idx):
 		
 		if Tools.figures.currentCellPicked == cell:
 			Tools.game.clear_hints()
-			Tools.figures.currentCellPicked = null
 			return
 			
 		var figures = Tools.figures

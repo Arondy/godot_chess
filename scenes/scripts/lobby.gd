@@ -9,7 +9,8 @@ func _on_launch_game_pressed():
 		return
 	rpc("start_game")
 
-@rpc("authority", "call_local")
+@rpc("authority", "call_local", "reliable")
 func start_game():
 	hide()
 	get_tree().change_scene_to_packed(gameScene)
+	$"Game start".play()

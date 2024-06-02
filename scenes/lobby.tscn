@@ -1,25 +1,38 @@
-[gd_scene load_steps=5 format=3 uid="uid://bd2tnv5oyxlic"]
+[gd_scene load_steps=10 format=3 uid="uid://bd2tnv5oyxlic"]
 
 [ext_resource type="Script" path="res://scenes/scripts/lobby.gd" id="1_1uxj3"]
+[ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="2_e4gqy"]
 [ext_resource type="Script" path="res://scenes/scripts/launch_game_button.gd" id="2_n1jqs"]
 [ext_resource type="Script" path="res://scenes/scripts/PlayersList.gd" id="3_hq4cg"]
+[ext_resource type="AudioStream" uid="uid://8g7866nu5kj1" path="res://audio/start.mp3" id="4_oulyx"]
+[ext_resource type="Script" path="res://scenes/scripts/players_list.gd" id="6_mkggb"]
+[ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="7_d6n3f"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k0bbd"]
 properties/0/path = NodePath(".:text")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
+[sub_resource type="LabelSettings" id="LabelSettings_px7bv"]
+font = ExtResource("7_d6n3f")
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Lobby" type="Node2D"]
 script = ExtResource("1_1uxj3")
 
 [node name="Launch game" type="Button" parent="."]
-offset_right = 100.0
+offset_right = 136.0
 offset_bottom = 50.0
+theme_override_fonts/font = ExtResource("7_d6n3f")
+theme_override_font_sizes/font_size = 20
 text = "Start game
 "
+icon_alignment = 1
 script = ExtResource("2_n1jqs")
 
 [node name="PlayersList" type="TextEdit" parent="."]
+visible = false
 offset_left = 204.0
 offset_top = 2.0
 offset_right = 341.0
@@ -30,5 +43,26 @@ script = ExtResource("3_hq4cg")
 [node name="PlayersListMSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("../PlayersList")
 replication_config = SubResource("SceneReplicationConfig_k0bbd")
+
+[node name="Game start" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_oulyx")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 199.0
+offset_right = 370.0
+offset_bottom = 99.0
+theme = ExtResource("2_e4gqy")
+
+[node name="Players list" type="VBoxContainer" parent="Panel"]
+offset_left = 5.0
+offset_right = 169.0
+offset_bottom = 98.0
+script = ExtResource("6_mkggb")
+
+[node name="Masthead" type="Label" parent="Panel/Players list"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Players in lobby:"
+label_settings = SubResource("LabelSettings_px7bv")
 
 [connection signal="pressed" from="Launch game" to="." method="_on_launch_game_pressed"]

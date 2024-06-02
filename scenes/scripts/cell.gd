@@ -40,13 +40,14 @@ func _on_making_move(event):
 						var dL = newL - kingL
 						
 						if abs(dL) == 2:
+							play_castle_sound.rpc()
 							change_rook_pos_on_castle(dL, src.name)
 					
 					#LaterTODO: En passant
-					
+						
 					end_move(figures)
 					Tools.game.clear_hints()
-					Tools.figures.currentCellPicked = null
+					Tools.game.get_state()
 
 func change_rook_pos_on_castle(dL, srcName):
 	var kingL = srcName.unicode_at(0)
@@ -59,7 +60,7 @@ func change_rook_pos_on_castle(dL, srcName):
 	rook.position = Tools.board.get_node(newPos).global_position
 	change_figure_position.rpc(rookSrc.name, newPos)
 
-@rpc("any_peer", "reliable", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func flip_turn():
 	var game = Tools.game
 	game.turn = "black" if (game.turn == "white") else "white"
@@ -72,7 +73,7 @@ func end_move(figures: Object):
 	figures.firstFigsOnLine.clear()
 	figures.attackedMask.clear()
 	
-@rpc("any_peer", "reliable", "call_local")
+@rpc("any_peer", "call_local", "reliable")
 func change_figure_position(srcName: String, newCellName: String):
 	var board = Tools.board
 	var src = board.get_node(srcName)
@@ -80,7 +81,10 @@ func change_figure_position(srcName: String, newCellName: String):
 	src.figure.cell = board.get_node(newCellName)
 	
 	if newCell.figure:
+		$Eat.play()
 		newCell.figure.free()
+	else:
+		$"Common move".play()
 		
 	newCell.figure = src.figure
 	src.figure = null
@@ -93,3 +97,7 @@ func change_figure_position(srcName: String, newCellName: String):
 			
 		if fig.fname == "king":
 			Tools.figures.kingsPosition[fig.color] = newCell
+
+@rpc("any_peer", "call_local", "reliable")
+func play_castle_sound():
+	$Castle.play()

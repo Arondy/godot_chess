@@ -23,7 +23,7 @@ func _on_host_button_pressed():
 		return error
 		
 	multiplayer.multiplayer_peer = peer
-	addPlayerData(multiplayer.get_unique_id(), {"name": $Nickname.text})
+	add_player_data(multiplayer.get_unique_id(), {"name": $Nickname.text})
 	var scene = lobbyScene.instantiate()
 	$"/root".add_child(scene)
 	hide()
@@ -50,7 +50,7 @@ func _on_connected_to_server_ok():
 	var unId = multiplayer.get_unique_id()
 	var playerName = $Nickname.text
 	print("from %d (%s): Connection to server established!" % [unId, playerName])
-	rpc_id(1, "addPlayerData", unId, {"name": playerName})
+	add_player_data.rpc_id(1, unId, {"name": playerName})
 
 func _on_connected_to_server_fail():
 	print("Connection to server failed!")
@@ -63,10 +63,10 @@ func _on_server_disconnected():
 	server_disconnected.emit()
 
 @rpc("any_peer", "reliable")
-func addPlayerData(id, data):
+func add_player_data(id, data):
 	if not GameManager.players.has(id):
 		GameManager.players[id] = data
 	if multiplayer.is_server():
 		player_connected.emit(id, data)
 		for playerId in GameManager.players:
-			addPlayerData.rpc(playerId, GameManager.players[playerId])
+			add_player_data.rpc(playerId, GameManager.players[playerId])

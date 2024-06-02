@@ -1,0 +1,27 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://sqgks8wwf6dj"]
+
+[ext_resource type="Texture2D" uid="uid://dl42a823a8ojx" path="res://textures/buttons.png" id="1_0chvg"]
+[ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="1_0pf14"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_25sqk"]
+texture = ExtResource("1_0chvg")
+region_rect = Rect2(224, 863, 750, 274)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2mjh"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.252658, 0.636006, 0.471273, 0.6)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[resource]
+default_font = ExtResource("1_0pf14")
+default_font_size = 20
+Button/styles/hover = SubResource("StyleBoxTexture_25sqk")
+Button/styles/normal = SubResource("StyleBoxTexture_25sqk")
+Button/styles/pressed = SubResource("StyleBoxTexture_25sqk")
+Panel/styles/panel = SubResource("StyleBoxFlat_p2mjh")
