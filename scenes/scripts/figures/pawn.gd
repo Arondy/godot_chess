@@ -47,11 +47,15 @@ func check_move(dest: String, forKing: bool) -> bool:
 		if (board.get_node(dCellName1).has_enemy_figure(color)
 				or forKing):
 			return true
-	
-	#LaterTODO: En passant
+		
+		var num = "5" if (color == "white") else "4"
+		
+		#En passant
+		if cellName[1] == num and $"/root/Game/Ingame UI".lastMove == dCellName1[0].to_lower() + num:
+			return true
 	
 	return false
-	
+
 func get_possible_moves(forKing: bool) -> Array:
 	var res = []
 	var char1 = cell.name.unicode_at(0)

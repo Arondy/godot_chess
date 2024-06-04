@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7h6bsmkrhro"]
+
+[ext_resource type="Script" path="res://scenes/scripts/promote_ui.gd" id="1_d6gls"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jegsu"]
+
+[node name="Promote UI" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_d6gls")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_jegsu")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 172.0
+theme_override_constants/separation = 0
+
+[node name="Queen" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+expand_icon = true
+
+[node name="Rook" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+expand_icon = true
+
+[node name="Bishop" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+expand_icon = true
+
+[node name="Knight" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+expand_icon = true
+
+[connection signal="pressed" from="Panel/VBox/Queen" to="." method="_on_queen_pressed"]
+[connection signal="pressed" from="Panel/VBox/Rook" to="." method="_on_rook_pressed"]
+[connection signal="pressed" from="Panel/VBox/Bishop" to="." method="_on_bishop_pressed"]
+[connection signal="pressed" from="Panel/VBox/Knight" to="." method="_on_knight_pressed"]

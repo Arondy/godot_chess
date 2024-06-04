@@ -5,3 +5,4 @@
 
 [node name="Bishop" instance=ExtResource("1_fs884")]
 script = ExtResource("2_lx7fr")
+fname = "bishop"

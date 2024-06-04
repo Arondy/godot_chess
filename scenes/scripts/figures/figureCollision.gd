@@ -1,7 +1,6 @@
 extends CollisionShape2D
 
-
 func _ready():
-	var cell_y = get_viewport().size.y / 8
-	shape.size = Vector2(cell_y, cell_y)
-	position = Vector2(cell_y / 2, cell_y / 2)
+	var cellY = get_window().content_scale_size.y / 8
+	shape.size = Vector2(cellY, cellY)
+	position = Vector2(cellY / 2, cellY / 2)

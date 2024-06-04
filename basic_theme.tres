@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://sqgks8wwf6dj"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://sqgks8wwf6dj"]
 
 [ext_resource type="Texture2D" uid="uid://dl42a823a8ojx" path="res://textures/buttons.png" id="1_0chvg"]
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="1_0pf14"]
@@ -18,6 +18,16 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_48fsu"]
+content_margin_left = 5.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
 [resource]
 default_font = ExtResource("1_0pf14")
 default_font_size = 20
@@ -25,3 +35,4 @@ Button/styles/hover = SubResource("StyleBoxTexture_25sqk")
 Button/styles/normal = SubResource("StyleBoxTexture_25sqk")
 Button/styles/pressed = SubResource("StyleBoxTexture_25sqk")
 Panel/styles/panel = SubResource("StyleBoxFlat_p2mjh")
+ScrollContainer/styles/panel = SubResource("StyleBoxFlat_48fsu")

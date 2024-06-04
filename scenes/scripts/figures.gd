@@ -25,14 +25,14 @@ func _ready():
 		examine_check()
 		$"..".get_state()
 
-func set_figure_image(figureScene):
-	var texturePath = "res://textures/figures/%s_%s.png" % [figureScene.name.to_lower(), figureScene.color]
+func set_figure_image(figureScene: Node):
+	var texturePath = "res://textures/figures/%s_%s.png" % [figureScene.fname, figureScene.color]
 	var image = figureScene.get_node("Image")
 	image.texture = load(texturePath)
-	image.scale = $'../Board'.get_node("A8").size / float(image.texture.get_height())
+	image.scale = $"../Board".get_node("A8").size / float(image.texture.get_height())
 	image.centered = false
 
-func create_figure_by_letter(letter):
+func create_figure_by_letter(letter: String):
 	var letterToFigure = {
 		'P': ["pawn",   "white"],
 		'N': ["knight", "white"],
@@ -64,7 +64,6 @@ func create_figure_by_letter(letter):
 		"king":
 			figureScene = kingScene.instantiate()
 			
-	figureScene.fname = figure[0]
 	figureScene.color = figure[1]
 	set_figure_image(figureScene)
 	return figureScene
@@ -106,12 +105,12 @@ func load_position(dict):
 			rpc("setup_player_team", "black", multiplayer.get_peers()[0])
 
 @rpc("authority", "call_local", "reliable")
-func setup_player_team(team, peer):
+func setup_player_team(team: String, peer: int):
 	get_node(team).set_multiplayer_authority(peer)
 
 @rpc("any_peer", "reliable")
 func examine_check():
-	fill_attacked_info()
+	fill_attacked_info($"..".turn)
 	
 	if checkThreats:
 		play_check_sound.rpc()
@@ -119,8 +118,7 @@ func examine_check():
 		
 	get_first_figures_on_attack_lines()
 	
-func fill_attacked_info():
-	var color = $"..".turn
+func fill_attacked_info(color: String):
 	var kingPos = Tools.board.get_node(str(kingsPosition[color]))
 	var opColor = Tools.getOpColor(color)
 	var figures = get_node(opColor).get_children()
@@ -185,6 +183,7 @@ func get_first_figures_on_attack_lines():
 				(enemy.fname == "rook" and isOrthogonal) or
 				(enemy.fname == "queen" and (isDiagonal or isOrthogonal))):
 			var movesOnLine = [enemyCell.name]
+			var firstOnLine: Figure = null
 			var dL = 0 if (lineDiff == 0) else (1 if (tN < kN) else -1)
 			var dC = 0 if (colDiff == 0) else (1 if (tL < kL) else -1)
 			var i = Tools.uLet2int(tL) + dC
@@ -196,9 +195,14 @@ func get_first_figures_on_attack_lines():
 				var figOnLine = $"../Board".get_node(cellName).figure
 				
 				if figOnLine:
-					if figOnLine.color == color:
-						firstFigsOnLine[figOnLine] = movesOnLine
-					break
+					if firstOnLine == null:
+						firstOnLine = figOnLine
+						if figOnLine.color == color:
+							firstFigsOnLine[figOnLine] = movesOnLine
+					else:
+						firstFigsOnLine.erase(firstOnLine)
+						break
+					
 				i += dC
 				j += dL
 

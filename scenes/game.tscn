@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://kd8og6w5e7t8"]
+[gd_scene load_steps=7 format=3 uid="uid://kd8og6w5e7t8"]
 
 [ext_resource type="Script" path="res://scenes/scripts/game.gd" id="1_xhuk7"]
 [ext_resource type="PackedScene" uid="uid://cr1pf0oiyfmhu" path="res://scenes/board.tscn" id="2_f2tyf"]
 [ext_resource type="Script" path="res://scenes/scripts/figures.gd" id="3_xnppu"]
 [ext_resource type="AudioStream" uid="uid://cjvdksbmp5rej" path="res://audio/check.mp3" id="4_g7mt2"]
 [ext_resource type="AudioStream" uid="uid://bxelpwgl08rx7" path="res://audio/game_over.mp3" id="4_ld413"]
+[ext_resource type="PackedScene" uid="uid://yhbrt1aqx17h" path="res://scenes/ingame_ui.tscn" id="6_byqag"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_xhuk7")
@@ -25,3 +26,8 @@ stream = ExtResource("4_g7mt2")
 
 [node name="Game over" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_ld413")
+
+[node name="Ingame UI" parent="." instance=ExtResource("6_byqag")]
+offset_right = 0.0
+offset_bottom = 0.0
+size_flags_horizontal = 8

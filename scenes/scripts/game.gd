@@ -1,16 +1,13 @@
 extends Node2D
 
-@export var savePath = "res://saves/check.json"
+@export var savePath = "res://saves/promote.json"
 var saveDict: Dictionary = load_json_file(savePath)
 var endScene = preload("res://scenes/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]
 @export var myColor: String
-@export var debug: int
-
 
 func _ready():
 	Tools.game = self
-	debug = multiplayer.get_unique_id()
 
 func load_json_file(path: String):
 	if FileAccess.file_exists(path):
@@ -31,15 +28,17 @@ func _unhandled_input(event):
 	elif event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
 		if $Figures.currentCellPicked:
 			var figure = $Figures.currentCellPicked.figure
-			figure.hasCooldown = true
-			figure.get_node("Selection_cooldown").start()
+			if figure != null:
+				figure.hasCooldown = true
+				figure.get_node("Selection_cooldown").start()
 			clear_hints()
 
 func clear_hints():
-	$Figures.currentCellPicked.self_modulate = Color.WHITE
-	$Figures.currentCellPicked = null
+	if $Figures.currentCellPicked:
+		$Figures.currentCellPicked.self_modulate = Color.WHITE
+		$Figures.currentCellPicked = null
 	$Figures.possibleMoves.clear()
-	
+
 	for child in $Hints.get_children():
 		child.free()
 
@@ -53,6 +52,7 @@ func noMoveAvailable() -> bool:
 	
 	return true
 
+@rpc("any_peer", "reliable")
 func get_state():
 	if noMoveAvailable():
 		var text

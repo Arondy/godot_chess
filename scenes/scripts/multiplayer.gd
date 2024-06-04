@@ -6,7 +6,7 @@ signal server_disconnected
 
 var lobbyScene: PackedScene = preload("res://scenes/lobby.tscn")
 var peer = ENetMultiplayerPeer.new()
-@export var address: String = "127.0.0.1"
+@export var adress: String = "127.0.0.1"
 @export var port: int = 8080
 
 func _ready():
@@ -27,10 +27,11 @@ func _on_host_button_pressed():
 	var scene = lobbyScene.instantiate()
 	$"/root".add_child(scene)
 	hide()
-	print("Host is waiting for players")
+	adress = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
+	print("IP adress is: " + adress + "\nHost is waiting for players...")
 
 func _on_join_button_pressed():
-	peer.create_client(address, port)
+	peer.create_client(adress, port)
 	multiplayer.multiplayer_peer = peer
 	var scene = lobbyScene.instantiate()
 	$"/root".add_child(scene)
