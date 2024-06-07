@@ -1,5 +1,6 @@
 extends Control
 
+
 func _ready():
 	get_tree().paused = true
 	#LaterTODO: убрать когда перейдем на fhd
@@ -7,11 +8,14 @@ func _ready():
 	$Panel.size = get_window().content_scale_size / 3
 	$Panel.anchors_preset = Control.PRESET_CENTER
 
-func _on_exit_pressed():
-	var startingScene = load("res://scenes/multiplayer.tscn")
-	get_tree().paused = false
-	multiplayer.multiplayer_peer.close()
-	get_tree().change_scene_to_packed(startingScene)
+func set_text(playerName: String):
+	$Panel/Text.text = playerName + " offers you a rematch"
 
-func _on_rematch_pressed():
-	Tools.UI.send_rematch_offer.rpc()
+func _on_accept_pressed():
+	Tools.UI.send_rematch_acceptance.rpc()
+	Tools.start_game.rpc()
+
+func _on_reject_pressed():
+	Tools.UI.send_rematch_rejection.rpc()
+	get_tree().paused = false
+	queue_free()

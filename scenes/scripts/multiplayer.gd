@@ -8,8 +8,14 @@ var lobbyScene: PackedScene = preload("res://scenes/lobby.tscn")
 var peer = ENetMultiplayerPeer.new()
 @export var adress: String = "127.0.0.1"
 @export var port: int = 8080
+var nickname: Object
+var ip: Object
+var notify: Object
 
 func _ready():
+	nickname = $HBox/Margin/VBox/Nickname
+	ip = $HBox/Margin/VBox/IP
+	notify = $HBox/Margin/VBox/Notification
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server_ok)
@@ -23,19 +29,28 @@ func _on_host_button_pressed():
 		return error
 		
 	multiplayer.multiplayer_peer = peer
-	add_player_data(multiplayer.get_unique_id(), {"name": $Nickname.text})
+	add_player_data(multiplayer.get_unique_id(), {"name": nickname.text})
 	var scene = lobbyScene.instantiate()
 	$"/root".add_child(scene)
 	hide()
 	adress = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
-	print("IP adress is: " + adress + "\nHost is waiting for players...")
+	print("IP adress is: %s\nHost is waiting for players..." % adress)
 
 func _on_join_button_pressed():
-	peer.create_client(adress, port)
+	multiplayer.multiplayer_peer.close()
+	
+	if ip.text and ip.text.is_valid_ip_address():
+		adress = ip.text
+	else:
+		notify.text = "[center]You must input a valid IP address![/center]"
+		return
+		
+	var error = peer.create_client(adress, port)
+	
+	if error:
+		return error
+		
 	multiplayer.multiplayer_peer = peer
-	var scene = lobbyScene.instantiate()
-	$"/root".add_child(scene)
-	hide()
 	
 func _on_player_connected(id):
 	if multiplayer.is_server():
@@ -48,8 +63,12 @@ func _on_player_disconnected(id):
 	player_disconnected.emit(id)
 
 func _on_connected_to_server_ok():
+	var scene = lobbyScene.instantiate()
+	$"/root".add_child(scene)
+	hide()
+	
 	var unId = multiplayer.get_unique_id()
-	var playerName = $Nickname.text
+	var playerName = nickname.text
 	print("from %d (%s): Connection to server established!" % [unId, playerName])
 	add_player_data.rpc_id(1, unId, {"name": playerName})
 

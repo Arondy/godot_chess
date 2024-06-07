@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://scenes/scripts/figures.gd" id="3_xnppu"]
 [ext_resource type="AudioStream" uid="uid://cjvdksbmp5rej" path="res://audio/check.mp3" id="4_g7mt2"]
 [ext_resource type="AudioStream" uid="uid://bxelpwgl08rx7" path="res://audio/game_over.mp3" id="4_ld413"]
-[ext_resource type="PackedScene" uid="uid://yhbrt1aqx17h" path="res://scenes/ingame_ui.tscn" id="6_byqag"]
+[ext_resource type="PackedScene" uid="uid://yhbrt1aqx17h" path="res://scenes/UI/ingame_ui.tscn" id="6_byqag"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_xhuk7")

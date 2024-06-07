@@ -6,33 +6,60 @@
 [node name="Multiplayer" type="Node2D"]
 script = ExtResource("1_htgrx")
 
-[node name="HostButton" type="Button" parent="."]
-offset_right = 230.0
-offset_bottom = 50.0
+[node name="HBox" type="HBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBox" type="VBoxContainer" parent="HBox"]
+layout_mode = 2
+
+[node name="HostButton" type="Button" parent="HBox/VBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_h8mia")
 theme_override_font_sizes/font_size = 16
 text = "Host game"
 metadata/_edit_use_anchors_ = true
 
-[node name="JoinButton" type="Button" parent="."]
-offset_top = 80.0
-offset_right = 230.0
-offset_bottom = 130.0
+[node name="JoinButton" type="Button" parent="HBox/VBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_h8mia")
 theme_override_font_sizes/font_size = 16
 text = "Connect to created game"
 metadata/_edit_use_anchors_ = true
 
-[node name="Nickname" type="LineEdit" parent="."]
-offset_left = 270.0
-offset_top = 40.0
-offset_right = 484.0
-offset_bottom = 80.0
+[node name="Margin" type="MarginContainer" parent="HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+
+[node name="VBox" type="VBoxContainer" parent="HBox/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Nickname" type="LineEdit" parent="HBox/Margin/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_h8mia")
 theme_override_font_sizes/font_size = 16
 placeholder_text = "Enter your nickname here:"
 expand_to_text_length = true
 metadata/_edit_use_anchors_ = true
 
-[connection signal="pressed" from="HostButton" to="." method="_on_host_button_pressed"]
-[connection signal="pressed" from="JoinButton" to="." method="_on_join_button_pressed"]
+[node name="IP" type="LineEdit" parent="HBox/Margin/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+placeholder_text = "Enter host's IP here:"
+
+[node name="Notification" type="RichTextLabel" parent="HBox/Margin/VBox"]
+custom_minimum_size = Vector2(249, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bbcode_enabled = true
+fit_content = true
+
+[connection signal="pressed" from="HBox/VBox/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="HBox/VBox/JoinButton" to="." method="_on_join_button_pressed"]

@@ -3,7 +3,7 @@ extends ColorRect
 class_name Cell
 
 var figure: Figure
-var promoteScene = preload("res://scenes/promote_ui.tscn")
+var promoteScene = preload("res://scenes/UI/promote_ui.tscn")
 signal promotion_finished
 
 func has_friendly_figure(figureColor: String) -> bool:
@@ -157,4 +157,5 @@ func promote(pathToScene: String):
 	Tools.figures.set_figure_image(promFig)
 	promFig.position = global_position
 	figure = promFig
+	promFig.set_multiplayer_authority(multiplayer.get_remote_sender_id())
 	Tools.figures.get_node(promFig.color).add_child(promFig)

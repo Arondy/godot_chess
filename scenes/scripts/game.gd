@@ -2,7 +2,7 @@ extends Node2D
 
 @export var savePath = "res://saves/promote.json"
 var saveDict: Dictionary = load_json_file(savePath)
-var endScene = preload("res://scenes/end_of_game.tscn")
+var endScene = preload("res://scenes/UI/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]
 @export var myColor: String
 
@@ -62,13 +62,17 @@ func get_state():
 		else:
 			text = "[center][b]Stalemate[/b][/center]"
 			
-		send_results_to_peers.rpc(text)
+		finish_game.rpc(text)
 
 @rpc("any_peer", "call_local", "reliable")
-func send_results_to_peers(text: String):
+func finish_game(text: String, text2: String = ""):
 	var endMessage = endScene.instantiate()
-	var textNode = endMessage.get_node("ReferenceRect").get_node("Text")
+	var textNode = endMessage.get_node("Panel").get_node("Text")
 	
-	textNode.text = text
-	add_child.call_deferred(endMessage)
+	if text2 and multiplayer.get_remote_sender_id() == multiplayer.get_unique_id():
+		textNode.text = text2
+	else:
+		textNode.text = text
+		
+	Tools.UI.add_child.call_deferred(endMessage)
 	$"Game over".play()

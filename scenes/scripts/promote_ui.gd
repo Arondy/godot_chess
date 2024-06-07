@@ -3,6 +3,8 @@ extends Control
 signal promotion_figure_selected(figureName: String)
 
 func set_color(color: String):
+	get_tree().paused = true
+	
 	var queen = $Panel/VBox/Queen
 	var rook = $Panel/VBox/Rook
 	var bishop = $Panel/VBox/Bishop
@@ -22,12 +24,16 @@ func set_color(color: String):
 	
 func _on_queen_pressed():
 	promotion_figure_selected.emit("res://scenes/figures/queen.tscn")
+	get_tree().paused = false
 
 func _on_rook_pressed():
 	promotion_figure_selected.emit("res://scenes/figures/rook.tscn")
+	get_tree().paused = false
 
 func _on_bishop_pressed():
 	promotion_figure_selected.emit("res://scenes/figures/bishop.tscn")
+	get_tree().paused = false
 
 func _on_knight_pressed():
 	promotion_figure_selected.emit("res://scenes/figures/knight.tscn")
+	get_tree().paused = false

@@ -18,8 +18,8 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 #LaterTODO: переворот борды и фигур для black игрока
 func _ready():
 	Tools.figures = self
-	load_position($"..".saveDict)
 	$"..".myColor = "white" if multiplayer.is_server() else "black"
+	load_position($"..".saveDict)
 	
 	if $"..".myColor == $"..".turn:
 		examine_check()
@@ -96,13 +96,12 @@ func load_position(dict):
 						set_king_info(figureScene, boardCell)
 					elif figureScene.fname == "rook":
 						set_rook_info(figureScene, boardCell)
-						
-					get_node(figureScene.color).add_child(figureScene)
+					get_node(figureScene.color).add_child(figureScene, true)
 					boardCell.figure = figureScene
 		
 		if (multiplayer.is_server()):
-			rpc("setup_player_team", "white", multiplayer.get_unique_id())
-			rpc("setup_player_team", "black", multiplayer.get_peers()[0])
+			setup_player_team.rpc("white", multiplayer.get_unique_id())
+			setup_player_team.rpc("black", multiplayer.get_peers()[0])
 
 @rpc("authority", "call_local", "reliable")
 func setup_player_team(team: String, peer: int):

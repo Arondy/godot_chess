@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bd2tnv5oyxlic"]
+[gd_scene load_steps=7 format=3 uid="uid://bd2tnv5oyxlic"]
 
 [ext_resource type="Script" path="res://scenes/scripts/lobby.gd" id="1_1uxj3"]
 [ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="2_e4gqy"]
 [ext_resource type="Script" path="res://scenes/scripts/launch_game_button.gd" id="2_n1jqs"]
-[ext_resource type="AudioStream" uid="uid://8g7866nu5kj1" path="res://audio/start.mp3" id="4_oulyx"]
 [ext_resource type="Script" path="res://scenes/scripts/players_list.gd" id="6_mkggb"]
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="7_d6n3f"]
 
@@ -24,9 +23,6 @@ text = "Start game
 "
 icon_alignment = 1
 script = ExtResource("2_n1jqs")
-
-[node name="Game start" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_oulyx")
 
 [node name="Panel" type="Panel" parent="."]
 offset_left = 199.0
