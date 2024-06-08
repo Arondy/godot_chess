@@ -6,11 +6,11 @@
 [node name="Dialog" instance=ExtResource("1_sxp5v")]
 script = ExtResource("2_dlay2")
 
-[node name="ButtonLeft" parent="Panel" index="1"]
+[node name="ButtonLeft" parent="Panel/VBox/HBox" index="0"]
 text = "Accept"
 
-[node name="ButtonRight" parent="Panel" index="2"]
+[node name="ButtonRight" parent="Panel/VBox/HBox" index="1"]
 text = "Reject"
 
-[connection signal="pressed" from="Panel/ButtonLeft" to="." method="_on_accept_pressed"]
-[connection signal="pressed" from="Panel/ButtonRight" to="." method="_on_reject_pressed"]
+[connection signal="pressed" from="Panel/VBox/HBox/ButtonLeft" to="." method="_on_accept_pressed"]
+[connection signal="pressed" from="Panel/VBox/HBox/ButtonRight" to="." method="_on_reject_pressed"]

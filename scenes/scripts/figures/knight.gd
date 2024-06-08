@@ -10,7 +10,7 @@ func check_move(dest: String, forKing: bool) -> bool:
 	if dest[0] > "H" or dest[1] > "8" or dest[0] < "A" or dest[1] < "1":
 		return false
 
-	if (not $"/root/Game/Board".get_node(dest).has_friendly_figure(color)
+	if (not $"/root/Game/CL/Board".get_node(dest).has_friendly_figure(color)
 			or forKing):
 		if abs(dx) == 2 and abs(dy) == 1:
 			return true

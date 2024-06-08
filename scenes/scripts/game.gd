@@ -1,10 +1,12 @@
 extends Node2D
 
-@export var savePath = "res://saves/promote.json"
+@export var savePath = "res://saves/basic_game_start.json"
 var saveDict: Dictionary = load_json_file(savePath)
 var endScene = preload("res://scenes/UI/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]
 @export var myColor: String
+@onready var figures = $CLF/Figures
+@onready var hints = $CL/Hints
 
 func _ready():
 	Tools.game = self
@@ -26,26 +28,26 @@ func _unhandled_input(event):
 		if event.pressed and event.keycode == KEY_ESCAPE:
 			get_tree().quit()
 	elif event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
-		if $Figures.currentCellPicked:
-			var figure = $Figures.currentCellPicked.figure
+		if figures.currentCellPicked:
+			var figure = figures.currentCellPicked.figure
 			if figure != null:
 				figure.hasCooldown = true
 				figure.get_node("Selection_cooldown").start()
 			clear_hints()
 
 func clear_hints():
-	if $Figures.currentCellPicked:
-		$Figures.currentCellPicked.self_modulate = Color.WHITE
-		$Figures.currentCellPicked = null
-	$Figures.possibleMoves.clear()
+	if figures.currentCellPicked:
+		figures.currentCellPicked.self_modulate = Color.WHITE
+		figures.currentCellPicked = null
+	figures.possibleMoves.clear()
 
-	for child in $Hints.get_children():
+	for child in hints.get_children():
 		child.free()
 
 func noMoveAvailable() -> bool:
-	var figures = $Figures.get_node(turn).get_children()
+	var opFigures = Tools.figures.get_node(turn).get_children()
 		
-	for figure in figures:
+	for figure in opFigures:
 		var moves = figure.get_possible_moves(false)
 		if moves:
 			return false
@@ -57,7 +59,7 @@ func get_state():
 	if noMoveAvailable():
 		var text
 		
-		if $Figures.checkThreats:
+		if figures.checkThreats:
 			text = "[center][b]Mate[/b][/center]"
 		else:
 			text = "[center][b]Stalemate[/b][/center]"
@@ -67,7 +69,7 @@ func get_state():
 @rpc("any_peer", "call_local", "reliable")
 func finish_game(text: String, text2: String = ""):
 	var endMessage = endScene.instantiate()
-	var textNode = endMessage.get_node("Panel").get_node("Text")
+	var textNode = endMessage.get_text_node()
 	
 	if text2 and multiplayer.get_remote_sender_id() == multiplayer.get_unique_id():
 		textNode.text = text2

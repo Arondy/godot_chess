@@ -14,10 +14,13 @@ func _ready():
 	$/root.add_child.call_deferred(soundPlayer)
 	
 @rpc("any_peer", "call_local", "reliable")
-func start_game():
+func start_game(fromLobby: bool):
 	soundPlayer.play()
 	get_tree().paused = false
-	$/root/Lobby.queue_free()
+	
+	if fromLobby:
+		$/root/Lobby.queue_free()
+		
 	get_tree().change_scene_to_packed(gameScene)
 	
 func uNum2int(unicode: int) -> int:

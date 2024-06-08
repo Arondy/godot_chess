@@ -21,12 +21,31 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_to_server_ok)
 	multiplayer.connection_failed.connect(_on_connected_to_server_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
-	
+
+func check_name() -> bool:
+	if nickname.text:
+		return true
+	else:
+		notify.text = "[center]You must input a valid name![/center]"
+		return false
+
+func check_ip() -> bool:
+	if ip.text and ip.text.is_valid_ip_address():
+		adress = ip.text
+		return true
+	else:
+		notify.text = "[center]You must input a valid IP address![/center]"
+		return false
+
 func _on_host_button_pressed():
 	var error = peer.create_server(port, 2)
 	
 	if error:
 		return error
+		
+	if OS.has_feature("release"):
+		if not check_name():
+			return
 		
 	multiplayer.multiplayer_peer = peer
 	add_player_data(multiplayer.get_unique_id(), {"name": nickname.text})
@@ -39,11 +58,9 @@ func _on_host_button_pressed():
 func _on_join_button_pressed():
 	multiplayer.multiplayer_peer.close()
 	
-	if ip.text and ip.text.is_valid_ip_address():
-		adress = ip.text
-	else:
-		notify.text = "[center]You must input a valid IP address![/center]"
-		return
+	if OS.has_feature("release"):
+		if not (check_name() and check_ip()):
+			return
 		
 	var error = peer.create_client(adress, port)
 	

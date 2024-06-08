@@ -24,63 +24,87 @@ layout_mode = 0
 offset_left = 570.0
 offset_top = 100.0
 offset_right = 720.0
-offset_bottom = 360.0
+offset_bottom = 336.0
 
-[node name="Right panel" type="VBoxContainer" parent="Panel"]
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+
+[node name="Right panel" type="VBoxContainer" parent="Panel/Margin"]
 layout_mode = 2
 
-[node name="Opponent time" type="Label" parent="Panel/Right panel"]
-custom_minimum_size = Vector2(0, 30)
+[node name="Opponent time" type="Label" parent="Panel/Margin/Right panel"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="Opponent name" type="Label" parent="Panel/Right panel"]
-custom_minimum_size = Vector2(0, 30)
+[node name="Timer" type="Timer" parent="Panel/Margin/Right panel/Opponent time"]
+process_mode = 1
+one_shot = true
+
+[node name="Opponent name" type="Label" parent="Panel/Margin/Right panel"]
 layout_mode = 2
 size_flags_vertical = 6
 label_settings = SubResource("LabelSettings_eoyfe")
 
-[node name="History" type="ScrollContainer" parent="Panel/Right panel"]
+[node name="Margin" type="MarginContainer" parent="Panel/Margin/Right panel"]
+layout_mode = 2
+theme_override_constants/margin_left = -5
+
+[node name="History" type="ScrollContainer" parent="Panel/Margin/Right panel/Margin"]
 custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
 theme = ExtResource("2_a5frg")
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="Grid" type="GridContainer" parent="Panel/Right panel/History"]
+[node name="Grid" type="GridContainer" parent="Panel/Margin/Right panel/Margin/History"]
 layout_mode = 2
 columns = 2
 
-[node name="HBox" type="HBoxContainer" parent="Panel/Right panel"]
+[node name="Margin2" type="MarginContainer" parent="Panel/Margin/Right panel"]
+layout_mode = 2
+theme_override_constants/margin_left = -5
+
+[node name="HBox" type="HBoxContainer" parent="Panel/Margin/Right panel/Margin2"]
+process_mode = 1
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="Draw" type="Button" parent="Panel/Right panel/HBox"]
+[node name="Draw" type="Button" parent="Panel/Margin/Right panel/Margin2/HBox"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "1/2"
 
-[node name="Resign" type="Button" parent="Panel/Right panel/HBox"]
+[node name="Resign" type="Button" parent="Panel/Margin/Right panel/Margin2/HBox"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Resign"
 
-[node name="My name" type="Label" parent="Panel/Right panel"]
-custom_minimum_size = Vector2(0, 30)
+[node name="My name" type="Label" parent="Panel/Margin/Right panel"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="My time" type="Label" parent="Panel/Right panel"]
-custom_minimum_size = Vector2(0, 30)
+[node name="My time" type="Label" parent="Panel/Margin/Right panel"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="Notifications" type="RichTextLabel" parent="Panel/Right panel"]
-custom_minimum_size = Vector2(0, 30)
+[node name="Timer" type="Timer" parent="Panel/Margin/Right panel/My time"]
+process_mode = 1
+one_shot = true
+
+[node name="Notifications" type="RichTextLabel" parent="Panel/Margin/Right panel"]
 layout_mode = 2
 size_flags_vertical = 3
+fit_content = true
 
-[connection signal="pressed" from="Panel/Right panel/HBox/Draw" to="." method="_on_draw_pressed"]
-[connection signal="pressed" from="Panel/Right panel/HBox/Resign" to="." method="_on_resign_pressed"]
+[node name="Timer" type="Timer" parent="Panel/Margin/Right panel/Notifications"]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="Panel/Margin/Right panel/Opponent time/Timer" to="." method="_on_opTimer_timeout"]
+[connection signal="pressed" from="Panel/Margin/Right panel/Margin2/HBox/Draw" to="." method="_on_draw_pressed"]
+[connection signal="pressed" from="Panel/Margin/Right panel/Margin2/HBox/Resign" to="." method="_on_resign_pressed"]
+[connection signal="timeout" from="Panel/Margin/Right panel/My time/Timer" to="." method="_on_myTimer_timeout"]
+[connection signal="timeout" from="Panel/Margin/Right panel/Notifications/Timer" to="." method="_on_notify_timer_timeout"]

@@ -15,12 +15,13 @@ func has_enemy_figure(figureColor: String) -> bool:
 	if figure and figure.color != figureColor:
 		return true
 	return false
-	
+
 func has_figure() -> bool:
 	return figure != null
 
 func _on_making_move(event):
 	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
+		print(name)
 		var figures = Tools.figures
 		var src = figures.currentCellPicked
 
@@ -93,8 +94,22 @@ func flip_turn():
 	var game = Tools.game
 	game.turn = "black" if (game.turn == "white") else "white"
 
+@rpc("any_peer", "call_local", "reliable")
+func flip_clocks():
+	var UI = Tools.UI
+	UI.myTime.paused = not UI.myTime.paused
+	UI.opTime.paused = not UI.opTime.paused
+	
+	if multiplayer.get_unique_id() == multiplayer.get_remote_sender_id():
+		UI.myTime.wait_time = UI.myTime.time_left + UI.deltaTime
+		UI.myTime.start()
+	else:
+		UI.opTime.wait_time = UI.opTime.time_left + UI.deltaTime
+		UI.opTime.start()
+
 func end_move(figures: Object):
 	flip_turn.rpc()
+	flip_clocks.rpc()
 	figures.examine_check.rpc()
 	figures.checkThreats.clear()
 	figures.threatMoves.clear()

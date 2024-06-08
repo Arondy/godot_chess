@@ -24,7 +24,7 @@ func check_move(dest: String, forKing: bool) -> bool:
 	# Первый ход (на две клетки вперёд)
 	dCellName1 = char(srcCh1) + char(srcCh2 + srchDy1)
 	dCellName2 = char(srcCh1) + char(srcCh2 + srchDy2)
-	var board = $"/root/Game/Board"
+	var board = $"/root/Game/CL/Board"
 	if (dy == srchDy2 and dx == 0
 			and not board.get_node(dCellName1).has_figure()
 			and not board.get_node(dCellName2).has_figure()

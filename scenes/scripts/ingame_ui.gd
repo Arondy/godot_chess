@@ -3,18 +3,49 @@ extends Control
 var drawOfferScene = preload("res://scenes/UI/draw_offer.tscn")
 var rematchOfferScene = preload("res://scenes/UI/rematch_offer.tscn")
 var lastMove: String = ""
+var deltaTime: int = 0
+var myTime: Timer
+var opTime: Timer
+var notify: RichTextLabel
 
 func _ready():
 	Tools.UI = self
+	var game = $/root/Game
+	myTime = $"Panel/Margin/Right panel/My time/Timer"
+	opTime = $"Panel/Margin/Right panel/Opponent time/Timer"
+	notify = $"Panel/Margin/Right panel/Notifications"
+	var timeArray = game.saveDict["clock"]
+	deltaTime = timeArray[2]
+	
 	for id in GameManager.players:
 		var pname = GameManager.players[id]["name"]
 		
 		if id  == multiplayer.get_unique_id():
-			$"Panel/Right panel/My name".text = pname
+			$"Panel/Margin/Right panel/My name".text = pname
 		else:
-			$"Panel/Right panel/Opponent name".text = pname
+			$"Panel/Margin/Right panel/Opponent name".text = pname
+		
+	if game.myColor == "white":
+		myTime.wait_time = timeArray[0]
+		opTime.wait_time = timeArray[1]
+	else:
+		myTime.wait_time = timeArray[1]
+		opTime.wait_time = timeArray[0]
+		
+	if game.myColor == game.turn:
+		opTime.paused = true
+	else:
+		myTime.paused = true
+		
+	myTime.start()
+	opTime.start()
 
-#TODO: норм прокрут до конца
+func _process(_delta):
+	var myTimeStr = $"Panel/Margin/Right panel/My time"
+	var opTimeStr = $"Panel/Margin/Right panel/Opponent time"
+	myTimeStr.text = "%02d:%02d" % [myTime.time_left / 60, int(myTime.time_left) % 60]
+	opTimeStr.text = "%02d:%02d" % [opTime.time_left / 60, int(opTime.time_left) % 60]
+
 @rpc("any_peer", "call_local", "reliable")
 func write_to_history(figName: String, srcCellName: String,
 		newCellName: String, hasEaten: bool, check: bool, castle: int, promotion: String):
@@ -49,13 +80,16 @@ func write_to_history(figName: String, srcCellName: String,
 		
 	lastMove = text
 	move.text = text
-	$"Panel/Right panel/History/Grid".add_child(move)
-	await get_tree().process_frame
-	var scroll = $"Panel/Right panel/History".get_v_scroll_bar()
-	scroll.value = scroll.max_value
+	var history = $"Panel/Margin/Right panel/Margin/History"
+	history.get_node("Grid").add_child(move)
+	
+	var scroll = history.get_v_scroll_bar()
+	await scroll.changed
+	history.scroll_vertical = scroll.max_value
 
 func _on_draw_pressed():
-	send_draw_offer.rpc()
+	send_offer.rpc("draw")
+	$"Panel/Margin/Right panel/Margin2/HBox/Draw".disabled = true
 	get_tree().paused = true
 	
 func _on_resign_pressed():
@@ -65,42 +99,40 @@ func _on_resign_pressed():
 	get_tree().paused = true
 
 @rpc("any_peer", "reliable")
-func send_draw_offer():
-	var scene = drawOfferScene.instantiate()
-	var senderId = multiplayer.get_remote_sender_id()
-	scene.set_text(GameManager.players[senderId]["name"])
-	add_child(scene)
-
-@rpc("any_peer", "reliable")
-func send_draw_rejection():
-	var senderId = multiplayer.get_remote_sender_id()
-	var senderName = GameManager.players[senderId]["name"]
-	$"Panel/Right panel/Notifications".text = senderName + " rejected your draw offer"
-	get_tree().paused = false
+func send_offer(offer: String):
+	var scene: Node
 	
-@rpc("any_peer", "reliable")
-func send_draw_acceptance():
-	var senderId = multiplayer.get_remote_sender_id()
-	var senderName = GameManager.players[senderId]["name"]
-	$"Panel/Right panel/Notifications".text = senderName + " accepted your draw offer"
-
-
-@rpc("any_peer", "reliable")
-func send_rematch_offer():
-	var scene = rematchOfferScene.instantiate()
+	if offer == "draw":
+		scene = drawOfferScene.instantiate()
+	elif offer == "rematch":
+		scene = rematchOfferScene.instantiate()
+	else:
+		return
+	
 	var senderId = multiplayer.get_remote_sender_id()
 	scene.set_text(GameManager.players[senderId]["name"])
 	add_child(scene)
 
 @rpc("any_peer", "reliable")
-func send_rematch_rejection():
+func send_offer_rejection(offer: String):
 	var senderId = multiplayer.get_remote_sender_id()
 	var senderName = GameManager.players[senderId]["name"]
-	$"Panel/Right panel/Notifications".text = senderName + " rejected your rematch offer"
+	
+	notify.text = senderName + " rejected your %s offer" % offer
+	notify.get_node("Timer").start()
 	get_tree().paused = false
 
-@rpc("any_peer", "reliable")
-func send_rematch_acceptance():
-	var senderId = multiplayer.get_remote_sender_id()
-	var senderName = GameManager.players[senderId]["name"]
-	$"Panel/Right panel/Notifications".text = senderName + " accepted your rematch offer"
+func _on_opTimer_timeout():
+	var textForOp = "[center]Your time ran out[/center]"
+	var myText = "[center]Opponent's time ran out[/center]"
+	Tools.game.finish_game.rpc(textForOp, myText)
+	get_tree().paused = true
+
+func _on_myTimer_timeout():
+	var textForOp = "[center]Opponent's time ran out[/center]"
+	var myText = "[center]Your time ran out[/center]"
+	Tools.game.finish_game.rpc(textForOp, myText)
+	get_tree().paused = true
+
+func _on_notify_timer_timeout():
+	$"Panel/Margin/Right panel/Notifications".visible = false
