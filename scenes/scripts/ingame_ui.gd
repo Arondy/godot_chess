@@ -122,6 +122,18 @@ func send_offer_rejection(offer: String):
 	notify.get_node("Timer").start()
 	get_tree().paused = false
 
+@rpc("any_peer", "call_local", "reliable")
+func flip_clocks():
+	myTime.paused = not myTime.paused
+	opTime.paused = not opTime.paused
+	
+	if multiplayer.get_unique_id() == multiplayer.get_remote_sender_id():
+		myTime.wait_time = myTime.time_left + deltaTime
+		myTime.start()
+	else:
+		opTime.wait_time = opTime.time_left + deltaTime
+		opTime.start()
+
 func _on_opTimer_timeout():
 	var textForOp = "[center]Your time ran out[/center]"
 	var myText = "[center]Opponent's time ran out[/center]"

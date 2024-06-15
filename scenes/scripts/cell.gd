@@ -4,6 +4,7 @@ class_name Cell
 
 var figure: Figure
 var promoteScene = preload("res://scenes/UI/promote_ui.tscn")
+var checkHintScene = preload("res://scenes/hints/check_hint.tscn")
 signal promotion_finished
 
 func has_friendly_figure(figureColor: String) -> bool:
@@ -21,7 +22,6 @@ func has_figure() -> bool:
 
 func _on_making_move(event):
 	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
-		print(name)
 		var figures = Tools.figures
 		var src = figures.currentCellPicked
 
@@ -69,9 +69,16 @@ func _on_making_move(event):
 					#LaterTODO: изменить, когда можно будет отменять promote (мб на bool, фигуру можно понять по name)
 					promotion = figure.fname
 			
+			if figures.checkThreats:
+				clear_check_hint.rpc()
+			
 			figures.checkThreats.clear()
-			figures.fill_attacked_info(Tools.getOpColor(figure.color))
+			var opColor = Tools.getOpColor(figure.color)
+			figures.fill_attacked_info(opColor)
 			var check = not figures.checkThreats.is_empty()
+			
+			if check:
+				add_check_hint.rpc(opColor, src.size)
 			
 			end_move(figures)
 			Tools.game.clear_hints()
@@ -94,22 +101,11 @@ func flip_turn():
 	var game = Tools.game
 	game.turn = "black" if (game.turn == "white") else "white"
 
-@rpc("any_peer", "call_local", "reliable")
-func flip_clocks():
-	var UI = Tools.UI
-	UI.myTime.paused = not UI.myTime.paused
-	UI.opTime.paused = not UI.opTime.paused
-	
-	if multiplayer.get_unique_id() == multiplayer.get_remote_sender_id():
-		UI.myTime.wait_time = UI.myTime.time_left + UI.deltaTime
-		UI.myTime.start()
-	else:
-		UI.opTime.wait_time = UI.opTime.time_left + UI.deltaTime
-		UI.opTime.start()
+
 
 func end_move(figures: Object):
 	flip_turn.rpc()
-	flip_clocks.rpc()
+	Tools.UI.flip_clocks.rpc()
 	figures.examine_check.rpc()
 	figures.checkThreats.clear()
 	figures.threatMoves.clear()
@@ -174,3 +170,15 @@ func promote(pathToScene: String):
 	figure = promFig
 	promFig.set_multiplayer_authority(multiplayer.get_remote_sender_id())
 	Tools.figures.get_node(promFig.color).add_child(promFig)
+
+@rpc("any_peer", "call_local", "reliable")
+func add_check_hint(opColor: String, cellSize: Vector2i):
+	var scene = checkHintScene.instantiate()
+	scene.position = Tools.figures.kingsPosition[opColor].global_position
+	scene.scale = cellSize / float(scene.texture.get_height())
+	$"/root/Game/CL/Check hint".add_child(scene)
+
+@rpc("any_peer", "call_local", "reliable")
+func clear_check_hint():
+	for child in $"/root/Game/CL/Check hint".get_children():
+		child.queue_free()

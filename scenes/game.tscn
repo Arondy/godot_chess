@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://kd8og6w5e7t8"]
+[gd_scene load_steps=9 format=3 uid="uid://kd8og6w5e7t8"]
 
 [ext_resource type="Script" path="res://scenes/scripts/game.gd" id="1_xhuk7"]
 [ext_resource type="PackedScene" uid="uid://cr1pf0oiyfmhu" path="res://scenes/board.tscn" id="2_f2tyf"]
@@ -7,6 +7,14 @@
 [ext_resource type="AudioStream" uid="uid://cjvdksbmp5rej" path="res://audio/check.mp3" id="4_g7mt2"]
 [ext_resource type="AudioStream" uid="uid://bxelpwgl08rx7" path="res://audio/game_over.mp3" id="4_ld413"]
 [ext_resource type="PackedScene" uid="uid://yhbrt1aqx17h" path="res://scenes/UI/ingame_ui.tscn" id="6_byqag"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_dneg4"]
+properties/0/path = NodePath("CLF/Figures/Check:playing")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("Game over:playing")
+properties/1/spawn = true
+properties/1/replication_mode = 2
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_xhuk7")
@@ -17,6 +25,8 @@ layer = -1
 [node name="Board" parent="CL" instance=ExtResource("2_f2tyf")]
 
 [node name="Hints" type="Node2D" parent="CL"]
+
+[node name="Check hint" type="Node2D" parent="CL"]
 
 [node name="CLF" type="CanvasLayer" parent="."]
 layer = -1
@@ -40,3 +50,6 @@ stream = ExtResource("4_ld413")
 offset_right = 0.0
 offset_bottom = 0.0
 size_flags_horizontal = 8
+
+[node name="Sound Sync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_dneg4")

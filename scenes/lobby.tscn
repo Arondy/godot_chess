@@ -24,23 +24,36 @@ text = "Start game
 icon_alignment = 1
 script = ExtResource("2_n1jqs")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="PanelContainer" parent="."]
 offset_left = 199.0
-offset_right = 370.0
-offset_bottom = 99.0
+offset_right = 363.0
+offset_bottom = 22.0
 theme = ExtResource("2_e4gqy")
 
-[node name="Players list" type="VBoxContainer" parent="Panel"]
-layout_mode = 0
-offset_left = 5.0
-offset_right = 169.0
-offset_bottom = 98.0
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+
+[node name="Players list" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
 script = ExtResource("6_mkggb")
 
-[node name="Masthead" type="Label" parent="Panel/Players list"]
+[node name="Masthead" type="Label" parent="Panel/Margin/Players list"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Players in lobby:"
 label_settings = SubResource("LabelSettings_px7bv")
+
+[node name="IP" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(250, 0)
+offset_top = 100.0
+offset_right = 1.0
+offset_bottom = 123.0
+focus_mode = 2
+text = "
+"
+fit_content = true
+scroll_active = false
+selection_enabled = true
 
 [connection signal="pressed" from="Launch game" to="." method="_on_launch_game_pressed"]

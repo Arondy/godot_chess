@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://jnxlx1dgfcqv"]
+
+[ext_resource type="Texture2D" uid="uid://cwvblc1r7tvgl" path="res://textures/border_red.png" id="1_6i784"]
+
+[node name="Check hint" type="Sprite2D"]
+texture = ExtResource("1_6i784")
+centered = false

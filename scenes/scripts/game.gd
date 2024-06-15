@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var savePath = "res://saves/basic_game_start.json"
+@export var savePath = "res://saves/check.json"
 var saveDict: Dictionary = load_json_file(savePath)
 var endScene = preload("res://scenes/UI/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]

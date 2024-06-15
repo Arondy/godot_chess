@@ -52,8 +52,7 @@ func _on_host_button_pressed():
 	var scene = lobbyScene.instantiate()
 	$"/root".add_child(scene)
 	hide()
-	adress = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
-	print("IP adress is: %s\nHost is waiting for players..." % adress)
+	print("Host is waiting for players...")
 
 func _on_join_button_pressed():
 	multiplayer.multiplayer_peer.close()

@@ -23,8 +23,8 @@ func _ready():
 	game.myColor = "white" if multiplayer.is_server() else "black"
 	
 	if game.myColor == "black":
-		$"../../CL".offset = get_window().size
-		$"../../CL".rotation = PI
+		$"/root/Game/CL".offset = get_window().size
+		$"/root/Game/CL".rotation = PI
 		
 	load_position(game.saveDict)
 	
@@ -126,7 +126,7 @@ func examine_check():
 	fill_attacked_info(game.turn)
 	
 	if checkThreats:
-		play_check_sound.rpc()
+		$Check.play()
 		get_allowed_moves_during_check()
 		
 	get_first_figures_on_attack_lines()
@@ -218,7 +218,3 @@ func get_first_figures_on_attack_lines():
 					
 				i += dC
 				j += dL
-
-@rpc("any_peer", "call_local", "reliable")
-func play_check_sound():
-	$Check.play()
