@@ -7,6 +7,8 @@ var game: Object
 var board: Object
 var figures: Object
 var UI: Object
+var cfgFilePath: String = "user://auto.cfg"
+var config = ConfigFile.new()
 
 func _ready():
 	soundPlayer = AudioStreamPlayer.new()

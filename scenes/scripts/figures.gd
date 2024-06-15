@@ -17,7 +17,6 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 @onready var game = $/root/Game
 @onready var board = $/root/Game/CL/Board
 
-#TODO: переворот борды и фигур для black игрока
 func _ready():
 	Tools.figures = self
 	game.myColor = "white" if multiplayer.is_server() else "black"

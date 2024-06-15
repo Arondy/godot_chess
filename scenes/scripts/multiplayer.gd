@@ -21,7 +21,28 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_to_server_ok)
 	multiplayer.connection_failed.connect(_on_connected_to_server_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	load_net_cfg()
 
+func load_net_cfg():
+	var cfgPath = Tools.cfgFilePath
+	
+	if FileAccess.file_exists(cfgPath):
+		var err = Tools.config.load(cfgPath)
+
+		if err != OK:
+			return
+			
+		nickname.text = Tools.config.get_value("net", "nickname")
+		ip.text = Tools.config.get_value("net", "ip")
+
+func save_net_cfg():
+	var cfgPath = Tools.cfgFilePath
+	
+	Tools.config.set_value("net", "nickname", nickname.text)
+	#if not multiplayer.is_server():
+	Tools.config.set_value("net", "ip", ip.text)
+	Tools.config.save(cfgPath)
+	
 func check_name() -> bool:
 	if nickname.text:
 		return true
@@ -46,7 +67,9 @@ func _on_host_button_pressed():
 	if OS.has_feature("release"):
 		if not check_name():
 			return
-		
+	
+	save_net_cfg()
+	
 	multiplayer.multiplayer_peer = peer
 	add_player_data(multiplayer.get_unique_id(), {"name": nickname.text})
 	var scene = lobbyScene.instantiate()
@@ -60,12 +83,14 @@ func _on_join_button_pressed():
 	if OS.has_feature("release"):
 		if not (check_name() and check_ip()):
 			return
-		
+	
 	var error = peer.create_client(adress, port)
 	
 	if error:
 		return error
-		
+	
+	save_net_cfg()
+	
 	multiplayer.multiplayer_peer = peer
 	
 func _on_player_connected(id):
