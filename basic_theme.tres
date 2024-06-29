@@ -1,11 +1,6 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://sqgks8wwf6dj"]
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://sqgks8wwf6dj"]
 
-[ext_resource type="Texture2D" uid="uid://dl42a823a8ojx" path="res://textures/buttons.png" id="1_0chvg"]
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="1_0pf14"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_25sqk"]
-texture = ExtResource("1_0chvg")
-region_rect = Rect2(224, 863, 750, 274)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2mjh"]
 content_margin_left = 0.0
@@ -31,8 +26,13 @@ border_blend = true
 [resource]
 default_font = ExtResource("1_0pf14")
 default_font_size = 20
-Button/styles/hover = SubResource("StyleBoxTexture_25sqk")
-Button/styles/normal = SubResource("StyleBoxTexture_25sqk")
-Button/styles/pressed = SubResource("StyleBoxTexture_25sqk")
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 3
+Button/font_sizes/font_size = 20
+Button/fonts/font = ExtResource("1_0pf14")
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 3
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_0pf14")
 Panel/styles/panel = SubResource("StyleBoxFlat_p2mjh")
 ScrollContainer/styles/panel = SubResource("StyleBoxFlat_48fsu")

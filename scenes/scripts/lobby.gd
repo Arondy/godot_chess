@@ -1,12 +1,23 @@
-extends Node2D
+extends Control
+
+@onready var debug = multiplayer.get_unique_id()
+var address: String
 
 func _ready():
 	if multiplayer.is_server():
-		var address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
-		$IP.text = "Your IP: %s" % address
-		print($IP.text)
+		$/root/Multiplayer.player_connected.connect(_on_player_connected)
+		address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
+		$HBox/IP.text = "Your IP: %s" % address
+	else:
+		$HBox.visible = false
 
 func _on_launch_game_pressed():
 	print("Connected peers: ", multiplayer.get_peers())
 	if multiplayer.get_peers():
 		Tools.start_game.rpc(true)
+
+func _on_player_connected(_id, _data):
+	$"VBox/Change color".disabled = false
+
+func _on_copy_pressed():
+	DisplayServer.clipboard_set(address)

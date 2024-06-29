@@ -9,6 +9,7 @@ var opTime: Timer
 var notify: RichTextLabel
 
 func _ready():
+	position.y = get_window().content_scale_size.y / 2
 	Tools.UI = self
 	var game = $/root/Game
 	myTime = $"Panel/Margin/Right panel/My time/Timer"
@@ -17,22 +18,22 @@ func _ready():
 	var timeArray = game.saveDict["clock"]
 	deltaTime = timeArray[2]
 	
-	for id in GameManager.players:
-		var pname = GameManager.players[id]["name"]
+	for id in Tools.players:
+		var pname = Tools.players[id]["name"]
 		
 		if id  == multiplayer.get_unique_id():
 			$"Panel/Margin/Right panel/My name".text = pname
 		else:
 			$"Panel/Margin/Right panel/Opponent name".text = pname
 		
-	if game.myColor == "white":
+	if Tools.myColor == "white":
 		myTime.wait_time = timeArray[0]
 		opTime.wait_time = timeArray[1]
 	else:
 		myTime.wait_time = timeArray[1]
 		opTime.wait_time = timeArray[0]
 		
-	if game.myColor == game.turn:
+	if Tools.myColor == game.turn:
 		opTime.paused = true
 	else:
 		myTime.paused = true
@@ -110,13 +111,13 @@ func send_offer(offer: String):
 		return
 	
 	var senderId = multiplayer.get_remote_sender_id()
-	scene.set_text(GameManager.players[senderId]["name"])
+	scene.set_text(Tools.players[senderId]["name"])
 	add_child(scene)
 
 @rpc("any_peer", "reliable")
 func send_offer_rejection(offer: String):
 	var senderId = multiplayer.get_remote_sender_id()
-	var senderName = GameManager.players[senderId]["name"]
+	var senderName = Tools.players[senderId]["name"]
 	
 	notify.text = senderName + " rejected your %s offer" % offer
 	notify.get_node("Timer").start()

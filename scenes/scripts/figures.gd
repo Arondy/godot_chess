@@ -19,19 +19,18 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 
 func _ready():
 	Tools.figures = self
-	game.myColor = "white" if multiplayer.is_server() else "black"
 	
-	if game.myColor == "black":
+	if Tools.myColor == "black":
 		$"/root/Game/CL".offset = get_window().size
 		$"/root/Game/CL".rotation = PI
 		
 	load_position(game.saveDict)
 	
-	if game.myColor == game.turn:
+	if Tools.myColor == game.turn:
 		examine_check()
 		game.get_state()
 		
-	if game.myColor == "black":
+	if Tools.myColor == "black":
 		var figs = get_node("white").get_children()
 		figs.append_array(get_node("black").get_children())
 		
@@ -113,8 +112,8 @@ func load_position(dict):
 					boardCell.figure = figureScene
 		
 		if (multiplayer.is_server()):
-			setup_player_team.rpc("white", multiplayer.get_unique_id())
-			setup_player_team.rpc("black", multiplayer.get_peers()[0])
+			setup_player_team.rpc(Tools.myColor, multiplayer.get_unique_id())
+			setup_player_team.rpc(Tools.getOpColor(Tools.myColor), multiplayer.get_peers()[0])
 
 @rpc("authority", "call_local", "reliable")
 func setup_player_team(team: String, peer: int):

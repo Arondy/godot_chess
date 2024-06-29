@@ -1,5 +1,6 @@
 extends Node
 
+var players = {}
 var gameScene: PackedScene = preload("res://scenes/game.tscn")
 var gameStartSound = preload("res://audio/start.mp3")
 var soundPlayer: AudioStreamPlayer
@@ -9,6 +10,7 @@ var figures: Object
 var UI: Object
 var cfgFilePath: String = "user://auto.cfg"
 var config = ConfigFile.new()
+var myColor: String
 
 func _ready():
 	soundPlayer = AudioStreamPlayer.new()
@@ -21,6 +23,7 @@ func start_game(fromLobby: bool):
 	get_tree().paused = false
 	
 	if fromLobby:
+		myColor = "black" if $"/root/Lobby/VBox/Change color".button_pressed else "white"
 		$/root/Lobby.queue_free()
 		
 	get_tree().change_scene_to_packed(gameScene)

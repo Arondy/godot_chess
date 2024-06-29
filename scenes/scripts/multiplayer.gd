@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 signal player_connected(peerId, playerInfo)
 signal player_disconnected(peerId)
@@ -100,7 +100,7 @@ func _on_player_connected(id):
 
 func _on_player_disconnected(id):
 	print("Player %d disconnected" % id)
-	GameManager.players.erase(id)
+	Tools.players.erase(id)
 	player_disconnected.emit(id)
 
 func _on_connected_to_server_ok():
@@ -120,14 +120,14 @@ func _on_connected_to_server_fail():
 func _on_server_disconnected():
 	print("Lost connection to the server!")
 	multiplayer.multiplayer_peer = null
-	GameManager.players.clear()
+	Tools.players.clear()
 	server_disconnected.emit()
 
 @rpc("any_peer", "reliable")
 func add_player_data(id, data):
-	if not GameManager.players.has(id):
-		GameManager.players[id] = data
+	if not Tools.players.has(id):
+		Tools.players[id] = data
 	if multiplayer.is_server():
 		player_connected.emit(id, data)
-		for playerId in GameManager.players:
-			add_player_data.rpc(playerId, GameManager.players[playerId])
+		for playerId in Tools.players:
+			add_player_data.rpc(playerId, Tools.players[playerId])

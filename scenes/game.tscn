@@ -43,13 +43,20 @@ script = ExtResource("3_xnppu")
 [node name="Check" type="AudioStreamPlayer" parent="CLF/Figures"]
 stream = ExtResource("4_g7mt2")
 
+[node name="Ingame UI" parent="." instance=ExtResource("6_byqag")]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1280.0
+offset_top = 340.0
+offset_right = 1280.0
+offset_bottom = 340.0
+grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
 [node name="Game over" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_ld413")
-
-[node name="Ingame UI" parent="." instance=ExtResource("6_byqag")]
-offset_right = 0.0
-offset_bottom = 0.0
-size_flags_horizontal = 8
 
 [node name="Sound Sync" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_dneg4")

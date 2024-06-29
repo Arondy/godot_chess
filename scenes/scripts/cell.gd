@@ -101,8 +101,6 @@ func flip_turn():
 	var game = Tools.game
 	game.turn = "black" if (game.turn == "white") else "white"
 
-
-
 func end_move(figures: Object):
 	flip_turn.rpc()
 	Tools.UI.flip_clocks.rpc()

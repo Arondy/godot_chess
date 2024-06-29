@@ -1,33 +1,56 @@
-[gd_scene load_steps=7 format=3 uid="uid://bd2tnv5oyxlic"]
+[gd_scene load_steps=13 format=3 uid="uid://bd2tnv5oyxlic"]
 
 [ext_resource type="Script" path="res://scenes/scripts/lobby.gd" id="1_1uxj3"]
 [ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="2_e4gqy"]
 [ext_resource type="Script" path="res://scenes/scripts/launch_game_button.gd" id="2_n1jqs"]
+[ext_resource type="Texture2D" uid="uid://dqgyj8v6q6dcy" path="res://textures/figures/king_white.png" id="6_8c0cn"]
 [ext_resource type="Script" path="res://scenes/scripts/players_list.gd" id="6_mkggb"]
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="7_d6n3f"]
+[ext_resource type="Texture2D" uid="uid://bter3i3sygn8t" path="res://textures/figures/king_black.png" id="7_p4rq1"]
+[ext_resource type="Script" path="res://scenes/scripts/change_color_button.gd" id="8_nyler"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_px7bv"]
 font = ExtResource("7_d6n3f")
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Lobby" type="Node2D"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dnok5"]
+texture = ExtResource("6_8c0cn")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0lpsf"]
+texture = ExtResource("6_8c0cn")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ja7vs"]
+texture = ExtResource("7_p4rq1")
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
 script = ExtResource("1_1uxj3")
 
 [node name="Launch game" type="Button" parent="."]
-offset_right = 136.0
-offset_bottom = 50.0
-theme_override_fonts/font = ExtResource("7_d6n3f")
-theme_override_font_sizes/font_size = 20
+offset_left = -256.0
+offset_top = -22.0
+offset_right = -120.0
+offset_bottom = 28.0
+theme = ExtResource("2_e4gqy")
 text = "Start game
 "
 icon_alignment = 1
 script = ExtResource("2_n1jqs")
 
 [node name="Panel" type="PanelContainer" parent="."]
-offset_left = 199.0
-offset_right = 363.0
-offset_bottom = 22.0
+layout_mode = 0
+offset_left = -85.0
+offset_top = -22.0
+offset_right = 84.0
 theme = ExtResource("2_e4gqy")
 
 [node name="Margin" type="MarginContainer" parent="Panel"]
@@ -41,14 +64,52 @@ script = ExtResource("6_mkggb")
 [node name="Masthead" type="Label" parent="Panel/Margin/Players list"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme = ExtResource("2_e4gqy")
 text = "Players in lobby:"
 label_settings = SubResource("LabelSettings_px7bv")
 
-[node name="IP" type="RichTextLabel" parent="."]
-custom_minimum_size = Vector2(250, 0)
-offset_top = 100.0
-offset_right = 1.0
-offset_bottom = 123.0
+[node name="VBox" type="VBoxContainer" parent="."]
+offset_left = 118.0
+offset_top = -22.0
+offset_right = 229.0
+offset_bottom = 74.0
+
+[node name="Panel" type="PanelContainer" parent="VBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="Margin" type="MarginContainer" parent="VBox/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+
+[node name="Label" type="Label" parent="VBox/Panel/Margin"]
+layout_mode = 2
+theme = ExtResource("2_e4gqy")
+text = "Your color:"
+
+[node name="Change color" type="Button" parent="VBox"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/normal = SubResource("StyleBoxTexture_dnok5")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0lpsf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ja7vs")
+disabled = true
+toggle_mode = true
+action_mode = 0
+expand_icon = true
+script = ExtResource("8_nyler")
+
+[node name="HBox" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = -580.0
+offset_top = -22.0
+offset_right = -284.0
+offset_bottom = 28.0
+
+[node name="IP" type="RichTextLabel" parent="HBox"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
 focus_mode = 2
 text = "
 "
@@ -56,4 +117,12 @@ fit_content = true
 scroll_active = false
 selection_enabled = true
 
+[node name="Copy" type="Button" parent="HBox"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme = ExtResource("2_e4gqy")
+text = "Copy IP"
+
 [connection signal="pressed" from="Launch game" to="." method="_on_launch_game_pressed"]
+[connection signal="pressed" from="VBox/Change color" to="VBox/Change color" method="_on_pressed"]
+[connection signal="pressed" from="HBox/Copy" to="." method="_on_copy_pressed"]

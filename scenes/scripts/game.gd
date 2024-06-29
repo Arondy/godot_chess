@@ -4,7 +4,6 @@ extends Node2D
 var saveDict: Dictionary = load_json_file(savePath)
 var endScene = preload("res://scenes/UI/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]
-@export var myColor: String
 @onready var figures = $CLF/Figures
 @onready var hints = $CL/Hints
 
