@@ -8,6 +8,7 @@ var myTime: Timer
 var opTime: Timer
 var notify: RichTextLabel
 
+@warning_ignore("integer_division")
 func _ready():
 	position.y = get_window().content_scale_size.y / 2
 	Tools.UI = self

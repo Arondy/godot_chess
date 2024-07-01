@@ -1,9 +1,14 @@
 extends Control
 
+var soundScene = preload("res://scenes/sound.tscn")
 @onready var debug = multiplayer.get_unique_id()
 var address: String
 
 func _ready():
+	var sound = soundScene.instantiate()
+	$/root.add_child.call_deferred(sound)
+	Tools.sound = sound
+	
 	if multiplayer.is_server():
 		$/root/Multiplayer.player_connected.connect(_on_player_connected)
 		address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)

@@ -18,6 +18,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Tools="*res://scenes/scripts/tools.gd"
+WebTools="*res://scenes/scripts/web_tools.gd"
 
 [display]
 

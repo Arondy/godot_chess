@@ -120,7 +120,7 @@ func change_figure_position(srcName: String, newCellName: String):
 	if newCell.figure:
 		remove_figure(newCellName)
 	else:
-		$"Common move".play()
+		Tools.sound.get_node("Common move").play()
 		
 	newCell.figure = src.figure
 	src.figure = null
@@ -136,14 +136,14 @@ func change_figure_position(srcName: String, newCellName: String):
 
 @rpc("any_peer", "call_local", "reliable")
 func remove_figure(cellName: String):
-	$Eat.play()
+	Tools.sound.get_node("Eat").play()
 	var cell = Tools.board.get_node(cellName)
 	cell.figure.queue_free()
 	cell.figure = null
 
 @rpc("any_peer", "call_local", "reliable")
 func play_castle_sound():
-	$Castle.play()
+	Tools.sound.get_node("Castle").play()
 
 func add_promote_ui():
 	var scene = promoteScene.instantiate()

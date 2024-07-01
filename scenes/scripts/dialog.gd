@@ -2,6 +2,7 @@ extends Control
 
 class_name Dialog
 
+@warning_ignore("integer_division")
 func _ready():
 	get_tree().paused = true
 	position.x = get_window().content_scale_size.x / -2

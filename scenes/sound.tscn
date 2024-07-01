@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://csujwqu1wox5c"]
+
+[ext_resource type="AudioStream" uid="uid://h3hatru7hpxj" path="res://audio/common_move.mp3" id="1_g4mxo"]
+[ext_resource type="AudioStream" uid="uid://du0eb278i64kr" path="res://audio/eat.mp3" id="2_u4rsh"]
+[ext_resource type="AudioStream" uid="uid://kyudjdandave" path="res://audio/castle.mp3" id="3_8lkg7"]
+[ext_resource type="AudioStream" uid="uid://bxelpwgl08rx7" path="res://audio/game_over.mp3" id="4_0b7t4"]
+[ext_resource type="AudioStream" uid="uid://cjvdksbmp5rej" path="res://audio/check.mp3" id="5_vcev8"]
+[ext_resource type="AudioStream" uid="uid://8g7866nu5kj1" path="res://audio/start.mp3" id="6_wp67y"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_payub"]
+properties/0/path = NodePath("Common move:playing")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("Eat:playing")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("Castle:playing")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("Game over:playing")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("Check:playing")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+
+[node name="Sound" type="Node2D"]
+
+[node name="Common move" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_g4mxo")
+
+[node name="Eat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_u4rsh")
+
+[node name="Castle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_8lkg7")
+
+[node name="Game over" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_0b7t4")
+
+[node name="Check" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_vcev8")
+
+[node name="Game start" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_wp67y")
+
+[node name="Sound Sync" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_payub")

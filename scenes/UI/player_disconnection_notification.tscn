@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://5p3fa8xdw6x2"]
+
+[ext_resource type="Script" path="res://scenes/scripts/player_disconnection_notification.gd" id="1_gsfj0"]
+[ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="1_k18ue"]
+
+[node name="Player disconnection notification" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gsfj0")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("1_k18ue")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Panel/VBox"]
+process_mode = 3
+layout_mode = 2
+theme = ExtResource("1_k18ue")
+text = "Your opponent has disconnected"
+
+[node name="Exit" type="Button" parent="Panel/VBox"]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_k18ue")
+text = "Exit"
+
+[connection signal="pressed" from="Panel/VBox/Exit" to="." method="_on_exit_pressed"]

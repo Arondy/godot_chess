@@ -8,18 +8,20 @@ var game: Object
 var board: Object
 var figures: Object
 var UI: Object
+var sound: Object
 var cfgFilePath: String = "user://auto.cfg"
 var config = ConfigFile.new()
 var myColor: String
 
-func _ready():
-	soundPlayer = AudioStreamPlayer.new()
-	soundPlayer.stream = gameStartSound
-	$/root.add_child.call_deferred(soundPlayer)
+#func _ready():
+	#soundPlayer = AudioStreamPlayer.new()
+	#soundPlayer.stream = gameStartSound
+	#$/root.add_child.call_deferred(soundPlayer)
 	
 @rpc("any_peer", "call_local", "reliable")
 func start_game(fromLobby: bool):
-	soundPlayer.play()
+	#soundPlayer.play()
+	$"/root/Sound/Game start".play()
 	get_tree().paused = false
 	
 	if fromLobby:

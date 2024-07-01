@@ -124,7 +124,7 @@ func examine_check():
 	fill_attacked_info(game.turn)
 	
 	if checkThreats:
-		$Check.play()
+		Tools.sound.get_node("Check").play()
 		get_allowed_moves_during_check()
 		
 	get_first_figures_on_attack_lines()

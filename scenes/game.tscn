@@ -1,20 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://kd8og6w5e7t8"]
+[gd_scene load_steps=6 format=3 uid="uid://kd8og6w5e7t8"]
 
 [ext_resource type="Script" path="res://scenes/scripts/game.gd" id="1_xhuk7"]
 [ext_resource type="PackedScene" uid="uid://cr1pf0oiyfmhu" path="res://scenes/board.tscn" id="2_f2tyf"]
 [ext_resource type="Script" path="res://scenes/scripts/figures.gd" id="3_xnppu"]
 [ext_resource type="Script" path="res://scenes/scripts/CLF.gd" id="4_fpkxy"]
-[ext_resource type="AudioStream" uid="uid://cjvdksbmp5rej" path="res://audio/check.mp3" id="4_g7mt2"]
-[ext_resource type="AudioStream" uid="uid://bxelpwgl08rx7" path="res://audio/game_over.mp3" id="4_ld413"]
 [ext_resource type="PackedScene" uid="uid://yhbrt1aqx17h" path="res://scenes/UI/ingame_ui.tscn" id="6_byqag"]
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_dneg4"]
-properties/0/path = NodePath("CLF/Figures/Check:playing")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath("Game over:playing")
-properties/1/spawn = true
-properties/1/replication_mode = 2
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_xhuk7")
@@ -40,23 +30,16 @@ script = ExtResource("3_xnppu")
 
 [node name="black" type="Node2D" parent="CLF/Figures"]
 
-[node name="Check" type="AudioStreamPlayer" parent="CLF/Figures"]
-stream = ExtResource("4_g7mt2")
-
 [node name="Ingame UI" parent="." instance=ExtResource("6_byqag")]
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
 offset_left = 1280.0
 offset_top = 340.0
 offset_right = 1280.0
 offset_bottom = 340.0
 grow_horizontal = 0
+grow_vertical = 2
 metadata/_edit_use_anchors_ = true
-
-[node name="Game over" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_ld413")
-
-[node name="Sound Sync" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_dneg4")

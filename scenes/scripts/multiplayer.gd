@@ -1,8 +1,6 @@
 extends Control
 
 signal player_connected(peerId, playerInfo)
-signal player_disconnected(peerId)
-signal server_disconnected
 
 var lobbyScene: PackedScene = preload("res://scenes/lobby.tscn")
 var peer = ENetMultiplayerPeer.new()
@@ -17,10 +15,8 @@ func _ready():
 	ip = $HBox/Margin/VBox/IP
 	notify = $HBox/Margin/VBox/Notification
 	multiplayer.peer_connected.connect(_on_player_connected)
-	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server_ok)
 	multiplayer.connection_failed.connect(_on_connected_to_server_fail)
-	multiplayer.server_disconnected.connect(_on_server_disconnected)
 	load_net_cfg()
 
 func load_net_cfg():
@@ -98,11 +94,6 @@ func _on_player_connected(id):
 		var unId = multiplayer.get_unique_id()
 		print("from %d: Player %d connected" % [unId, id])
 
-func _on_player_disconnected(id):
-	print("Player %d disconnected" % id)
-	Tools.players.erase(id)
-	player_disconnected.emit(id)
-
 func _on_connected_to_server_ok():
 	var scene = lobbyScene.instantiate()
 	$"/root".add_child(scene)
@@ -116,12 +107,6 @@ func _on_connected_to_server_ok():
 func _on_connected_to_server_fail():
 	print("Connection to server failed!")
 	multiplayer.multiplayer_peer = null
-
-func _on_server_disconnected():
-	print("Lost connection to the server!")
-	multiplayer.multiplayer_peer = null
-	Tools.players.clear()
-	server_disconnected.emit()
 
 @rpc("any_peer", "reliable")
 func add_player_data(id, data):

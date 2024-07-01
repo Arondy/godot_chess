@@ -36,6 +36,7 @@ size_flags_horizontal = 4
 script = ExtResource("1_1uxj3")
 
 [node name="Launch game" type="Button" parent="."]
+layout_mode = 0
 offset_left = -256.0
 offset_top = -22.0
 offset_right = -120.0
@@ -69,6 +70,7 @@ text = "Players in lobby:"
 label_settings = SubResource("LabelSettings_px7bv")
 
 [node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 0
 offset_left = 118.0
 offset_top = -22.0
 offset_right = 229.0

@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var savePath = "res://saves/check.json"
+@export var savePath = "res://saves/castle.json"
 var saveDict: Dictionary = load_json_file(savePath)
 var endScene = preload("res://scenes/UI/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]
@@ -76,4 +76,4 @@ func finish_game(text: String, text2: String = ""):
 		textNode.text = text
 		
 	Tools.UI.add_child.call_deferred(endMessage)
-	$"Game over".play()
+	Tools.sound.get_node("Game over").play()
