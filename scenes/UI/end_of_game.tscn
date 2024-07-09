@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cm0h718a6c164"]
 
-[ext_resource type="PackedScene" uid="uid://dtydq1br0jlrs" path="res://scenes/dialog.tscn" id="1_em6b5"]
-[ext_resource type="Script" path="res://scenes/scripts/end_of_game.gd" id="2_ly2bv"]
+[ext_resource type="PackedScene" uid="uid://dtydq1br0jlrs" path="res://scenes/UI/dialog.tscn" id="1_em6b5"]
+[ext_resource type="Script" path="res://scenes/UI/end_of_game.gd" id="2_ly2bv"]
 
 [node name="Dialog" instance=ExtResource("1_em6b5")]
 script = ExtResource("2_ly2bv")

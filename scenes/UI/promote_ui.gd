@@ -2,13 +2,14 @@ extends Control
 
 signal promotion_figure_selected(figureName: String)
 
-func set_color(color: String):
+func _ready():
 	get_tree().paused = true
-	
-	var queen = $Panel/VBox/Queen
-	var rook = $Panel/VBox/Rook
-	var bishop = $Panel/VBox/Bishop
-	var knight = $Panel/VBox/Knight
+
+func set_color(color: String):
+	var queen = $VBox/Queen
+	var rook = $VBox/Rook
+	var bishop = $VBox/Bishop
+	var knight = $VBox/Knight
 	var buttons = [queen, rook, bishop, knight]
 	var fig2str = {
 		queen: "queen",
@@ -37,3 +38,9 @@ func _on_bishop_pressed():
 func _on_knight_pressed():
 	promotion_figure_selected.emit("res://scenes/figures/knight.tscn")
 	get_tree().paused = false
+
+func _unhandled_input(event):
+	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
+		promotion_figure_selected.emit("")
+		get_tree().paused = false
+		queue_free()

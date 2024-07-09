@@ -1,6 +1,7 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://sqgks8wwf6dj"]
+[gd_resource type="Theme" load_steps=6 format=3 uid="uid://sqgks8wwf6dj"]
 
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="1_0pf14"]
+[ext_resource type="FontFile" uid="uid://8hje3veejyau" path="res://fonts/JetBrainsMono-Regular.ttf" id="2_px3mu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p2mjh"]
 content_margin_left = 0.0
@@ -39,4 +40,10 @@ Label/font_sizes/font_size = 16
 Label/fonts/font = ExtResource("1_0pf14")
 Panel/styles/panel = SubResource("StyleBoxFlat_p2mjh")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_b68sh")
+RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
+RichTextLabel/constants/outline_size = 4
+RichTextLabel/fonts/mono_font = ExtResource("2_px3mu")
+RichTextLabel/fonts/normal_font = ExtResource("1_0pf14")
 ScrollContainer/styles/panel = SubResource("StyleBoxFlat_48fsu")
+TabContainer/colors/font_outline_color = Color(0, 0, 0, 1)
+TabContainer/constants/outline_size = 3

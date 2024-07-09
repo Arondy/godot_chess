@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b35ap2g60dcry"]
 
-[ext_resource type="PackedScene" uid="uid://c8kp47cxnj1i0" path="res://scenes/figureTemplate.tscn" id="1_7wvdf"]
-[ext_resource type="Script" path="res://scenes/scripts/figures/knight.gd" id="2_avxq2"]
+[ext_resource type="PackedScene" uid="uid://c8kp47cxnj1i0" path="res://scenes/figures/figureTemplate.tscn" id="1_7wvdf"]
+[ext_resource type="Script" path="res://scenes/figures/knight.gd" id="2_avxq2"]
 
 [node name="Knight" instance=ExtResource("1_7wvdf")]
 script = ExtResource("2_avxq2")

@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://d2ftvsv4o2shs"]
+
+[ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="1_6ydmx"]
+
+[resource]
+Label/font_sizes/font_size = 24
+Label/fonts/font = ExtResource("1_6ydmx")
+MenuButton/font_sizes/font_size = 24
+MenuButton/fonts/font = ExtResource("1_6ydmx")
+PopupMenu/colors/font_outline_color = Color(0, 0, 0, 1)
+PopupMenu/font_sizes/font_size = 24
+PopupMenu/fonts/font = ExtResource("1_6ydmx")

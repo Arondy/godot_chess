@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://yhbrt1aqx17h"]
 
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="1_2r1gg"]
-[ext_resource type="Script" path="res://scenes/scripts/ingame_ui.gd" id="1_78v0p"]
+[ext_resource type="Script" path="res://scenes/UI/ingame_ui.gd" id="1_78v0p"]
 [ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="2_a5frg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_eoyfe"]

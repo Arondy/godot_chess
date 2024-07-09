@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://csujwqu1wox5c"]
 
-[ext_resource type="AudioStream" uid="uid://h3hatru7hpxj" path="res://audio/common_move.mp3" id="1_g4mxo"]
-[ext_resource type="AudioStream" uid="uid://du0eb278i64kr" path="res://audio/eat.mp3" id="2_u4rsh"]
-[ext_resource type="AudioStream" uid="uid://kyudjdandave" path="res://audio/castle.mp3" id="3_8lkg7"]
-[ext_resource type="AudioStream" uid="uid://bxelpwgl08rx7" path="res://audio/game_over.mp3" id="4_0b7t4"]
-[ext_resource type="AudioStream" uid="uid://cjvdksbmp5rej" path="res://audio/check.mp3" id="5_vcev8"]
-[ext_resource type="AudioStream" uid="uid://8g7866nu5kj1" path="res://audio/start.mp3" id="6_wp67y"]
+[ext_resource type="AudioStream" uid="uid://bd52j1m0q7fuv" path="res://audio/common_move.mp3" id="1_g4mxo"]
+[ext_resource type="AudioStream" uid="uid://cf82fs064pm8c" path="res://audio/eat.mp3" id="2_u4rsh"]
+[ext_resource type="AudioStream" uid="uid://cx4lmu3l8uv31" path="res://audio/castle.mp3" id="3_8lkg7"]
+[ext_resource type="AudioStream" uid="uid://bdwljrucdbdfm" path="res://audio/game_over.mp3" id="4_0b7t4"]
+[ext_resource type="AudioStream" uid="uid://dspmc4r6klxl5" path="res://audio/check.mp3" id="5_vcev8"]
+[ext_resource type="AudioStream" uid="uid://lwmwubam4rmy" path="res://audio/start.mp3" id="6_wp67y"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_payub"]
 properties/0/path = NodePath("Common move:playing")
@@ -28,21 +28,27 @@ properties/4/replication_mode = 2
 
 [node name="Common move" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_g4mxo")
+bus = &"Sounds"
 
 [node name="Eat" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_u4rsh")
+bus = &"Sounds"
 
 [node name="Castle" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_8lkg7")
+bus = &"Sounds"
 
 [node name="Game over" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_0b7t4")
+bus = &"Sounds"
 
 [node name="Check" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_vcev8")
+bus = &"Sounds"
 
 [node name="Game start" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_wp67y")
+bus = &"Sounds"
 
 [node name="Sound Sync" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_payub")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://mnjarinjccer"]
 
-[ext_resource type="PackedScene" uid="uid://c8kp47cxnj1i0" path="res://scenes/figureTemplate.tscn" id="1_fs884"]
-[ext_resource type="Script" path="res://scenes/scripts/figures/bishop.gd" id="2_lx7fr"]
+[ext_resource type="PackedScene" uid="uid://c8kp47cxnj1i0" path="res://scenes/figures/figureTemplate.tscn" id="1_fs884"]
+[ext_resource type="Script" path="res://scenes/figures/bishop.gd" id="2_lx7fr"]
 
 [node name="Bishop" instance=ExtResource("1_fs884")]
 script = ExtResource("2_lx7fr")

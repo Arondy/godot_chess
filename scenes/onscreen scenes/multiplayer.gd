@@ -2,56 +2,46 @@ extends Control
 
 signal player_connected(peerId, playerInfo)
 
-var lobbyScene: PackedScene = preload("res://scenes/lobby.tscn")
+var lobbyScene: PackedScene = preload("res://scenes/onscreen scenes/lobby.tscn")
 var peer = ENetMultiplayerPeer.new()
 @export var adress: String = "127.0.0.1"
 @export var port: int = 8080
-var nickname: Object
-var ip: Object
-var notify: Object
+var _nickname: Object
+var _ip: Object
+var _notification: Object
 
 func _ready():
-	nickname = $HBox/Margin/VBox/Nickname
-	ip = $HBox/Margin/VBox/IP
-	notify = $HBox/Margin/VBox/Notification
+	_nickname = $HBox/Margin/VBox/Nickname
+	_ip = $HBox/Margin/VBox/IP
+	_notification = $HBox/Margin/VBox/Notification
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server_ok)
 	multiplayer.connection_failed.connect(_on_connected_to_server_fail)
 	load_net_cfg()
 
 func load_net_cfg():
-	var cfgPath = Tools.cfgFilePath
-	
-	if FileAccess.file_exists(cfgPath):
-		var err = Tools.config.load(cfgPath)
-
-		if err != OK:
-			return
-			
-		nickname.text = Tools.config.get_value("net", "nickname")
-		ip.text = Tools.config.get_value("net", "ip")
+	_nickname.text = Tools.config.get_value("net", "nickname", "")
+	_ip.text = Tools.config.get_value("net", "ip", "")
 
 func save_net_cfg():
-	var cfgPath = Tools.cfgFilePath
-	
-	Tools.config.set_value("net", "nickname", nickname.text)
-	#if not multiplayer.is_server():
-	Tools.config.set_value("net", "ip", ip.text)
-	Tools.config.save(cfgPath)
+	var cfg = Tools.config
+	cfg.set_value("net", "nickname", _nickname.text)
+	cfg.set_value("net", "ip", _ip.text)
+	cfg.save(Tools.cfgFilePath)
 	
 func check_name() -> bool:
-	if nickname.text:
+	if _nickname.text:
 		return true
 	else:
-		notify.text = "[center]You must input a valid name![/center]"
+		_notification.text = "[center]You must input a valid name![/center]"
 		return false
 
 func check_ip() -> bool:
-	if ip.text and ip.text.is_valid_ip_address():
-		adress = ip.text
+	if _ip.text and _ip.text.is_valid_ip_address():
+		adress = _ip.text
 		return true
 	else:
-		notify.text = "[center]You must input a valid IP address![/center]"
+		_notification.text = "[center]You must input a valid IP address![/center]"
 		return false
 
 func _on_host_button_pressed():
@@ -67,7 +57,7 @@ func _on_host_button_pressed():
 	save_net_cfg()
 	
 	multiplayer.multiplayer_peer = peer
-	add_player_data(multiplayer.get_unique_id(), {"name": nickname.text})
+	add_player_data(multiplayer.get_unique_id(), {"name": _nickname.text})
 	var scene = lobbyScene.instantiate()
 	$"/root".add_child(scene)
 	hide()
@@ -100,7 +90,7 @@ func _on_connected_to_server_ok():
 	hide()
 	
 	var unId = multiplayer.get_unique_id()
-	var playerName = nickname.text
+	var playerName = _nickname.text
 	print("from %d (%s): Connection to server established!" % [unId, playerName])
 	add_player_data.rpc_id(1, unId, {"name": playerName})
 

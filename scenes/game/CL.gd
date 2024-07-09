@@ -3,6 +3,5 @@ extends CanvasLayer
 @warning_ignore("integer_division")
 func _ready():
 	if Tools.myColor == "black":
-		var oY = get_window().size.y / 8
-		offset = get_window().size - Vector2i(oY, oY)
+		offset = get_window().content_scale_size
 		rotation = PI

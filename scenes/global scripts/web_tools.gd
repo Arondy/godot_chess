@@ -14,8 +14,8 @@ func _notification(what):
 func _on_peer_disconnected(id):
 	print("From %d: Player %d disconnected" % [multiplayer.get_unique_id(), id])
 	Tools.players.erase(id)
-	var notification = load("res://scenes/UI/player_disconnection_notification.tscn")
-	var scene = notification.instantiate()
+	var notification_ = load("res://scenes/UI/player_disconnection_notification.tscn")
+	var scene = notification_.instantiate()
 	Tools.UI.add_child(scene)
 	#player_disconnected.emit(id)
 

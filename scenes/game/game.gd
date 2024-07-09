@@ -1,11 +1,12 @@
 extends Node2D
 
-@export var savePath = "res://saves/castle.json"
+@export var savePath = "res://saves/promote.json"
 var saveDict: Dictionary = load_json_file(savePath)
 var endScene = preload("res://scenes/UI/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]
-@onready var figures = $CLF/Figures
-@onready var hints = $CL/Hints
+@onready var _figures = $CLF/Figures
+@onready var _hints = $CL/Hints
+@onready var debug = multiplayer.get_unique_id()
 
 func _ready():
 	Tools.game = self
@@ -23,24 +24,24 @@ func load_json_file(path: String):
 		print("File \"%s\" doesn't exist!" % path)
 
 func _unhandled_input(event):
-	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_ESCAPE:
-			get_tree().quit()
-	elif event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
-		if figures.currentCellPicked:
-			var figure = figures.currentCellPicked.figure
-			if figure != null:
-				figure.hasCooldown = true
-				figure.get_node("Selection_cooldown").start()
-			clear_hints()
+	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
+		if not _figures.currentCellPicked:
+			return
+			
+		var figure = _figures.currentCellPicked.figure
+
+		if figure:
+			figure.hasCooldown = true
+			figure.get_node("Selection_cooldown").start()
+		clear_hints()
 
 func clear_hints():
-	if figures.currentCellPicked:
-		figures.currentCellPicked.self_modulate = Color.WHITE
-		figures.currentCellPicked = null
-	figures.possibleMoves.clear()
+	if _figures.currentCellPicked:
+		_figures.currentCellPicked.self_modulate = Color.WHITE
+		_figures.currentCellPicked = null
+	_figures.possibleMoves.clear()
 
-	for child in hints.get_children():
+	for child in _hints.get_children():
 		child.free()
 
 func noMoveAvailable() -> bool:
@@ -58,7 +59,7 @@ func get_state():
 	if noMoveAvailable():
 		var text
 		
-		if figures.checkThreats:
+		if _figures.checkThreats:
 			text = "[center][b]Mate[/b][/center]"
 		else:
 			text = "[center][b]Stalemate[/b][/center]"

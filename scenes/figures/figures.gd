@@ -14,34 +14,30 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 @export var checkThreats: Array[Figure] = []
 @export var threatMoves: Array[String]
 @export var firstFigsOnLine: Dictionary
-@onready var game = $/root/Game
-@onready var board = $/root/Game/CL/Board
+@onready var _game = $/root/Game
+@onready var _board = $/root/Game/CL/Board
 
 func _ready():
 	Tools.figures = self
+	load_position(_game.saveDict)
 	
-	if Tools.myColor == "black":
-		$"/root/Game/CL".offset = get_window().size
-		$"/root/Game/CL".rotation = PI
-		
-	load_position(game.saveDict)
-	
-	if Tools.myColor == game.turn:
+	if Tools.myColor == _game.turn:
 		examine_check()
-		game.get_state()
-		
+		_game.get_state()
+
 	if Tools.myColor == "black":
 		var figs = get_node("white").get_children()
 		figs.append_array(get_node("black").get_children())
 		
 		for figure in figs:
-			figure.rotation = PI
+			figure.get_node("Image").flip_v = true
+			figure.get_node("Image").flip_h = true
 
 func set_figure_image(figureScene: Node):
 	var texturePath = "res://textures/figures/%s_%s.png" % [figureScene.fname, figureScene.color]
 	var image = figureScene.get_node("Image")
 	image.texture = load(texturePath)
-	image.scale = board.get_node("A8").size / float(image.texture.get_height())
+	image.scale = _board.get_node("A8").size / float(image.texture.get_height())
 	image.centered = false
 
 func create_figure_by_letter(letter: String):
@@ -108,6 +104,7 @@ func load_position(dict):
 						set_king_info(figureScene, boardCell)
 					elif figureScene.fname == "rook":
 						set_rook_info(figureScene, boardCell)
+						
 					get_node(figureScene.color).add_child(figureScene, true)
 					boardCell.figure = figureScene
 		
@@ -121,7 +118,7 @@ func setup_player_team(team: String, peer: int):
 
 @rpc("any_peer", "reliable")
 func examine_check():
-	fill_attacked_info(game.turn)
+	fill_attacked_info(_game.turn)
 	
 	if checkThreats:
 		Tools.sound.get_node("Check").play()
@@ -148,7 +145,7 @@ func get_allowed_moves_during_check():
 	if checkThreats.size() == 1:
 		var threat = checkThreats[0]
 		var threatCell = threat.cell
-		var kingPos = kingsPosition[game.turn]
+		var kingPos = kingsPosition[_game.turn]
 		var tL = threatCell.name.unicode_at(0)
 		var tN = threatCell.name.unicode_at(1)
 		var kL = kingPos.name.unicode_at(0)
@@ -171,7 +168,7 @@ func get_allowed_moves_during_check():
 			threatMoves.append(threatCell.name)
 
 func get_first_figures_on_attack_lines():
-	var color = game.turn
+	var color = _game.turn
 	var kingPos = kingsPosition[color]
 	var opColor = Tools.getOpColor(color)
 	
@@ -203,7 +200,7 @@ func get_first_figures_on_attack_lines():
 			while (i != Tools.uLet2int(kL)) or (j != Tools.uNum2int(kN)):
 				var cellName = Tools.int2Let(i) + str(j)
 				movesOnLine.append(cellName)
-				var figOnLine = board.get_node(cellName).figure
+				var figOnLine = _board.get_node(cellName).figure
 				
 				if figOnLine:
 					if firstOnLine == null:

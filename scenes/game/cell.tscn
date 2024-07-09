@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://0t2ssaou7v21"]
 
-[ext_resource type="Script" path="res://scenes/scripts/cell.gd" id="1_lqyon"]
+[ext_resource type="Script" path="res://scenes/game/cell.gd" id="1_lqyon"]
 
 [node name="Cell" type="ColorRect"]
 offset_right = 40.0

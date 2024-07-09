@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bu0b107wk613s"]
 
-[ext_resource type="Script" path="res://scenes/scripts/multiplayer.gd" id="1_htgrx"]
+[ext_resource type="Script" path="res://scenes/onscreen scenes/multiplayer.gd" id="1_d4jqj"]
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="2_h8mia"]
 
 [node name="Multiplayer" type="Control"]
@@ -12,7 +12,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_htgrx")
+script = ExtResource("1_d4jqj")
 
 [node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 1

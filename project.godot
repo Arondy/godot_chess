@@ -11,19 +11,21 @@ config_version=5
 [application]
 
 config/name="Chess"
-run/main_scene="res://scenes/multiplayer.tscn"
+run/main_scene="res://scenes/onscreen scenes/starting_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.png"
 
 [autoload]
 
-Tools="*res://scenes/scripts/tools.gd"
-WebTools="*res://scenes/scripts/web_tools.gd"
+Tools="*res://scenes/global scripts/tools.gd"
+WebTools="*res://scenes/global scripts/web_tools.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
+window/size/window_width_override=960
+window/size/window_height_override=540
 window/stretch/mode="canvas_items"
 window/vsync/vsync_mode=0
 
@@ -35,6 +37,17 @@ version_control/autoload_on_startup=true
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/SimpleTODO/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://scenes/UI/": "red",
+"res://scenes/figures/": "orange",
+"res://scenes/game/": "red",
+"res://scenes/global scripts/": "gray",
+"res://scenes/hints/": "green",
+"res://scenes/onscreen scenes/": "red"
+}
 
 [filesystem]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dmh6pd1ihni1d"]
 
-[ext_resource type="PackedScene" uid="uid://dtydq1br0jlrs" path="res://scenes/dialog.tscn" id="1_xqbn5"]
-[ext_resource type="Script" path="res://scenes/scripts/draw_offer.gd" id="2_r6nnv"]
+[ext_resource type="PackedScene" uid="uid://dtydq1br0jlrs" path="res://scenes/UI/dialog.tscn" id="1_xqbn5"]
+[ext_resource type="Script" path="res://scenes/UI/draw_offer.gd" id="2_r6nnv"]
 
 [node name="Dialog" instance=ExtResource("1_xqbn5")]
 script = ExtResource("2_r6nnv")

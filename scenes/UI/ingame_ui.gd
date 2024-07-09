@@ -4,49 +4,50 @@ var drawOfferScene = preload("res://scenes/UI/draw_offer.tscn")
 var rematchOfferScene = preload("res://scenes/UI/rematch_offer.tscn")
 var lastMove: String = ""
 var deltaTime: int = 0
-var myTime: Timer
-var opTime: Timer
-var notify: RichTextLabel
+@onready var _RPanel = $"Panel/Margin/Right panel"
+@onready var _myTime = _RPanel.get_node("My time")
+@onready var _myTimer = _myTime.get_node("Timer")
+@onready var _myName = _RPanel.get_node("My name")
+@onready var _opTime = _RPanel.get_node("Opponent time")
+@onready var _opTimer = _opTime.get_node("Timer")
+@onready var _opName = _RPanel.get_node("Opponent name")
+@onready var _notify = _RPanel.get_node("Notifications")
+@onready var _drawButton = _RPanel.get_node("Margin2/HBox/Draw")
 
 @warning_ignore("integer_division")
 func _ready():
 	position.y = get_window().content_scale_size.y / 2
 	Tools.UI = self
-	var game = $/root/Game
-	myTime = $"Panel/Margin/Right panel/My time/Timer"
-	opTime = $"Panel/Margin/Right panel/Opponent time/Timer"
-	notify = $"Panel/Margin/Right panel/Notifications"
-	var timeArray = game.saveDict["clock"]
+	var _game = $/root/Game
+	var timeArray = _game.saveDict["clock"]
 	deltaTime = timeArray[2]
 	
 	for id in Tools.players:
 		var pname = Tools.players[id]["name"]
 		
 		if id  == multiplayer.get_unique_id():
-			$"Panel/Margin/Right panel/My name".text = pname
+			_myName.text = pname
 		else:
-			$"Panel/Margin/Right panel/Opponent name".text = pname
+			_opName.text = pname
 		
 	if Tools.myColor == "white":
-		myTime.wait_time = timeArray[0]
-		opTime.wait_time = timeArray[1]
+		_myTimer.wait_time = timeArray[0]
+		_opTimer.wait_time = timeArray[1]
 	else:
-		myTime.wait_time = timeArray[1]
-		opTime.wait_time = timeArray[0]
+		_myTimer.wait_time = timeArray[1]
+		_opTimer.wait_time = timeArray[0]
 		
-	if Tools.myColor == game.turn:
-		opTime.paused = true
+	if Tools.myColor == _game.turn:
+		_opTimer.paused = true
 	else:
-		myTime.paused = true
+		_myTimer.paused = true
 		
-	myTime.start()
-	opTime.start()
+	_myTimer.start()
+	_opTimer.start()
 
 func _process(_delta):
-	var myTimeStr = $"Panel/Margin/Right panel/My time"
-	var opTimeStr = $"Panel/Margin/Right panel/Opponent time"
-	myTimeStr.text = "%02d:%02d" % [myTime.time_left / 60, int(myTime.time_left) % 60]
-	opTimeStr.text = "%02d:%02d" % [opTime.time_left / 60, int(opTime.time_left) % 60]
+	_myTime.text = "%02d:%02d" % [_myTimer.time_left / 60, int(_myTimer.time_left) % 60]
+	_opTime.text = "%02d:%02d" % [_opTimer.time_left / 60, int(_opTimer.time_left) % 60]
 
 @rpc("any_peer", "call_local", "reliable")
 func write_to_history(figName: String, srcCellName: String,
@@ -91,7 +92,7 @@ func write_to_history(figName: String, srcCellName: String,
 
 func _on_draw_pressed():
 	send_offer.rpc("draw")
-	$"Panel/Margin/Right panel/Margin2/HBox/Draw".disabled = true
+	_drawButton.disabled = true
 	get_tree().paused = true
 	
 func _on_resign_pressed():
@@ -120,21 +121,21 @@ func send_offer_rejection(offer: String):
 	var senderId = multiplayer.get_remote_sender_id()
 	var senderName = Tools.players[senderId]["name"]
 	
-	notify.text = senderName + " rejected your %s offer" % offer
-	notify.get_node("Timer").start()
+	_notify.text = senderName + " rejected your %s offer" % offer
+	_notify.get_node("Timer").start()
 	get_tree().paused = false
 
 @rpc("any_peer", "call_local", "reliable")
 func flip_clocks():
-	myTime.paused = not myTime.paused
-	opTime.paused = not opTime.paused
+	_myTimer.paused = not _myTimer.paused
+	_opTimer.paused = not _opTimer.paused
 	
 	if multiplayer.get_unique_id() == multiplayer.get_remote_sender_id():
-		myTime.wait_time = myTime.time_left + deltaTime
-		myTime.start()
+		_myTimer.wait_time = _myTimer.time_left + deltaTime
+		_myTimer.start()
 	else:
-		opTime.wait_time = opTime.time_left + deltaTime
-		opTime.start()
+		_opTimer.wait_time = _opTimer.time_left + deltaTime
+		_opTimer.start()
 
 func _on_opTimer_timeout():
 	var textForOp = "[center]Your time ran out[/center]"
@@ -149,4 +150,4 @@ func _on_myTimer_timeout():
 	get_tree().paused = true
 
 func _on_notify_timer_timeout():
-	$"Panel/Margin/Right panel/Notifications".visible = false
+	_notify.visible = false

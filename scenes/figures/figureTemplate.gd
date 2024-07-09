@@ -9,7 +9,7 @@ var eatHintScene: PackedScene = preload("res://scenes/hints/eat_hint.tscn")
 @export var color: String
 @export var cell: Cell
 @export var hasCooldown: bool = false
-@onready var hints = $/root/Game/CL/Hints
+@onready var _hints = $/root/Game/CL/Hints
 
 func get_line_moves(direction: Array, pMoves: Array, forKing: bool):
 	var cname = cell.name
@@ -104,7 +104,7 @@ func _on_figure_selection(_viewport, event, _shape_idx):
 				hint.scale = cellEl.size / float(hint.texture.get_height()) / 4
 				
 			hint.position = cellEl.global_position + Vector2(cellEl.size) / 2
-			hints.add_child(hint)
+			_hints.add_child(hint)
 
 func _on_selection_cooldown_timeout():
 	hasCooldown = false

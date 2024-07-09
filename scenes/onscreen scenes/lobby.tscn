@@ -1,13 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://bd2tnv5oyxlic"]
+[gd_scene load_steps=12 format=3 uid="uid://bd2tnv5oyxlic"]
 
-[ext_resource type="Script" path="res://scenes/scripts/lobby.gd" id="1_1uxj3"]
+[ext_resource type="Script" path="res://scenes/onscreen scenes/lobby.gd" id="1_puff8"]
 [ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="2_e4gqy"]
-[ext_resource type="Script" path="res://scenes/scripts/launch_game_button.gd" id="2_n1jqs"]
+[ext_resource type="Script" path="res://scenes/onscreen scenes/players_list.gd" id="3_rmohj"]
 [ext_resource type="Texture2D" uid="uid://dqgyj8v6q6dcy" path="res://textures/figures/king_white.png" id="6_8c0cn"]
-[ext_resource type="Script" path="res://scenes/scripts/players_list.gd" id="6_mkggb"]
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="7_d6n3f"]
 [ext_resource type="Texture2D" uid="uid://bter3i3sygn8t" path="res://textures/figures/king_black.png" id="7_p4rq1"]
-[ext_resource type="Script" path="res://scenes/scripts/change_color_button.gd" id="8_nyler"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_px7bv"]
 font = ExtResource("7_d6n3f")
@@ -23,6 +21,28 @@ texture = ExtResource("6_8c0cn")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ja7vs"]
 texture = ExtResource("7_p4rq1")
 
+[sub_resource type="GDScript" id="GDScript_vcdtx"]
+script/source = "extends Button
+
+func _ready():
+	if not multiplayer.is_server():
+		add_theme_stylebox_override(\"disabled\", get_theme_stylebox(\"pressed\"))
+		button_pressed = true
+	else:
+		add_theme_stylebox_override(\"disabled\", get_theme_stylebox(\"normal\").duplicate())
+	get_theme_stylebox(\"disabled\").modulate_color = Color(1, 1, 1, 0.6)
+
+func _on_pressed():
+	change_color.rpc()
+
+@rpc(\"authority\", \"reliable\")
+func change_color():
+	button_pressed = not button_pressed
+	var style = \"pressed\" if button_pressed else \"normal\"
+	add_theme_stylebox_override(\"disabled\", get_theme_stylebox(style))
+	get_theme_stylebox(\"disabled\").modulate_color = Color(1, 1, 1, 0.6)
+"
+
 [node name="Lobby" type="Control"]
 layout_mode = 3
 anchors_preset = 8
@@ -33,7 +53,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
-script = ExtResource("1_1uxj3")
+script = ExtResource("1_puff8")
 
 [node name="Launch game" type="Button" parent="."]
 layout_mode = 0
@@ -45,7 +65,6 @@ theme = ExtResource("2_e4gqy")
 text = "Start game
 "
 icon_alignment = 1
-script = ExtResource("2_n1jqs")
 
 [node name="Panel" type="PanelContainer" parent="."]
 layout_mode = 0
@@ -60,7 +79,7 @@ theme_override_constants/margin_left = 5
 
 [node name="Players list" type="VBoxContainer" parent="Panel/Margin"]
 layout_mode = 2
-script = ExtResource("6_mkggb")
+script = ExtResource("3_rmohj")
 
 [node name="Masthead" type="Label" parent="Panel/Margin/Players list"]
 layout_mode = 2
@@ -100,7 +119,7 @@ disabled = true
 toggle_mode = true
 action_mode = 0
 expand_icon = true
-script = ExtResource("8_nyler")
+script = SubResource("GDScript_vcdtx")
 
 [node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 0
@@ -112,9 +131,10 @@ offset_bottom = 28.0
 [node name="IP" type="RichTextLabel" parent="HBox"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+size_flags_vertical = 6
 focus_mode = 2
-text = "
-"
+theme = ExtResource("2_e4gqy")
+text = "awdwad"
 fit_content = true
 scroll_active = false
 selection_enabled = true
@@ -125,6 +145,22 @@ layout_mode = 2
 theme = ExtResource("2_e4gqy")
 text = "Copy IP"
 
+[node name="Notification" type="Label" parent="."]
+visible = false
+layout_mode = 2
+offset_left = -580.0
+offset_top = 30.0
+offset_right = -483.0
+offset_bottom = 53.0
+size_flags_vertical = 3
+theme = ExtResource("2_e4gqy")
+text = "Copied IP!"
+
+[node name="Timer" type="Timer" parent="Notification"]
+wait_time = 2.5
+one_shot = true
+
 [connection signal="pressed" from="Launch game" to="." method="_on_launch_game_pressed"]
 [connection signal="pressed" from="VBox/Change color" to="VBox/Change color" method="_on_pressed"]
 [connection signal="pressed" from="HBox/Copy" to="." method="_on_copy_pressed"]
+[connection signal="timeout" from="Notification/Timer" to="." method="_on_timer_timeout"]

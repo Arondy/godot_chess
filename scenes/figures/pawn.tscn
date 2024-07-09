@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c16slekrvp2e5"]
 
-[ext_resource type="PackedScene" uid="uid://c8kp47cxnj1i0" path="res://scenes/figureTemplate.tscn" id="1_l7t7m"]
-[ext_resource type="Script" path="res://scenes/scripts/figures/pawn.gd" id="2_5t7hq"]
+[ext_resource type="PackedScene" uid="uid://c8kp47cxnj1i0" path="res://scenes/figures/figureTemplate.tscn" id="1_l7t7m"]
+[ext_resource type="Script" path="res://scenes/figures/pawn.gd" id="2_5t7hq"]
 
 [node name="Pawn" instance=ExtResource("1_l7t7m")]
 script = ExtResource("2_5t7hq")

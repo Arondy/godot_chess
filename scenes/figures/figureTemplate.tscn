@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://c8kp47cxnj1i0"]
 
-[ext_resource type="Script" path="res://scenes/scripts/figures/figureTemplate.gd" id="1_8qykf"]
-[ext_resource type="Script" path="res://scenes/scripts/figures/figureCollision.gd" id="1_t11cy"]
+[ext_resource type="Script" path="res://scenes/figures/figureTemplate.gd" id="1_8qykf"]
+[ext_resource type="Script" path="res://scenes/figures/figureCollision.gd" id="1_t11cy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh2hj"]
 size = Vector2(0, 0)

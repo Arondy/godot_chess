@@ -1,6 +1,6 @@
 extends Node2D
 
-var cellScene = preload("res://scenes/cell.tscn")
+var cellScene = preload("res://scenes/game/cell.tscn")
 
 @warning_ignore("integer_division")
 func _ready():
@@ -17,8 +17,10 @@ func create_chessboard():
 			cell.name = Tools.int2Let(col + 1) + str(8 - row)
 			cell.size = Vector2(cellY, cellY)
 			cell.position = Vector2(col, row) * cell.size
+			
 			if (row + col) % 2 == 0:
 				cell.color = Color8(238, 238, 210)
 			else:
 				cell.color = Color8(118, 150, 86)
+				
 			add_child(cell)

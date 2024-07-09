@@ -1,0 +1,173 @@
+[gd_scene load_steps=6 format=3 uid="uid://chi55vnxc0acu"]
+
+[ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="1_rwhax"]
+[ext_resource type="Script" path="res://scenes/onscreen scenes/settings_menu.gd" id="2_6tc5q"]
+[ext_resource type="Script" path="res://scenes/onscreen scenes/audio_settings.gd" id="3_3i76s"]
+[ext_resource type="Theme" uid="uid://d2ftvsv4o2shs" path="res://setttings_theme.tres" id="3_r5p0g"]
+[ext_resource type="Script" path="res://scenes/onscreen scenes/video_settings.gd" id="5_r0hph"]
+
+[node name="Settings menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_rwhax")
+script = ExtResource("2_6tc5q")
+
+[node name="Tabs" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 1
+
+[node name="Audio" type="Control" parent="Tabs"]
+visible = false
+layout_mode = 2
+script = ExtResource("3_3i76s")
+
+[node name="Margin" type="MarginContainer" parent="Tabs/Audio"]
+layout_mode = 0
+offset_right = 389.0
+offset_bottom = 22.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+
+[node name="VBox" type="VBoxContainer" parent="Tabs/Audio/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Music" type="HBoxContainer" parent="Tabs/Audio/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Tabs/Audio/Margin/VBox/Music"]
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("3_r5p0g")
+text = "Music: "
+
+[node name="Music slider" type="HSlider" parent="Tabs/Audio/Margin/VBox/Music"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Music volume" type="TextEdit" parent="Tabs/Audio/Margin/VBox/Music"]
+custom_minimum_size = Vector2(50, 40)
+layout_mode = 2
+text = "100"
+context_menu_enabled = false
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+caret_multiple = false
+
+[node name="Sounds" type="HBoxContainer" parent="Tabs/Audio/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Tabs/Audio/Margin/VBox/Sounds"]
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("3_r5p0g")
+text = "Sounds:"
+
+[node name="Sounds slider" type="HSlider" parent="Tabs/Audio/Margin/VBox/Sounds"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Sounds volume" type="TextEdit" parent="Tabs/Audio/Margin/VBox/Sounds"]
+custom_minimum_size = Vector2(50, 40)
+layout_mode = 2
+text = "100"
+context_menu_enabled = false
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+caret_blink = true
+caret_multiple = false
+
+[node name="Video" type="Control" parent="Tabs"]
+layout_mode = 2
+script = ExtResource("5_r0hph")
+
+[node name="Margin" type="MarginContainer" parent="Tabs/Video"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+
+[node name="VBox" type="VBoxContainer" parent="Tabs/Video/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Display Mode" type="HBoxContainer" parent="Tabs/Video/Margin/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Tabs/Video/Margin/VBox/Display Mode"]
+layout_mode = 2
+theme = ExtResource("3_r5p0g")
+text = "Display Mode:"
+
+[node name="Menu" type="MenuButton" parent="Tabs/Video/Margin/VBox/Display Mode"]
+layout_mode = 2
+theme = ExtResource("3_r5p0g")
+text = "Windowed"
+item_count = 3
+popup/item_0/text = "Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "Borderless"
+popup/item_1/id = 1
+popup/item_2/text = "Fullscreen"
+popup/item_2/id = 2
+
+[node name="Antialiasing" type="HBoxContainer" parent="Tabs/Video/Margin/VBox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Tabs/Video/Margin/VBox/Antialiasing"]
+layout_mode = 2
+theme = ExtResource("3_r5p0g")
+text = "Antialiasing:"
+
+[node name="Menu" type="MenuButton" parent="Tabs/Video/Margin/VBox/Antialiasing"]
+layout_mode = 2
+theme = ExtResource("3_r5p0g")
+text = "MSAA 8X"
+item_count = 4
+popup/item_0/text = "Disabled"
+popup/item_0/id = 0
+popup/item_1/text = "MSAA 2X"
+popup/item_1/id = 1
+popup/item_2/text = "MSAA 4X"
+popup/item_2/id = 2
+popup/item_3/text = "MSAA 8X"
+popup/item_3/id = 3
+
+[node name="Exit" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+offset_right = 100.0
+grow_vertical = 0
+text = "Exit"
+
+[connection signal="drag_ended" from="Tabs/Audio/Margin/VBox/Music/Music slider" to="Tabs/Audio" method="_on_music_slider_drag_ended"]
+[connection signal="value_changed" from="Tabs/Audio/Margin/VBox/Music/Music slider" to="Tabs/Audio" method="_on_music_slider_value_changed"]
+[connection signal="text_changed" from="Tabs/Audio/Margin/VBox/Music/Music volume" to="Tabs/Audio" method="_on_music_volume_text_changed"]
+[connection signal="drag_ended" from="Tabs/Audio/Margin/VBox/Sounds/Sounds slider" to="Tabs/Audio" method="_on_sounds_slider_drag_ended"]
+[connection signal="value_changed" from="Tabs/Audio/Margin/VBox/Sounds/Sounds slider" to="Tabs/Audio" method="_on_sounds_slider_value_changed"]
+[connection signal="text_changed" from="Tabs/Audio/Margin/VBox/Sounds/Sounds volume" to="Tabs/Audio" method="_on_sounds_volume_text_changed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
