@@ -32,7 +32,7 @@ func update_sliders_from_text(volumeText: TextEdit, slider: HSlider):
 	if string.is_valid_int():
 		var num = float(string) / 100
 		
-		if num >= 0.01 and num <= 1:
+		if num >= 0 and num <= 1:
 			var valueChanged = (num != value)
 			slider.value = num
 			
@@ -51,7 +51,7 @@ func _on_music_slider_drag_ended(value_changed):
 func _on_music_slider_value_changed(value):
 	on_slider_value_changed(value, musicBusIndex, _musicVolume)
 
-func _on_music_volume_text_changed():
+func _on_music_volume_focus_exited():
 	update_sliders_from_text(_musicVolume, _musicSlider)
 
 func _on_sounds_slider_drag_ended(value_changed):
@@ -60,5 +60,5 @@ func _on_sounds_slider_drag_ended(value_changed):
 func _on_sounds_slider_value_changed(value):
 	on_slider_value_changed(value, soundsBusIndex, _soundsVolume)
 
-func _on_sounds_volume_text_changed():
+func _on_sounds_volume_focus_exited():
 	update_sliders_from_text(_soundsVolume, _soundsSlider)

@@ -3,10 +3,31 @@
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="1_6ydmx"]
 
 [resource]
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/constants/outline_size = 3
+Button/font_sizes/font_size = 24
+Button/fonts/font = ExtResource("1_6ydmx")
+HBoxContainer/constants/separation = 10
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 3
 Label/font_sizes/font_size = 24
 Label/fonts/font = ExtResource("1_6ydmx")
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_top = 20
+MenuButton/colors/font_outline_color = Color(0, 0, 0, 1)
+MenuButton/constants/outline_size = 3
 MenuButton/font_sizes/font_size = 24
 MenuButton/fonts/font = ExtResource("1_6ydmx")
 PopupMenu/colors/font_outline_color = Color(0, 0, 0, 1)
+PopupMenu/constants/outline_size = 3
 PopupMenu/font_sizes/font_size = 24
 PopupMenu/fonts/font = ExtResource("1_6ydmx")
+TabContainer/colors/font_outline_color = Color(0, 0, 0, 1)
+TabContainer/constants/outline_size = 3
+TabContainer/constants/side_margin = 10
+TabContainer/font_sizes/font_size = 24
+TabContainer/fonts/font = ExtResource("1_6ydmx")
+TextEdit/colors/font_outline_color = Color(0, 0, 0, 1)
+TextEdit/constants/outline_size = 3
+TextEdit/font_sizes/font_size = 24
+TextEdit/fonts/font = ExtResource("1_6ydmx")

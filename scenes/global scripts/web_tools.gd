@@ -5,11 +5,8 @@ func _ready():
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
 func _notification(what):
-	if what != NOTIFICATION_WM_CLOSE_REQUEST:
-		return
-	
-	multiplayer.multiplayer_peer.close()
-	get_tree().quit()
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		multiplayer.multiplayer_peer.close()
 	
 func _on_peer_disconnected(id):
 	print("From %d: Player %d disconnected" % [multiplayer.get_unique_id(), id])
