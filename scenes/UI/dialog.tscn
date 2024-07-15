@@ -9,7 +9,7 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
-shadow_size = 10
+shadow_size = 8
 shadow_offset = Vector2(1, 1)
 
 [node name="Dialog" type="Control"]

@@ -35,6 +35,7 @@ func _notification(what):
 
 func exit():
 	Tools.config.save(Tools.cfgFilePath)
+	Tools.inputMapConfig.saveIM()
 	hide()
 	$"/root/Starting menu".visible = true
 

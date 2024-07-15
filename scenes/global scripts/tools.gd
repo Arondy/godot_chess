@@ -1,6 +1,6 @@
 extends Node
 
-var players = {}
+var players: Dictionary = {}
 var gameScene: PackedScene = preload("res://scenes/game/game.tscn")
 var soundPlayer: AudioStreamPlayer
 var game: Object
@@ -10,6 +10,8 @@ var UI: Object
 var sound: Object
 var cfgFilePath: String = "user://auto.cfg"
 var config: ConfigFile = ConfigFile.new()
+var inputMapCfgFilePath: String = "user://input_map.tres"
+var inputMapConfig: InputMapConfig
 var myColor: String
 
 @rpc("any_peer", "call_local", "reliable")
