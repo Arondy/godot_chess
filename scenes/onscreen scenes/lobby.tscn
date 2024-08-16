@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://bd2tnv5oyxlic"]
+[gd_scene load_steps=13 format=3 uid="uid://bd2tnv5oyxlic"]
 
 [ext_resource type="Script" path="res://scenes/onscreen scenes/lobby.gd" id="1_puff8"]
 [ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="2_e4gqy"]
 [ext_resource type="Script" path="res://scenes/onscreen scenes/players_list.gd" id="3_rmohj"]
 [ext_resource type="Texture2D" uid="uid://dqgyj8v6q6dcy" path="res://textures/figures/king_white.png" id="6_8c0cn"]
+[ext_resource type="PackedScene" uid="uid://bpeoub30exi6b" path="res://scenes/UI/chat.tscn" id="7_buxss"]
 [ext_resource type="FontFile" uid="uid://dfl6aut2a0v3r" path="res://fonts/JetBrainsMono-Bold.ttf" id="7_d6n3f"]
 [ext_resource type="Texture2D" uid="uid://bter3i3sygn8t" path="res://textures/figures/king_black.png" id="7_p4rq1"]
 
@@ -71,7 +72,6 @@ layout_mode = 0
 offset_left = -85.0
 offset_top = -22.0
 offset_right = 84.0
-theme = ExtResource("2_e4gqy")
 
 [node name="Margin" type="MarginContainer" parent="Panel"]
 layout_mode = 2
@@ -134,7 +134,6 @@ layout_mode = 2
 size_flags_vertical = 6
 focus_mode = 2
 theme = ExtResource("2_e4gqy")
-text = "awdwad"
 fit_content = true
 scroll_active = false
 selection_enabled = true
@@ -159,6 +158,13 @@ text = "Copied IP!"
 [node name="Timer" type="Timer" parent="Notification"]
 wait_time = 2.5
 one_shot = true
+
+[node name="Chat" parent="." instance=ExtResource("7_buxss")]
+layout_mode = 1
+offset_left = 297.0
+offset_top = 100.0
+offset_right = 297.0
+offset_bottom = 100.0
 
 [connection signal="pressed" from="Launch game" to="." method="_on_launch_game_pressed"]
 [connection signal="pressed" from="VBox/Change color" to="VBox/Change color" method="_on_pressed"]

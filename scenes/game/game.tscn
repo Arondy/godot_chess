@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://kd8og6w5e7t8"]
+[gd_scene load_steps=8 format=3 uid="uid://kd8og6w5e7t8"]
 
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_qq0f6"]
 [ext_resource type="Script" path="res://scenes/game/CL.gd" id="2_k8k52"]
@@ -6,8 +6,16 @@
 [ext_resource type="Script" path="res://scenes/game/CLF.gd" id="4_jxcsh"]
 [ext_resource type="Script" path="res://scenes/figures/figures.gd" id="5_jsovd"]
 [ext_resource type="PackedScene" uid="uid://yhbrt1aqx17h" path="res://scenes/UI/ingame_ui.tscn" id="6_j8fcp"]
+[ext_resource type="PackedScene" uid="uid://bpeoub30exi6b" path="res://scenes/UI/chat.tscn" id="7_m1e1k"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_qq0f6")
 
 [node name="CL" type="CanvasLayer" parent="."]
@@ -32,15 +40,19 @@ script = ExtResource("5_jsovd")
 [node name="black" type="Node2D" parent="CLF/Figures"]
 
 [node name="Ingame UI" parent="." instance=ExtResource("6_j8fcp")]
+layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 1280.0
-offset_top = 340.0
-offset_right = 1280.0
-offset_bottom = 340.0
 grow_horizontal = 0
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
+
+[node name="Chat" parent="." instance=ExtResource("7_m1e1k")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+grow_vertical = 2

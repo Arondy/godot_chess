@@ -1,6 +1,6 @@
 extends Node2D
 
-var cellScene = preload("res://scenes/game/cell.tscn")
+var cellScene: PackedScene = preload("res://scenes/game/cell.tscn")
 
 @warning_ignore("integer_division")
 func _ready():

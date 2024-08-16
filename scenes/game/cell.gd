@@ -3,8 +3,8 @@ extends ColorRect
 class_name Cell
 
 var figure: Figure
-var promoteScene = preload("res://scenes/UI/promote_ui.tscn")
-var checkHintScene = preload("res://scenes/hints/check_hint.tscn")
+var promoteScene: PackedScene = preload("res://scenes/UI/promote_ui.tscn")
+var checkHintScene: PackedScene = preload("res://scenes/hints/check_hint.tscn")
 signal promotion_finished(successful)
 
 func has_friendly_figure(figureColor: String) -> bool:
@@ -22,74 +22,78 @@ func has_figure() -> bool:
 
 func _on_making_move(event):
 	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
-		var figures = Tools.figures
-		var src = figures.currentCellPicked
+		make_move()
 
-		if not (src and ((not figure) or src.figure.color != figure.color)
-				and name in figures.possibleMoves):
-			return
-			
-		var sFig = src.figure
-		var sFigName = sFig.fname
-		var hasEaten: bool = (figure != null)
-		var castle: int = 0
-		var promotion = ""
-		
-		# Castle
-		if sFigName == "king":
-			var dC = name.unicode_at(0) - src.name.unicode_at(0)
-			
-			if abs(dC) == 2:
-				play_castle_sound.rpc()
-				change_rook_pos_on_castle(dC, src.name)
-				castle = 2 if (dC > 0) else 3
-		
-		elif sFigName == "pawn":
-			# En passant
-			var dC = name.unicode_at(0) - src.name.unicode_at(0)
-			
-			if abs(dC) == 1 and not hasEaten:
-				hasEaten = not hasEaten
-				var EPCellName = str(name)[0] + str(src.name)[1]
-				remove_figure.rpc(EPCellName)
+func make_move() -> bool:
+	var figures = Tools.figures
+	var src = figures.currentCellPicked
 
-			# Promote
-			var dL = name.unicode_at(1) - src.name.unicode_at(1)
+	if not (src and ((not figure) or src.figure.color != figure.color)
+			and name in figures.possibleMoves):
+		return false
+		
+	var sFig = src.figure
+	var sFigName = sFig.fname
+	var hasEaten: bool = (figure != null)
+	var castle: int = 0
+	var promotion = ""
+	
+	# Castle
+	if sFigName == "king":
+		var dC = name.unicode_at(0) - src.name.unicode_at(0)
+		
+		if abs(dC) == 2:
+			play_castle_sound.rpc()
+			change_rook_pos_on_castle(dC, src.name)
+			castle = 2 if (dC > 0) else 3
+	
+	elif sFigName == "pawn":
+		# En passant
+		var dC = name.unicode_at(0) - src.name.unicode_at(0)
+		
+		if abs(dC) == 1 and not hasEaten:
+			hasEaten = not hasEaten
+			var EPCellName = str(name)[0] + str(src.name)[1]
+			remove_figure.rpc(EPCellName)
+
+		# Promote
+		var dL = name.unicode_at(1) - src.name.unicode_at(1)
+		
+		if abs(dL) == 1 and str(name)[1] in ["1", "8"]:
+			add_promote_ui()
+			var successful = await promotion_finished
+			src.self_modulate = Color.WHITE
+
+			if not successful:
+				Tools.game.clear_hints()
+				return false
+
+			remove_figure.rpc(src.name)
+			promotion = figure.fname
 			
-			if abs(dL) == 1 and str(name)[1] in ["1", "8"]:
-				add_promote_ui()
-				var successful = await promotion_finished
-				src.self_modulate = Color.WHITE
-
-				if not successful:
-					Tools.game.clear_hints()
-					return
-
-				remove_figure.rpc(src.name)
-				promotion = figure.fname
-				
-		if not promotion:
-			# Common move
-			sFig.position = global_position
-			change_figure_position.rpc(src.name, name)
-			figure.hasCooldown = true
-			figure.get_node("Selection_cooldown").start()
-		
-		if figures.checkThreats:
-			clear_check_hint.rpc()
-		
-		figures.checkThreats.clear()
-		var opColor = Tools.getOpColor(figure.color)
-		figures.fill_attacked_info(opColor)
-		var check = not figures.checkThreats.is_empty()
-		
-		if check:
-			add_check_hint.rpc(opColor, src.size)
-		
-		end_move(figures)
-		Tools.game.clear_hints()
-		Tools.UI.write_to_history.rpc(sFigName, src.name, name, hasEaten, check, castle, promotion)
-		Tools.game.get_state.rpc()
+	if not promotion:
+		# Common move
+		sFig.position = global_position
+		change_figure_position.rpc(src.name, name)
+		figure.hasCooldown = true
+		figure.get_node("Selection_cooldown").start()
+	
+	if figures.checkThreats:
+		clear_check_hint.rpc()
+	
+	figures.checkThreats.clear()
+	var opColor = Tools.getOpColor(figure.color)
+	figures.fill_attacked_info(opColor)
+	var check = not figures.checkThreats.is_empty()
+	
+	if check:
+		add_check_hint.rpc(opColor, src.size)
+	
+	end_move(figures)
+	Tools.game.clear_hints()
+	Tools.UI.write_to_history.rpc(sFigName, src.name, name, hasEaten, check, castle, promotion)
+	Tools.game.get_state.rpc()
+	return true
 
 func change_rook_pos_on_castle(dC, srcName):
 	var kingL = srcName.unicode_at(0)
@@ -130,6 +134,7 @@ func change_figure_position(srcName: String, newCellName: String):
 		
 	newCell.figure = src.figure
 	src.figure = null
+	newCell.figure.global_position = newCell.global_position
 	
 	var fig = newCell.figure
 	

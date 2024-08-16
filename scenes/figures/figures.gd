@@ -20,18 +20,20 @@ var kingScene: PackedScene = preload("res://scenes/figures/king.tscn")
 func _ready():
 	Tools.figures = self
 	load_position(_game.saveDict)
+	get_node(Tools.myColor).z_index = 1
 	
 	if Tools.myColor == _game.turn:
 		examine_check()
 		_game.get_state()
 
 	if Tools.myColor == "black":
-		var figs = get_node("white").get_children()
-		figs.append_array(get_node("black").get_children())
+		var figs = $white.get_children()
+		figs.append_array($black.get_children())
 		
 		for figure in figs:
-			figure.get_node("Image").flip_v = true
-			figure.get_node("Image").flip_h = true
+			var figImg = figure.get_node("Image")
+			figImg.flip_v = true
+			figImg.flip_h = true
 
 func set_figure_image(figureScene: Node):
 	var texturePath = "res://textures/figures/%s_%s.png" % [figureScene.fname, figureScene.color]
@@ -95,7 +97,7 @@ func load_position(dict):
 				var c = saveStr[row * 8 + col]
 				if c != '/':
 					var figureScene = create_figure_by_letter(c)
-					var cell_name = str(char(65 + col)) + str(8 - row)
+					var cell_name = char(65 + col) + str(8 - row)
 					var boardCell = Tools.board.get_node(cell_name)
 					figureScene.position = boardCell.global_position
 					figureScene.cell = boardCell

@@ -1,25 +1,56 @@
-[gd_scene load_steps=3 format=3 uid="uid://bpeoub30exi6b"]
+[gd_scene load_steps=4 format=3 uid="uid://bpeoub30exi6b"]
 
 [ext_resource type="Theme" uid="uid://sqgks8wwf6dj" path="res://basic_theme.tres" id="1_iolrx"]
 [ext_resource type="Script" path="res://scenes/UI/chat.gd" id="2_jucix"]
 
+[sub_resource type="GDScript" id="GDScript_8sdbq"]
+resource_name = "input_line"
+script/source = "extends LineEdit
+
+@onready var chat = $\"../../..\"
+
+
+func _input(event):
+	if event is InputEventKey and event.keycode == KEY_ENTER:
+		if not text.is_empty():
+			var nickname = Tools.players[multiplayer.get_unique_id()][\"name\"]
+			chat.add_message.rpc(nickname, text)
+			text = \"\"
+"
+
 [node name="Chat" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_iolrx")
+anchors_preset = 0
 script = ExtResource("2_jucix")
 
 [node name="Panel" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -122.5
+offset_right = 240.0
+offset_bottom = 122.5
+grow_vertical = 2
 
-[node name="Scroll" type="ScrollContainer" parent="Panel"]
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Scroll" type="ScrollContainer" parent="Panel/VBox"]
+custom_minimum_size = Vector2(240, 200)
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="Panel/Scroll"]
+[node name="VBox" type="VBoxContainer" parent="Panel/VBox/Scroll"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource("1_iolrx")
+
+[node name="Input line" type="LineEdit" parent="Panel/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 8
+theme = ExtResource("1_iolrx")
+placeholder_text = "Write smth to chat!"
+script = SubResource("GDScript_8sdbq")

@@ -9,6 +9,7 @@ var eatHintScene: PackedScene = preload("res://scenes/hints/eat_hint.tscn")
 @export var color: String
 @export var cell: Cell
 @export var hasCooldown: bool = false
+var draggable: bool = false
 @onready var _hints = $/root/Game/CL/Hints
 
 func get_line_moves(direction: Array, pMoves: Array, forKing: bool):
@@ -89,8 +90,8 @@ func _on_figure_selection(_viewport, event, _shape_idx):
 		figures.possibleMoves = get_possible_moves(false)
 		
 		var possibleMoves = figures.possibleMoves
-		if not possibleMoves:
-			return
+		#if not possibleMoves:
+			#return
 			
 		for cellName in possibleMoves:
 			var cellEl = Tools.board.get_node(str(cellName))
@@ -108,3 +109,53 @@ func _on_figure_selection(_viewport, event, _shape_idx):
 
 func _on_selection_cooldown_timeout():
 	hasCooldown = false
+
+@warning_ignore("integer_division")
+func _input(event):
+	if (get_multiplayer_authority() != multiplayer.get_unique_id()
+			or Tools.myColor != Tools.game.turn):
+		return
+	
+	var windowY = get_window().content_scale_size.y
+	var figureHalf = windowY / 16
+	var boardOffsetX = Tools.board.global_position.x
+	var boardSize = Vector2(windowY, windowY)
+	var offset = Vector2(figureHalf, figureHalf)
+	
+	if color == "black":
+		offset *= -1
+	
+	if event is InputEventMouseButton:
+		if Input.is_action_just_pressed("left_mouse"):
+			var figPos = (global_position if color == "white"
+				else boardSize + Vector2(boardOffsetX * 2, 0) - global_position)
+			var rect = abs(event.position - figPos - offset)
+			
+			if rect.x < figureHalf and rect.y < figureHalf:
+				draggable = true
+				
+		elif Input.is_action_just_released("left_mouse") and draggable:
+			var col = int(event.position.x - boardOffsetX) / (windowY / 8)
+			var row = int(event.position.y) / (windowY / 8)
+			
+			if color == "black":
+				col = 7 - col
+				row = 7 - row
+				
+			draggable = false
+			
+			if col < 0 or col > 7 or row < 0 or row > 7:
+				return
+				
+			var cell_name = Tools.int2Let(col + 1) + str(8 - row)
+			var madeMove = await Tools.board.get_node(cell_name).make_move()
+			
+			if not madeMove and global_position != cell.global_position:
+				global_position = cell.global_position
+				Tools.game.clear_hints()
+			
+	elif event is InputEventMouseMotion and draggable:
+		if color == "white":
+			global_position = event.position - offset
+		else:
+			global_position = boardSize + Vector2(boardOffsetX * 2, 0) - (event.position - offset)

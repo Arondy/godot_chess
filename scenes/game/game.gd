@@ -1,8 +1,8 @@
-extends Node2D
+extends Control
 
-@export var savePath = "res://saves/promote.json"
+@export var savePath: String = "res://saves/basic_game_start.json"
 var saveDict: Dictionary = load_json_file(savePath)
-var endScene = preload("res://scenes/UI/end_of_game.tscn")
+var endScene: PackedScene = preload("res://scenes/UI/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]
 @onready var _figures = $CLF/Figures
 @onready var _hints = $CL/Hints
