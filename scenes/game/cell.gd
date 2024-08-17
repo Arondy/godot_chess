@@ -2,10 +2,11 @@ extends ColorRect
 
 class_name Cell
 
+signal promotion_finished(successful)
+
 var figure: Figure
 var promoteScene: PackedScene = preload("res://scenes/UI/promote_ui.tscn")
 var checkHintScene: PackedScene = preload("res://scenes/hints/check_hint.tscn")
-signal promotion_finished(successful)
 
 func has_friendly_figure(figureColor: String) -> bool:
 	if figure and figure.color == figureColor:

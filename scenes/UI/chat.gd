@@ -1,10 +1,10 @@
 extends Control
 
-@onready var _scroll = $Panel/VBox/Scroll
-@onready var _chat_VBox = _scroll.get_node("VBox")
+@onready var _scroll: ScrollContainer = $Panel/VBox/Scroll
+@onready var _chat_VBox: VBoxContainer = _scroll.get_node("VBox")
 
 @rpc("any_peer", "call_local", "reliable")
-func add_message(nickname, message):
+func add_message(nickname: String, message: String):
 	var label = Label.new()
 	label.text = "%s: %s" % [nickname, message]
 	_chat_VBox.add_child(label)

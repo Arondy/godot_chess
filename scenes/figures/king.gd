@@ -1,6 +1,6 @@
 extends Figure
 
-var hasMoved = false
+var hasMoved: bool = false
 
 func king_check_move(dest: String, attackedMask: Array) -> bool:
 	var cellName: String = cell.name
@@ -18,7 +18,7 @@ func king_check_move(dest: String, attackedMask: Array) -> bool:
 	
 	return dest not in attackedMask
 
-func addCastleMove(pRook, cells, mask, board, res):
+func addCastleMove(pRook: Figure, cells, mask, board, res):
 	if pRook and pRook.fname == "rook" and pRook.color == color and (not pRook.hasMoved):
 		
 		for cell_ in cells:

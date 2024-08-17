@@ -10,7 +10,7 @@ var eatHintScene: PackedScene = preload("res://scenes/hints/eat_hint.tscn")
 @export var cell: Cell
 @export var hasCooldown: bool = false
 var draggable: bool = false
-@onready var _hints = $/root/Game/CL/Hints
+@onready var _hints: Node2D = $/root/Game/CL/Hints
 
 func get_line_moves(direction: Array, pMoves: Array, forKing: bool):
 	var cname = cell.name

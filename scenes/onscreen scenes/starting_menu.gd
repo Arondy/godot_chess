@@ -2,9 +2,9 @@ extends Control
 
 @onready var _background: Sprite2D = $Background
 
-var multiplayerScene = preload("res://scenes/onscreen scenes/multiplayer.tscn")
-var musicBusIndex = AudioServer.get_bus_index("Music")
-var soundsBusIndex = AudioServer.get_bus_index("Sounds")
+var multiplayerScene: PackedScene = preload("res://scenes/onscreen scenes/multiplayer.tscn")
+var musicBusIndex: int = AudioServer.get_bus_index("Music")
+var soundsBusIndex: int = AudioServer.get_bus_index("Sounds")
 
 func _ready():
 	var bScale = float(get_window().content_scale_size.x) / _background.texture.get_width()

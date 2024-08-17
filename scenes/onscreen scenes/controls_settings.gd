@@ -1,8 +1,8 @@
 extends Control
 
-@onready var _controlsVBox = $Margin/VBox
+@onready var _controlsVBox: VBoxContainer = $Margin/VBox
 @onready var _actionKey: Button = _controlsVBox.get_node("Action/Button")
-@onready var _remapOverlay = _controlsVBox.get_node("Action/Remap overlay")
+@onready var _remapOverlay: Control = _controlsVBox.get_node("Action/Remap overlay")
 
 func _ready():
 	load_cfg_values()

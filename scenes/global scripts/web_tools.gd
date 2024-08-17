@@ -8,7 +8,7 @@ func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		multiplayer.multiplayer_peer.close()
 	
-func _on_peer_disconnected(id):
+func _on_peer_disconnected(id: int):
 	print("From %d: Player %d disconnected" % [multiplayer.get_unique_id(), id])
 	Tools.players.erase(id)
 	var notification_ = load("res://scenes/UI/player_disconnection_notification.tscn")

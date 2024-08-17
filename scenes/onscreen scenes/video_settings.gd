@@ -1,6 +1,6 @@
 extends Control
 
-@onready var _videoVBox = $Margin/VBox
+@onready var _videoVBox: VBoxContainer = $Margin/VBox
 @onready var _modeMenu: MenuButton = _videoVBox.get_node("Display Mode/Menu")
 @onready var _antialiasingMenu: MenuButton = _videoVBox.get_node("Antialiasing/Menu")
 @onready var _VSyncMenu: MenuButton = _videoVBox.get_node("VSync/Menu")
@@ -25,18 +25,18 @@ func set_fps_limit():
 	_fpsLimit.text = str(prevFpsLimit)
 	_on_fps_limit_focus_exited()
 
-func _on_display_mode_chosen(id):
+func _on_display_mode_chosen(id: int):
 	$/root.mode = id * 2
 	$/root.borderless = ($/root.mode == Window.MODE_MAXIMIZED)
 	_modeMenu.text = _modeMenu.get_popup().get_item_text(id)
 	Tools.config.set_value("video", "display_mode", id)
 
-func _on_antialiasing_chosen(id):
+func _on_antialiasing_chosen(id: int):
 	$/root.msaa_2d = id
 	_antialiasingMenu.text = _antialiasingMenu.get_popup().get_item_text(id)
 	Tools.config.set_value("video", "antialiasing", id)
 
-func _on_vsync_mode_chosen(id):
+func _on_vsync_mode_chosen(id: int):
 	DisplayServer.window_set_vsync_mode(id)
 	_VSyncMenu.text = _VSyncMenu.get_popup().get_item_text(id)
 	Tools.config.set_value("video", "vsync", id)

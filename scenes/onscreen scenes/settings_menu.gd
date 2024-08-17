@@ -33,19 +33,16 @@ func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		Tools.config.save(Tools.cfgFilePath)
 
-func exit():
+func _on_exit_pressed():
 	Tools.config.save(Tools.cfgFilePath)
 	Tools.inputMapConfig.saveIM()
 	hide()
 	if $"/root".get_node_or_null("Starting menu"):
 		$"/root/Starting menu".visible = true
 
-func _on_exit_pressed():
-	exit()
-
 func _shortcut_input(event):
 	if event is InputEventKey and Input.is_key_pressed(KEY_ESCAPE):
 		if visible:
-			exit()
+			_on_exit_pressed()
 		else:
 			show()

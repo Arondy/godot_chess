@@ -1,18 +1,18 @@
 extends Control
 
-var drawOfferScene = preload("res://scenes/UI/draw_offer.tscn")
-var rematchOfferScene = preload("res://scenes/UI/rematch_offer.tscn")
+var drawOfferScene: PackedScene = preload("res://scenes/UI/draw_offer.tscn")
+var rematchOfferScene: PackedScene = preload("res://scenes/UI/rematch_offer.tscn")
 var lastMove: String = ""
 var deltaTime: int = 0
-@onready var _RPanel = $"Panel/Margin/Right panel"
-@onready var _myTime = _RPanel.get_node("My time")
-@onready var _myTimer = _myTime.get_node("Timer")
-@onready var _myName = _RPanel.get_node("My name")
-@onready var _opTime = _RPanel.get_node("Opponent time")
-@onready var _opTimer = _opTime.get_node("Timer")
-@onready var _opName = _RPanel.get_node("Opponent name")
-@onready var _notify = _RPanel.get_node("Notifications")
-@onready var _drawButton = _RPanel.get_node("Margin2/HBox/Draw")
+@onready var _RPanel: VBoxContainer = $"Panel/Margin/Right panel"
+@onready var _myTime: Label = _RPanel.get_node("My time")
+@onready var _myTimer: Timer = _myTime.get_node("Timer")
+@onready var _myName: Label = _RPanel.get_node("My name")
+@onready var _opTime: Label = _RPanel.get_node("Opponent time")
+@onready var _opTimer: Timer = _opTime.get_node("Timer")
+@onready var _opName: Label = _RPanel.get_node("Opponent name")
+@onready var _notify: RichTextLabel = _RPanel.get_node("Notifications")
+@onready var _drawButton: Button = _RPanel.get_node("Margin2/HBox/Draw")
 
 @warning_ignore("integer_division")
 func _ready():

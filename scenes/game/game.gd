@@ -4,9 +4,9 @@ extends Control
 var saveDict: Dictionary = load_json_file(savePath)
 var endScene: PackedScene = preload("res://scenes/UI/end_of_game.tscn")
 @export var turn: String = saveDict["turn"]
-@onready var _figures = $CLF/Figures
-@onready var _hints = $CL/Hints
-@onready var debug = multiplayer.get_unique_id()
+@onready var _figures: Node2D = $CLF/Figures
+@onready var _hints: Node2D = $CL/Hints
+@onready var debug: int = multiplayer.get_unique_id()
 
 func _ready():
 	Tools.game = self
@@ -23,18 +23,6 @@ func load_json_file(path: String):
 	else:
 		print("File \"%s\" doesn't exist!" % path)
 
-func _unhandled_input(event):
-	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
-		if not _figures.currentCellPicked:
-			return
-			
-		var figure = _figures.currentCellPicked.figure
-
-		if figure:
-			figure.hasCooldown = true
-			figure.get_node("Selection_cooldown").start()
-		clear_hints()
-
 func clear_hints():
 	if _figures.currentCellPicked:
 		_figures.currentCellPicked.self_modulate = Color.WHITE
@@ -44,7 +32,7 @@ func clear_hints():
 	for child in _hints.get_children():
 		child.free()
 
-func noMoveAvailable() -> bool:
+func no_move_available() -> bool:
 	var opFigures = Tools.figures.get_node(turn).get_children()
 		
 	for figure in opFigures:
@@ -56,7 +44,7 @@ func noMoveAvailable() -> bool:
 
 @rpc("any_peer", "reliable")
 func get_state():
-	if noMoveAvailable():
+	if no_move_available():
 		var text
 		
 		if _figures.checkThreats:
@@ -78,3 +66,15 @@ func finish_game(text: String, text2: String = ""):
 		
 	Tools.UI.add_child.call_deferred(endMessage)
 	Tools.sound.get_node("Game over").play()
+
+func _unhandled_input(event):
+	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
+		if not _figures.currentCellPicked:
+			return
+			
+		var figure = _figures.currentCellPicked.figure
+
+		if figure:
+			figure.hasCooldown = true
+			figure.get_node("Selection_cooldown").start()
+		clear_hints()

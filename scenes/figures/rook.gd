@@ -1,6 +1,6 @@
 extends Figure
 
-var hasMoved = false
+var hasMoved: bool = false
 
 func get_possible_moves(forKing: bool) -> Array:
 	var res = []

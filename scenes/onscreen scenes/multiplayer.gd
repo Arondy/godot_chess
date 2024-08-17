@@ -3,17 +3,14 @@ extends Control
 signal player_connected(peerId, playerInfo)
 
 var lobbyScene: PackedScene = preload("res://scenes/onscreen scenes/lobby.tscn")
-var peer = ENetMultiplayerPeer.new()
+var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 @export var adress: String = "127.0.0.1"
 @export var port: int = 8080
-var _nickname: Object
-var _ip: Object
-var _notification: Object
+@onready var _nickname: LineEdit = $HBox/Margin/VBox/Nickname
+@onready var _ip: LineEdit = $HBox/Margin/VBox/IP
+@onready var _notification: RichTextLabel = $HBox/Margin/VBox/Notification
 
 func _ready():
-	_nickname = $HBox/Margin/VBox/Nickname
-	_ip = $HBox/Margin/VBox/IP
-	_notification = $HBox/Margin/VBox/Notification
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server_ok)
 	multiplayer.connection_failed.connect(_on_connected_to_server_fail)
@@ -79,7 +76,7 @@ func _on_join_button_pressed():
 	
 	multiplayer.multiplayer_peer = peer
 	
-func _on_player_connected(id):
+func _on_player_connected(id: int):
 	if multiplayer.is_server():
 		var unId = multiplayer.get_unique_id()
 		print("from %d: Player %d connected" % [unId, id])
@@ -99,7 +96,7 @@ func _on_connected_to_server_fail():
 	multiplayer.multiplayer_peer = null
 
 @rpc("any_peer", "reliable")
-func add_player_data(id, data):
+func add_player_data(id: int, data: Dictionary):
 	if not Tools.players.has(id):
 		Tools.players[id] = data
 	if multiplayer.is_server():
