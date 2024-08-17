@@ -56,7 +56,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("1_puff8")
 
-[node name="Launch game" type="Button" parent="."]
+[node name="Start game" type="Button" parent="."]
 layout_mode = 0
 offset_left = -256.0
 offset_top = -22.0
@@ -166,7 +166,7 @@ offset_top = 100.0
 offset_right = 297.0
 offset_bottom = 100.0
 
-[connection signal="pressed" from="Launch game" to="." method="_on_launch_game_pressed"]
+[connection signal="pressed" from="Start game" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="VBox/Change color" to="VBox/Change color" method="_on_pressed"]
 [connection signal="pressed" from="HBox/Copy" to="." method="_on_copy_pressed"]
 [connection signal="timeout" from="Notification/Timer" to="." method="_on_timer_timeout"]

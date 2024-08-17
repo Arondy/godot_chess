@@ -106,3 +106,9 @@ func add_player_data(id, data):
 		player_connected.emit(id, data)
 		for playerId in Tools.players:
 			add_player_data.rpc(playerId, Tools.players[playerId])
+
+func _shortcut_input(_event):
+	if Input.is_action_just_pressed("host_game"):
+		_on_host_button_pressed()
+	elif Input.is_action_just_pressed("join_game"):
+		_on_join_button_pressed()

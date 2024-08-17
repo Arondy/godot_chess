@@ -13,3 +13,6 @@ func _input(event):
 		hide()
 		Tools.config.set_value("controls", "action", _actionKey.text)
 		get_viewport().set_input_as_handled()
+	elif event is InputEventKey and event.keycode == KEY_ESCAPE:
+		_actionKey.button_pressed = false
+		_actionKey.text = InputMap.action_get_events("left_mouse")[0].as_text()

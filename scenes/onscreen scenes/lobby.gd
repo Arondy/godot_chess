@@ -11,10 +11,10 @@ func _ready():
 		_address = IP.resolve_hostname(str(OS.get_environment("COMPUTERNAME")), IP.TYPE_IPV4)
 		_ip.text = "Your IP: %s" % _address
 	else:
-		$"Launch game".disabled = true
+		$"Start game".disabled = true
 		$HBox.visible = false
 
-func _on_launch_game_pressed():
+func _on_start_game_pressed():
 	print("Connected peers: ", multiplayer.get_peers())
 	if multiplayer.get_peers():
 		Tools.start_game.rpc(true)
@@ -29,3 +29,7 @@ func _on_copy_pressed():
 
 func _on_timer_timeout():
 	_notification.visible = false
+
+func _shortcut_input(_event):
+	if Input.is_action_just_pressed("start_game"):
+		_on_start_game_pressed()

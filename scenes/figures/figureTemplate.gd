@@ -111,7 +111,7 @@ func _on_selection_cooldown_timeout():
 	hasCooldown = false
 
 @warning_ignore("integer_division")
-func _input(event):
+func _unhandled_input(event):
 	if (get_multiplayer_authority() != multiplayer.get_unique_id()
 			or Tools.myColor != Tools.game.turn):
 		return

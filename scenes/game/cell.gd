@@ -73,7 +73,6 @@ func make_move() -> bool:
 			
 	if not promotion:
 		# Common move
-		sFig.position = global_position
 		change_figure_position.rpc(src.name, name)
 		figure.hasCooldown = true
 		figure.get_node("Selection_cooldown").start()

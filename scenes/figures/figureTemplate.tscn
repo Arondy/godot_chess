@@ -1,15 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8kp47cxnj1i0"]
+[gd_scene load_steps=4 format=3 uid="uid://c8kp47cxnj1i0"]
 
 [ext_resource type="Script" path="res://scenes/figures/figureTemplate.gd" id="1_8qykf"]
 [ext_resource type="Script" path="res://scenes/figures/figureCollision.gd" id="1_t11cy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gh2hj"]
 size = Vector2(0, 0)
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ve3l0"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 0
 
 [node name="Figure" type="Node2D"]
 script = ExtResource("1_8qykf")
@@ -25,9 +20,6 @@ script = ExtResource("1_t11cy")
 [node name="Selection_cooldown" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_ve3l0")
 
 [connection signal="input_event" from="Figure_Area2D" to="." method="_on_figure_selection"]
 [connection signal="timeout" from="Selection_cooldown" to="." method="_on_selection_cooldown_timeout"]

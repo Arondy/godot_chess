@@ -1,14 +1,14 @@
 extends Control
 
-@onready var background: Sprite2D = $Background
+@onready var _background: Sprite2D = $Background
 
 var multiplayerScene = preload("res://scenes/onscreen scenes/multiplayer.tscn")
 var musicBusIndex = AudioServer.get_bus_index("Music")
 var soundsBusIndex = AudioServer.get_bus_index("Sounds")
 
 func _ready():
-	var bScale = float(get_window().content_scale_size.x) / background.texture.get_width()
-	background.scale = Vector2(bScale, bScale)
+	var bScale = float(get_window().content_scale_size.x) / _background.texture.get_width()
+	_background.scale = Vector2(bScale, bScale)
 	load_cfg()
 	add_sound_node()
 
@@ -38,3 +38,9 @@ func _on_settings_pressed():
 
 func _on_exit_pressed():
 	get_tree().quit()
+
+func _shortcut_input(_event):
+	if Input.is_action_just_pressed("find_game"):
+		_on_find_game_pressed()
+	elif Input.is_action_just_pressed("open_settings"):
+		_on_settings_pressed()
