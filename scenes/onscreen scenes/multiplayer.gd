@@ -4,6 +4,7 @@ signal player_connected(peerId, playerInfo)
 
 var lobbyScene: PackedScene = preload("res://scenes/onscreen scenes/lobby.tscn")
 var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+
 @export var adress: String = "127.0.0.1"
 @export var port: int = 8080
 @onready var _nickname: LineEdit = $HBox/Margin/VBox/Nickname
@@ -42,8 +43,12 @@ func check_ip() -> bool:
 		return false
 
 func _on_host_button_pressed():
+	multiplayer.multiplayer_peer.close()
 	var error = peer.create_server(port, 2)
 	
+	if error == ERR_CANT_CREATE:
+		_notification.text = "[center]Lobby have already been hosted![/center]"
+
 	if error:
 		return error
 		
@@ -62,6 +67,7 @@ func _on_host_button_pressed():
 
 func _on_join_button_pressed():
 	multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer.get_connection_status()
 	
 	if OS.has_feature("release"):
 		if not (check_name() and check_ip()):
@@ -75,6 +81,7 @@ func _on_join_button_pressed():
 	save_net_cfg()
 	
 	multiplayer.multiplayer_peer = peer
+	_notification.text = "[center]Connecting to host...[/center]"
 	
 func _on_player_connected(id: int):
 	if multiplayer.is_server():
@@ -93,7 +100,8 @@ func _on_connected_to_server_ok():
 
 func _on_connected_to_server_fail():
 	print("Connection to server failed!")
-	multiplayer.multiplayer_peer = null
+	_notification.text = "[center]Connection to server failed![/center]"
+	multiplayer.multiplayer_peer.close()
 
 @rpc("any_peer", "reliable")
 func add_player_data(id: int, data: Dictionary):

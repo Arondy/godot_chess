@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://kd8og6w5e7t8"]
+[gd_scene load_steps=7 format=3 uid="uid://kd8og6w5e7t8"]
 
 [ext_resource type="Script" path="res://scenes/game/game.gd" id="1_qq0f6"]
 [ext_resource type="Script" path="res://scenes/game/CL.gd" id="2_k8k52"]
 [ext_resource type="PackedScene" uid="uid://cr1pf0oiyfmhu" path="res://scenes/game/board.tscn" id="3_luccq"]
-[ext_resource type="Script" path="res://scenes/game/CLF.gd" id="4_jxcsh"]
 [ext_resource type="Script" path="res://scenes/figures/figures.gd" id="5_jsovd"]
 [ext_resource type="PackedScene" uid="uid://yhbrt1aqx17h" path="res://scenes/UI/ingame_ui.tscn" id="6_j8fcp"]
 [ext_resource type="PackedScene" uid="uid://bpeoub30exi6b" path="res://scenes/UI/chat.tscn" id="7_m1e1k"]
@@ -28,16 +27,12 @@ script = ExtResource("2_k8k52")
 
 [node name="Check hint" type="Node2D" parent="CL"]
 
-[node name="CLF" type="CanvasLayer" parent="."]
-layer = -1
-script = ExtResource("4_jxcsh")
-
-[node name="Figures" type="Node2D" parent="CLF"]
+[node name="Figures" type="Node2D" parent="CL"]
 script = ExtResource("5_jsovd")
 
-[node name="white" type="Node2D" parent="CLF/Figures"]
+[node name="white" type="Node2D" parent="CL/Figures"]
 
-[node name="black" type="Node2D" parent="CLF/Figures"]
+[node name="black" type="Node2D" parent="CL/Figures"]
 
 [node name="Ingame UI" parent="." instance=ExtResource("6_j8fcp")]
 layout_mode = 1

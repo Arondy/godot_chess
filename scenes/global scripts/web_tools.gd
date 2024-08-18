@@ -13,7 +13,8 @@ func _on_peer_disconnected(id: int):
 	Tools.players.erase(id)
 	var notification_ = load("res://scenes/UI/player_disconnection_notification.tscn")
 	var scene = notification_.instantiate()
-	Tools.UI.add_child(scene)
+	if Tools.UI:
+		Tools.UI.add_child(scene)
 	#player_disconnected.emit(id)
 
 func _on_server_disconnected():
