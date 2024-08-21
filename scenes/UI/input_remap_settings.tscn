@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://c80ywq60mlc6k"]
+
+[ext_resource type="Script" path="res://scenes/UI/input_remap_settings.gd" id="1_fcm7m"]
+[ext_resource type="Script" path="res://scenes/onscreen scenes/remap_overlay.gd" id="1_j3kcj"]
+[ext_resource type="Theme" uid="uid://d2ftvsv4o2shs" path="res://setttings_theme.tres" id="1_vk848"]
+
+[node name="Action" type="HBoxContainer"]
+theme = ExtResource("1_vk848")
+script = ExtResource("1_fcm7m")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "Text:"
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+text = "Text"
+
+[node name="Remap overlay" type="Control" parent="."]
+visible = false
+layout_mode = 2
+script = ExtResource("1_j3kcj")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

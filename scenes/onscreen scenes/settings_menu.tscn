@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://chi55vnxc0acu"]
+[gd_scene load_steps=8 format=3 uid="uid://chi55vnxc0acu"]
 
 [ext_resource type="Script" path="res://scenes/onscreen scenes/settings_menu.gd" id="2_6tc5q"]
 [ext_resource type="Script" path="res://scenes/onscreen scenes/audio_settings.gd" id="3_3i76s"]
 [ext_resource type="Theme" uid="uid://d2ftvsv4o2shs" path="res://setttings_theme.tres" id="3_r5p0g"]
+[ext_resource type="PackedScene" uid="uid://vv2cjmd6rhsx" path="res://scenes/UI/audio_slider_settings.tscn" id="4_rp237"]
 [ext_resource type="Script" path="res://scenes/onscreen scenes/video_settings.gd" id="5_r0hph"]
 [ext_resource type="Script" path="res://scenes/onscreen scenes/controls_settings.gd" id="5_yu5cu"]
-[ext_resource type="Script" path="res://scenes/onscreen scenes/remap_overlay.gd" id="6_akp2n"]
+[ext_resource type="PackedScene" uid="uid://c80ywq60mlc6k" path="res://scenes/UI/input_remap_settings.tscn" id="7_pvxm4"]
 
 [node name="Settings menu" type="Control"]
 z_index = 1
@@ -25,8 +26,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+current_tab = 2
 
 [node name="Audio" type="Control" parent="Tabs"]
+visible = false
 layout_mode = 2
 focus_mode = 1
 script = ExtResource("3_3i76s")
@@ -41,65 +44,13 @@ theme_override_constants/margin_top = 20
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Music" type="HBoxContainer" parent="Tabs/Audio/Margin/VBox"]
+[node name="Music" parent="Tabs/Audio/Margin/VBox" instance=ExtResource("4_rp237")]
 layout_mode = 2
+secondCategory = "music"
 
-[node name="Label" type="Label" parent="Tabs/Audio/Margin/VBox/Music"]
+[node name="Sounds" parent="Tabs/Audio/Margin/VBox" instance=ExtResource("4_rp237")]
 layout_mode = 2
-size_flags_vertical = 1
-theme = ExtResource("3_r5p0g")
-text = "Music: "
-
-[node name="Music slider" type="HSlider" parent="Tabs/Audio/Margin/VBox/Music"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_vertical = 1
-max_value = 1.0
-step = 0.01
-value = 1.0
-
-[node name="Music volume" type="TextEdit" parent="Tabs/Audio/Margin/VBox/Music"]
-custom_minimum_size = Vector2(52, 0)
-layout_mode = 2
-focus_next = NodePath("../../Sounds/Sounds slider")
-theme = ExtResource("3_r5p0g")
-text = "100"
-context_menu_enabled = false
-shortcut_keys_enabled = false
-drag_and_drop_selection_enabled = false
-scroll_fit_content_height = true
-caret_blink = true
-caret_multiple = false
-
-[node name="Sounds" type="HBoxContainer" parent="Tabs/Audio/Margin/VBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Tabs/Audio/Margin/VBox/Sounds"]
-layout_mode = 2
-size_flags_vertical = 1
-theme = ExtResource("3_r5p0g")
-text = "Sounds:"
-
-[node name="Sounds slider" type="HSlider" parent="Tabs/Audio/Margin/VBox/Sounds"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_vertical = 1
-max_value = 1.0
-step = 0.01
-value = 1.0
-
-[node name="Sounds volume" type="TextEdit" parent="Tabs/Audio/Margin/VBox/Sounds"]
-custom_minimum_size = Vector2(52, 0)
-layout_mode = 2
-focus_next = NodePath("../../../../../../Exit")
-theme = ExtResource("3_r5p0g")
-text = "100"
-context_menu_enabled = false
-shortcut_keys_enabled = false
-drag_and_drop_selection_enabled = false
-scroll_fit_content_height = true
-caret_blink = true
-caret_multiple = false
+secondCategory = "sounds"
 
 [node name="Video" type="Control" parent="Tabs"]
 visible = false
@@ -186,7 +137,7 @@ theme = ExtResource("3_r5p0g")
 text = "FPS Limit:   "
 
 [node name="TextEdit" type="TextEdit" parent="Tabs/Video/Margin/VBox/FPS Limit"]
-custom_minimum_size = Vector2(58, 0)
+custom_minimum_size = Vector2(66, 44)
 layout_mode = 2
 focus_next = NodePath("../../../../../../Exit")
 theme = ExtResource("3_r5p0g")
@@ -198,7 +149,6 @@ scroll_fit_content_height = true
 caret_blink = true
 
 [node name="Controls" type="Control" parent="Tabs"]
-visible = false
 layout_mode = 2
 mouse_filter = 1
 script = ExtResource("5_yu5cu")
@@ -211,23 +161,29 @@ offset_bottom = 70.0
 [node name="VBox" type="VBoxContainer" parent="Tabs/Controls/Margin"]
 layout_mode = 2
 
-[node name="Action" type="HBoxContainer" parent="Tabs/Controls/Margin/VBox"]
+[node name="Action" parent="Tabs/Controls/Margin/VBox" instance=ExtResource("7_pvxm4")]
 layout_mode = 2
+action = "_perform_action"
 
-[node name="Label" type="Label" parent="Tabs/Controls/Margin/VBox/Action"]
+[node name="Find game" parent="Tabs/Controls/Margin/VBox" instance=ExtResource("7_pvxm4")]
 layout_mode = 2
-text = "Button for action:"
+action = "_find_game"
 
-[node name="Button" type="Button" parent="Tabs/Controls/Margin/VBox/Action"]
-custom_minimum_size = Vector2(50, 50)
+[node name="Open settings" parent="Tabs/Controls/Margin/VBox" instance=ExtResource("7_pvxm4")]
 layout_mode = 2
-toggle_mode = true
-text = "Left Mouse Button"
+action = "_open_settings"
 
-[node name="Remap overlay" type="Control" parent="Tabs/Controls/Margin/VBox/Action"]
-visible = false
+[node name="Host game" parent="Tabs/Controls/Margin/VBox" instance=ExtResource("7_pvxm4")]
 layout_mode = 2
-script = ExtResource("6_akp2n")
+action = "_host_game"
+
+[node name="Join game" parent="Tabs/Controls/Margin/VBox" instance=ExtResource("7_pvxm4")]
+layout_mode = 2
+action = "_join_game"
+
+[node name="Start game" parent="Tabs/Controls/Margin/VBox" instance=ExtResource("7_pvxm4")]
+layout_mode = 2
+action = "_start_game"
 
 [node name="Exit" type="Button" parent="."]
 layout_mode = 1
@@ -239,12 +195,5 @@ offset_right = 100.0
 grow_vertical = 0
 text = "Exit"
 
-[connection signal="drag_ended" from="Tabs/Audio/Margin/VBox/Music/Music slider" to="Tabs/Audio" method="_on_music_slider_drag_ended"]
-[connection signal="value_changed" from="Tabs/Audio/Margin/VBox/Music/Music slider" to="Tabs/Audio" method="_on_music_slider_value_changed"]
-[connection signal="focus_exited" from="Tabs/Audio/Margin/VBox/Music/Music volume" to="Tabs/Audio" method="_on_music_volume_focus_exited"]
-[connection signal="drag_ended" from="Tabs/Audio/Margin/VBox/Sounds/Sounds slider" to="Tabs/Audio" method="_on_sounds_slider_drag_ended"]
-[connection signal="value_changed" from="Tabs/Audio/Margin/VBox/Sounds/Sounds slider" to="Tabs/Audio" method="_on_sounds_slider_value_changed"]
-[connection signal="focus_exited" from="Tabs/Audio/Margin/VBox/Sounds/Sounds volume" to="Tabs/Audio" method="_on_sounds_volume_focus_exited"]
 [connection signal="focus_exited" from="Tabs/Video/Margin/VBox/FPS Limit/TextEdit" to="Tabs/Video" method="_on_fps_limit_focus_exited"]
-[connection signal="pressed" from="Tabs/Controls/Margin/VBox/Action/Button" to="Tabs/Controls" method="_on_button_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

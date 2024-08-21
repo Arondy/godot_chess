@@ -44,6 +44,7 @@ func _on_vsync_mode_chosen(id: int):
 func _on_fps_limit_focus_exited():
 	if _fpsLimit.text.is_valid_int():
 		var num = int(_fpsLimit.text)
+
 		if num >= 0 and num <= 9999:
 			Engine.max_fps = num
 			Tools.config.set_value("video", "fps_limit", num)

@@ -22,7 +22,7 @@ func has_figure() -> bool:
 	return figure != null
 
 func _on_making_move(event):
-	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
+	if event is InputEventMouseButton and Input.is_action_just_pressed("_perform_action"):
 		make_move()
 
 func make_move() -> bool:

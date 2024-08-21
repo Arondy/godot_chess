@@ -40,7 +40,7 @@ func _on_exit_pressed():
 	get_tree().quit()
 
 func _shortcut_input(_event):
-	if Input.is_action_just_pressed("find_game"):
+	if Input.is_action_just_pressed("_find_game"):
 		_on_find_game_pressed()
-	elif Input.is_action_just_pressed("open_settings"):
+	elif Input.is_action_just_pressed("_open_settings"):
 		_on_settings_pressed()

@@ -76,7 +76,7 @@ func get_possible_moves(forKing: bool) -> Array:
 func _on_figure_selection(_viewport, event, _shape_idx):
 	if hasCooldown:
 		return
-	elif (event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse")
+	elif (event is InputEventMouseButton and Input.is_action_just_pressed("_perform_action")
 			and get_multiplayer_authority() == multiplayer.get_unique_id()
 			and Tools.game.turn == color):
 		
@@ -126,7 +126,7 @@ func _unhandled_input(event):
 		offset *= -1
 	
 	if event is InputEventMouseButton:
-		if Input.is_action_just_pressed("left_mouse"):
+		if Input.is_action_just_pressed("_perform_action"):
 			var figPos = (global_position if color == "white"
 				else boardSize + Vector2(boardOffsetX * 2, 0) - global_position)
 			var rect = abs(event.position - figPos - offset)
@@ -134,7 +134,7 @@ func _unhandled_input(event):
 			if rect.x < figureHalf and rect.y < figureHalf:
 				draggable = true
 				
-		elif Input.is_action_just_released("left_mouse") and draggable:
+		elif Input.is_action_just_released("_perform_action") and draggable:
 			var col = int(event.position.x - boardOffsetX) / (windowY / 8)
 			var row = int(event.position.y) / (windowY / 8)
 			

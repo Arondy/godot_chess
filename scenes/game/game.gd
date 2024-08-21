@@ -68,7 +68,7 @@ func finish_game(text: String, text2: String = ""):
 	Tools.sound.get_node("Game over").play()
 
 func _unhandled_input(event):
-	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
+	if event is InputEventMouseButton and Input.is_action_just_pressed("_perform_action"):
 		if not _figures.currentCellPicked:
 			return
 			

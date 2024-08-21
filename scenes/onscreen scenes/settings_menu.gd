@@ -14,11 +14,11 @@ func _input(event):
 
 		if key >= KEY_0 and key <= KEY_9:
 			var text = focused.text
-			if (text.length() >= 2 and
-					((text == "10" and key != KEY_0) or text != "10")):
-				focused.text = "100"
-				focused.set_caret_column(3)
+			
+			if text.length() >= 4 and not focused.has_selection():
+				focused.set_caret_column(4)
 				get_viewport().set_input_as_handled()
+				
 		elif key in allowed_keys:
 			if key == KEY_ENTER:
 				get_viewport().gui_release_focus()
@@ -32,6 +32,7 @@ func _input(event):
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		Tools.config.save(Tools.cfgFilePath)
+		Tools.inputMapConfig.saveIM()
 
 func _on_exit_pressed():
 	Tools.config.save(Tools.cfgFilePath)

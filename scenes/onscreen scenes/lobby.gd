@@ -31,5 +31,5 @@ func _on_timer_timeout():
 	_notification.visible = false
 
 func _shortcut_input(_event):
-	if Input.is_action_just_pressed("start_game"):
+	if Input.is_action_just_pressed("_start_game"):
 		_on_start_game_pressed()

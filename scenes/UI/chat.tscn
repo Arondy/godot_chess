@@ -19,6 +19,7 @@ func _input(event):
 "
 
 [node name="Chat" type="Control"]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("2_jucix")

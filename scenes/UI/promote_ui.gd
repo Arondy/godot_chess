@@ -40,7 +40,7 @@ func _on_knight_pressed():
 	get_tree().paused = false
 
 func _unhandled_input(event):
-	if event is InputEventMouseButton and Input.is_action_just_pressed("left_mouse"):
+	if event is InputEventMouseButton and Input.is_action_just_pressed("_perform_action"):
 		promotion_figure_selected.emit("")
 		get_tree().paused = false
 		queue_free()

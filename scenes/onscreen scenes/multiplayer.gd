@@ -44,6 +44,11 @@ func check_ip() -> bool:
 
 func _on_host_button_pressed():
 	multiplayer.multiplayer_peer.close()
+	
+	if OS.has_feature("release"):
+		if not check_name():
+			return
+	
 	var error = peer.create_server(port, 2)
 	
 	if error == ERR_CANT_CREATE:
@@ -51,10 +56,6 @@ func _on_host_button_pressed():
 
 	if error:
 		return error
-		
-	if OS.has_feature("release"):
-		if not check_name():
-			return
 	
 	save_net_cfg()
 	
@@ -67,7 +68,6 @@ func _on_host_button_pressed():
 
 func _on_join_button_pressed():
 	multiplayer.multiplayer_peer.close()
-	multiplayer.multiplayer_peer.get_connection_status()
 	
 	if OS.has_feature("release"):
 		if not (check_name() and check_ip()):
@@ -113,7 +113,7 @@ func add_player_data(id: int, data: Dictionary):
 			add_player_data.rpc(playerId, Tools.players[playerId])
 
 func _shortcut_input(_event):
-	if Input.is_action_just_pressed("host_game"):
+	if Input.is_action_just_pressed("_host_game"):
 		_on_host_button_pressed()
-	elif Input.is_action_just_pressed("join_game"):
+	elif Input.is_action_just_pressed("_join_game"):
 		_on_join_button_pressed()
