@@ -86,12 +86,11 @@ func _on_figure_selection(_viewport, event, _shape_idx):
 			
 		var figures = Tools.figures
 		cell.self_modulate = Color8(70, 130, 60, 204)
+		z_index = 1
 		figures.currentCellPicked = cell
 		figures.possibleMoves = get_possible_moves(false)
 		
 		var possibleMoves = figures.possibleMoves
-		#if not possibleMoves:
-			#return
 			
 		for cellName in possibleMoves:
 			var cellEl = Tools.board.get_node(str(cellName))

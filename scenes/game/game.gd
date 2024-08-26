@@ -1,9 +1,10 @@
 extends Control
 
-@export var savePath: String = "res://saves/mate.json"
+
+@export var savePath: String = "res://saves/basic_game_start.json"
 var saveDict: Dictionary = load_json_file(savePath)
 var endScene: PackedScene = preload("res://scenes/UI/end_of_game.tscn")
-@export var turn: String = saveDict["turn"]
+var turn: String = saveDict["turn"]
 @onready var _figures: Node2D = $CL/Figures
 @onready var _hints: Node2D = $CL/Hints
 @onready var debug: int = multiplayer.get_unique_id()

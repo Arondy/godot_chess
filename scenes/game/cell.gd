@@ -28,6 +28,8 @@ func _on_making_move(event):
 func make_move() -> bool:
 	var figures = Tools.figures
 	var src = figures.currentCellPicked
+	if src and src.figure:
+		src.figure.z_index = 0
 
 	if not (src and ((not figure) or src.figure.color != figure.color)
 			and name in figures.possibleMoves):
